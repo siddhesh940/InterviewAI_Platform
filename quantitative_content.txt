@@ -1,0 +1,1046 @@
+NUMBER SYSTEM – 30 QUESTIONS (Options Horizontal)
+Q1. Which of the following is an even number?
+A) 17 B) 21 C) 42 D) 55
+Q2. The smallest prime number is:
+A) 0 B) 1 C) 2 D) 3
+Q3. Which among these is a composite number?
+A) 2 B) 3 C) 7 D) 9
+Q4. What is the HCF of 18 and 24?
+A) 2 B) 3 C) 6 D) 12
+Q5. What is the LCM of 4 and 6?
+A) 10 B) 12 C) 14 D) 18
+Q6. A number divisible by 5 ends with:
+A) 1 B) 2 C) 5 or 0 D) 3
+Q7. Which is a perfect square?
+A) 20 B) 25 C) 45 D) 55
+Q8. Which number is divisible by 9?
+A) 478 B) 729 C) 531 D) 228
+Q9. 2³ equals:
+A) 6 B) 8 C) 9 D) 12
+Q10. Which is an irrational number?
+A) 4 B) 5/2 C) √7 D) 1.25
+Q11. How many factors does 36 have?
+A) 6 B) 7 C) 8 D) 9
+Q12. Highest power of 2 in 48 is:
+A) 2 B) 3 C) 4 D) 5
+Q13. A number divisible by 11 has:
+A) Alt sum = 0/11 B) Last digit 0 C) Sum div by 3 D) Last digit even
+Q14. Largest 4-digit number divisible by 9:
+A) 9999 B) 9990 C) 9981 D) 9900
+Q15. Unit digit of 7⁵ is:
+A) 1 B) 3 C) 5 D) 7
+
+Q16. HCF of 72 and 120:
+A) 6 B) 12 C) 24 D) 48
+Q17. LCM of 18, 24, 30:
+A) 180 B) 240 C) 360 D) 720
+Q18. Which is NOT prime?
+A) 31 B) 37 C) 39 D) 41
+Q19. Remainder when 125 ÷ 6:
+A) 1 B) 3 C) 5 D) 2
+Q20. Which is divisible by 18?
+A) 288 B) 324 C) 270 D) 306
+Q21. Trailing zeros in 100!:
+A) 20 B) 22 C) 24 D) 25
+Q22. HCF of 96, 144, 240:
+A) 12 B) 24 C) 48 D) 72
+Q23. Digits in 2¹⁰⁰:
+A) 28 B) 31 C) 33 D) 35
+Q24. Product = 2028, HCF = 6, LCM = ?
+A) 338 B) 348 C) 360 D) 300
+Q25. Smallest 5-digit number divisible by 72:
+A) 10008 B) 10044 C) 10080 D) 10096
+Q26. Remainder when 7¹⁰⁰ ÷ 13:
+A) 1 B) 2 C) 7 D) 9
+Q27. How many primes between 1-100?
+A) 23 B) 24 C) 25 D) 26
+Q28. Factors of N = 2⁴·3³·5²:
+A) 45 B) 60 C) 72 D) 90
+Q29. Last two digits of 17¹⁰:
+A) 89 B) 49 C) 01 D) 87
+Q30. Value of 999 × 1001:
+A) 997001 B) 999999 C) 1001999 D) 1000001
+
+PERCENTAGES — 30 QUESTIONS (No Blank Lines)
+Q1. A man spends 35% of his income on rent and 15% on food. If he saves ₹18,000 which is 30% of
+his income, what is his total income?
+A) ₹48,000 B) ₹50,000 C) ₹60,000 D) ₹65,000
+Q2. A man donated 12% of his salary to charity and still had ₹17,600 left, which was 88% of his
+salary. What is his total salary?
+A) ₹18,000 B) ₹19,000 C) ₹20,000 D) ₹22,000
+Q3. A fruit seller sold 25% of his apples and still had 540 apples left. How many apples did he
+originally have?
+A) 600 B) 640 C) 700 D) 720
+Q4. A number increases from 750 to 900. What is the percentage increase?
+A) 15% B) 18% C) 20% D) 25%
+Q5. If 18% of A equals 27% of B, then A : B is:
+A) 2:3 B) 3:2 C) 1:1 D) 4:3
+Q6. A student scores 540 marks out of 900. By what percent should he increase his marks to reach
+75%?
+A) 10% B) 12.5% C) 15% D) 20%
+Q7. The population of a town increases by 12% in one year and decreases by 8% in the next. What is
+the net percentage change?
+A) Increase 2.4% B) Increase 3.6% C) Decrease 2.4% D) Decrease 3.6%
+Q8. The price of sugar increases by 25%. By what percent must a man reduce consumption so that
+his expenditure remains constant?
+A) 15% B) 20% C) 25% D) 30%
+Q9. A shopkeeper sells an article for ₹1,890 after giving a discount of 30%. What is the marked
+price?
+A) ₹2,200 B) ₹2,600 C) ₹2,700 D) ₹2,850
+Q10. A student got 72 marks which is 90% of the total marks. What are the total marks?
+A) 75 B) 78 C) 80 D) 82
+Q11. A man's salary is first increased by 20% and then decreased by 10%. What is the net percentage
+change?
+A) 6% increase B) 8% increase C) 8% decrease D) No change
+Q12. If 40% of a number is 88, what is 30% of the number?
+A) 48 B) 55 C) 60 D) 66
+Q13. In a class, 30% of students are girls. If the number of boys is 175% of girls, what is the total
+number of students?
+A) 60 B) 70 C) 80 D) 90
+Q14. If a number is increased by 15% and then increased again by 20%, what is the total percentage
+increase?
+A) 32% B) 35% C) 38% D) 42%
+Q15. A population grows from 2,40,000 to 3,07,200 in 5 years. What is the average annual percent
+increase?
+A) 4.8% B) 5% C) 5.2% D) 6%
+Q16. A man saves ₹6,000 which is 20% of his salary. What is his salary?
+A) ₹25,000 B) ₹28,000 C) ₹30,000 D) ₹32,000
+Q17. A number is decreased by 25% and then increased by 40%. The final value is 21. What was the
+original number?
+A) 20 B) 25 C) 28 D) 30
+
+Q18. A shopkeeper buys goods for ₹6,800 and gets a discount of 8%. After rebate, he pays GST @
+12%. What amount does he pay?
+A) ₹6800 B) ₹7056 C) ₹7200 D) ₹7600
+Q19. In an election, 40% of the total 18,000 votes were invalid. The winning candidate got 55% of
+the valid votes. How many votes did he get?
+A) 6,000 B) 7,200 C) 8,100 D) 9,900
+Q20. A quantity becomes 1.44 times itself after 2 years. What is the annual percentage increase?
+A) 20% B) 22% C) 40% D) 44%
+Q21. The price of a laptop decreases from ₹50,000 to ₹42,500. What is the percent decrease?
+A) 10% B) 12% C) 15% D) 18%
+Q22. A shopkeeper marks a product at 40% above cost and gives a discount of 25%. What is the net
+profit percent?
+A) 5% B) 10% C) 12% D) 15%
+Q23. If 15% of A = 9% of B, find A : B.
+A) 3:5 B) 5:3 C) 4:5 D) 5:4
+Q24. A student secures 192 marks out of 320. What percentage did he score?
+A) 50% B) 55% C) 60% D) 65%
+Q25. A shopkeeper offers two successive discounts of 10% and 20%. What is the effective discount?
+A) 28% B) 30% C) 32% D) 35%
+Q26. If 25% of a number is 45, what is 80% of the number?
+A) 120 B) 135 C) 140 D) 144
+Q27. A student increases his score from 240 to 300. What percent increase is this?
+A) 20% B) 22% C) 25% D) 30%
+Q28. If B is 40% less than A, then A is how much more than B?
+A) 40% B) 50% C) 66.66% D) 75%
+Q29. A sum of money becomes 135% of itself after one year. What is the percentage increase?
+A) 25% B) 30% C) 35% D) 45%
+Q30. A shopkeeper sells an article at 80% of its marked price and gets a loss of 10%. What percent
+was the marked price above the cost price?
+A) 15% B) 20% C) 25% D) 30%
+RATIO & PROPORTION — 30 QUESTIONS (Aptitude Style, No Line Breaks)
+Q1. If 25% of x = 40% of y, then x : y is equal to:
+A) 5 : 8 B) 2 : 5 C) 8 : 5 D) 5 : 2
+Q2. Two numbers are in the ratio 3 : 5. If each number is increased by 10, the new ratio becomes 7 :
+9. What is the larger number?
+A) 15 B) 25 C) 30 D) 35
+Q3. The monthly incomes of Arun and Ramesh are in the ratio 7 : 9 and their monthly expenditures
+are in the ratio 4 : 5. If Arun saves ₹4,200 and Ramesh saves ₹6,000, what is Arun’s income?
+A) 9,800 B) 10,500 C) 11,200 D) 12,600
+Q4. A mixture contains milk and water in the ratio 5 : 3. If 16 liters of water is added, the ratio
+becomes 5 : 4. Find the quantity of milk in the mixture.
+A) 40 L B) 50 L C) 60 L D) 80 L
+Q5. The ratio between the ages of A and B is 7 : 11. Five years later the ratio becomes 9 : 13. What is
+B’s present age?
+A) 22 B) 33 C) 44 D) 55
+
+Q6. The incomes of Ram, Shyam, and Raju are in the ratio 6 : 9 : 14 and their expenditures are in the
+ratio 4 : 5 : 7. If Ram saves ₹6,000 and Shyam saves ₹9,000, what is Raju’s saving?
+A) 10,000 B) 12,000 C) 15,000 D) 20,000
+Q7. 4 men and 6 women can do a piece of work in 8 days. The ratio of 1 man’s work to 1 woman’s
+work is 3 : 2. In how many days can 10 women alone do the work?
+A) 12 B) 16 C) 18 D) 20
+Q8. A sum of money is divided among A, B, and C in the ratio 3 : 7 : 9. If C receives ₹2,250 more than
+A, what is the total sum?
+A) 4,500 B) 6,750 C) 9,000 D) 11,250
+Q9. The speeds of a car and a bike are in the ratio 5 : 3. If the bike takes 40 minutes to cover a
+distance, how long will the car take to cover the same distance?
+A) 18 min B) 20 min C) 24 min D) 30 min
+Q10. A recipe uses ingredients in the ratio 2 : 5 : 3 for flour, sugar, and milk. If 500 g of sugar is used,
+how much flour is required?
+A) 100 g B) 120 g C) 200 g D) 300 g
+Q11. The ratio of boys to girls in a class is 7 : 9. If 6 boys leave and 6 girls join, the ratio becomes 3 :
+5. What is the original number of girls?
+A) 36 B) 45 C) 54 D) 63
+Q12. Two numbers are in the ratio 5 : 8. If 20 is subtracted from each, the ratio becomes 3 : 5. What
+is the larger number?
+A) 80 B) 85 C) 90 D) 100
+Q13. A container has milk and water in the ratio 11 : 4. If 20 liters of the mixture is removed and
+replaced with water, the ratio becomes 11 : 6. What is the quantity of the mixture?
+A) 80 L B) 100 L C) 110 L D) 120 L
+Q14. A bag contains ₹5, ₹2 and ₹1 coins in the ratio 2 : 3 : 5. If the total number of coins is 200, how
+many ₹5 coins are there?
+A) 20 B) 30 C) 40 D) 50
+Q15. In an examination, the ratio of passed to failed students is 7 : 4. If 55 more students passed and
+35 fewer failed, the new ratio becomes 5 : 2. Find the number of students who failed originally.
+A) 80 B) 88 C) 96 D) 100
+Q16. A vessel contains acid and water in the ratio 9 : 7. If 32 liters of water is added, the ratio
+becomes 9 : 11. Find the original quantity of mixture.
+A) 80 L B) 96 L C) 112 L D) 128 L
+Q17. A man invests money in two schemes A and B in the ratio 5 : 3. If scheme A gives 12% profit
+and scheme B gives 15% profit, what is the average profit percent?
+A) 12.9% B) 13.0% C) 13.2% D) 13.5%
+Q18. A sum is divided between A and B in the ratio 7 : 9. If A’s share is increased by 20%, the ratio
+becomes 21 : 27. What is the total sum?
+A) 800 B) 900 C) 1,000 D) 1,200
+Q19. The monthly incomes of A and B are in the ratio 11 : 15 and their savings are in the ratio 4 : 7. If
+A saves ₹6,000, how much does B save?
+A) 8,500 B) 9,500 C) 10,500 D) 11,500
+Q20. A father divides property between his two sons in the ratio 13 : 17. If the difference between
+their shares is ₹1,20,000, what is the total value of the property?
+A) 6,00,000 B) 7,20,000 C) 8,00,000 D) 9,00,000
+Q21. Two numbers are in the ratio 4 : 5. If 10 is added to each number, the ratio becomes 6 : 7.
+What is the larger number?
+A) 25 B) 30 C) 35 D) 40
+
+Q22. A and B together have ₹6,000. They spend money in the ratio 3 : 2. After spending, A has
+₹1,500 left. How much does B have left?
+A) 1,800 B) 2,000 C) 2,400 D) 2,500
+Q23. The ratio of milk to water in a mixture is 14 : 5. If 30 liters of water is added, the ratio becomes
+14 : 8. What is the original quantity of milk?
+A) 70 L B) 84 L C) 98 L D) 112 L
+Q24. A mixture contains alcohol and water in the ratio 5 : 2. If 21 liters of water is added, the ratio
+becomes 5 : 3. What is the original quantity of mixture?
+A) 49 L B) 56 L C) 63 L D) 70 L
+Q25. The incomes of A, B and C are in the ratio 3 : 5 : 7 and their expenditures are in the ratio 2 : 3 :
+4. If C saves ₹9,000, find A’s saving.
+A) 2,000 B) 3,000 C) 4,000 D) 6,000
+Q26. A man divides ₹4,800 among his sons in the ratio 2 : 3 : 5. What is the share of the youngest
+son?
+A) 960 B) 1,200 C) 1,600 D) 2,400
+Q27. A number is divided in the ratio 7 : 12. If the smaller part is increased by 20, the ratio becomes
+3 : 4. What is the number?
+A) 140 B) 154 C) 168 D) 180
+Q28. A, B and C invest in a business in the ratio 4 : 5 : 6. If the total profit is ₹30,000, what is B’s
+share?
+A) 9,000 B) 10,000 C) 11,000 D) 12,000
+Q29. Two numbers are in the ratio 5 : 7. If each number is increased by 15, the ratio becomes 7 : 9.
+What is the smaller number?
+A) 45 B) 50 C) 55 D) 60
+Q30. A recipe requires ingredients in the ratio 7 : 4. If 22 grams of the second ingredient is used, how
+much of the first ingredient is required?
+A) 28 g B) 33 g C) 38 g D) 40 g
+PROFIT & LOSS — 30 QUESTIONS (Same Pattern as Your Example)
+Q1. A shopkeeper buys a fan for ₹1,650 and spends ₹150 on repairs. If he sells the fan for ₹2,040, his
+gain percent is:
+A) 10% B) 12% C) 14% D) 16%
+Q2. The cost price of 25 articles is equal to the selling price of x articles. If the profit is 20%, then x is:
+A) 18 B) 20 C) 22 D) 24
+Q3. If the selling price is tripled, the profit becomes five times the original profit. What is the profit
+percent?
+A) 100% B) 150% C) 200% D) 250%
+Q4. A shopkeeper makes a profit of 250% on the cost price. If the cost increases by 20% but the
+selling price remains unchanged, what is the new profit percent (approx)?
+A) 150% B) 170% C) 200% D) 230%
+Q5. A vendor buys chocolates at 8 for ₹10. How many must he sell for ₹10 to gain 25%?
+A) 5 B) 6 C) 7 D) 8
+
+Q6. The percentage profit by selling an article for ₹1,980 is the same as the percentage loss when
+sold for ₹1,320. What should be the selling price to earn 30% profit?
+A) ₹2,000 B) ₹2,100 C) ₹2,200 D) Data inadequate
+Q7. A shopkeeper expects a 30% gain on his cost price. If the total sales in a week is ₹520, what is his
+profit?
+A) ₹120 B) ₹130 C) ₹140 D) ₹156
+Q8. A man buys a table for ₹2,400 and sells it at a loss of 12%. Find the selling price.
+A) ₹2,016 B) ₹2,112 C) ₹2,200 D) ₹2,250
+Q9. Mohan buys 15 dozens of toys at ₹420 per dozen. He sells each toy at ₹45. His profit percent is:
+A) 10% B) 12.5% C) 15% D) 20%
+Q10. Goods bought at 7 articles for ₹9 are sold at 6 articles for ₹9. Find the gain %.
+A) 16.6% B) 20% C) 25% D) 30%
+Q11. Selling 19 chairs at ₹9,120 results in a loss equal to the cost price of 4 chairs. Cost price of one
+chair is:
+A) ₹480 B) ₹520 C) ₹560 D) ₹600
+Q12. A plot is sold for ₹22,000 at a loss of 12%. At what price should it be sold to make a profit of
+12%?
+A) ₹25,000 B) ₹27,500 C) ₹28,160 D) ₹29,000
+Q13. 120 oranges are bought for ₹420 and sold at ₹55 per dozen. What is the profit/loss percent?
+A) 15% gain B) 20% gain C) 10% loss D) No loss no gain
+Q14. Two items are sold — one at 18% gain for ₹1,180 and the other at 10% loss for ₹760. Find
+overall gain/loss percent.
+A) 2% loss B) 2% gain C) 3% gain D) 4% gain
+Q15. A trader mixes 24 kg rice at ₹30/kg with 36 kg rice at ₹42/kg and sells at ₹38/kg. Profit percent
+is:
+A) No profit no loss B) 5% C) 8% D) 10%
+Q16. A man buys two watches for ₹3,600. He sells one at 20% gain and the other at 10% loss. If
+overall he gains ₹180, find the cost price of the costlier watch.
+A) ₹1,800 B) ₹2,000 C) ₹2,200 D) ₹2,400
+Q17. A cycle worth ₹4,500 is sold at a discount of 15% but still earns a profit of 20%. Find the cost
+price.
+A) ₹3,000 B) ₹3,200 C) ₹3,500 D) ₹3,750
+Q18. A trader sells an article at 25% profit. If the cost price was 20% higher than earlier, at the same
+selling price his profit would be:
+A) 10% B) 12.5% C) 15% D) 20%
+Q19. A man sells 3 items for ₹720 each. On one he gains 20%, on another he loses 20%. What is his
+net gain/loss on the 3rd item if his total gain is 10%?
+A) 15% gain B) 20% gain C) 25% gain D) 30% gain
+Q20. A dealer sold an item for ₹1,350, which resulted in a gain of 12.5%. Find the cost price.
+A) ₹1,100 B) ₹1,120 C) ₹1,200 D) ₹1,250
+
+Q21. The ratio of cost price and selling price is 4 : 5. Find the profit percent.
+A) 20% B) 22% C) 24% D) 25%
+Q22. An article is sold at a gain of 40%. If the selling price is ₹630, find the cost price.
+A) ₹420 B) ₹450 C) ₹470 D) ₹500
+Q23. A man bought goods worth ₹9,000 and spent ₹1,000 on transport. He sold the goods for
+₹13,200. His profit percent is:
+A) 20% B) 25% C) 30% D) 32%
+Q24. A radio is sold for ₹1,440 at a discount of 10%. If the shopkeeper still makes a profit of 20%,
+find the cost price.
+A) ₹900 B) ₹1,000 C) ₹1,050 D) ₹1,200
+Q25. A man sells an article at 10% loss. If he had sold it for ₹150 more, he would have gained 20%.
+What is the cost price?
+A) ₹400 B) ₹450 C) ₹500 D) ₹600
+Q26. A product is marked 60% above cost price. It is sold at a discount of 25%. What is the profit
+percent?
+A) 20% B) 25% C) 28% D) 30%
+Q27. A man sold a shirt at 12% profit and a pant at 8% loss. The ratio of their cost prices is 3 : 5. If
+total profit is ₹96, find CP of shirt.
+A) ₹360 B) ₹400 C) ₹420 D) ₹450
+Q28. A bookseller sold two books for ₹450 each. On one he gained 25% and on the other he lost
+25%. What is the net result?
+A) No loss no gain B) 6.25% loss C) 6.25% gain D) 5% loss
+Q29. A garment shopkeeper gives two successive discounts of 15% and 10% on a dress. If the
+marked price is ₹2,000, find the selling price.
+A) ₹1,440 B) ₹1,530 C) ₹1,560 D) ₹1,620
+Q30. A trader sells an article at 10% profit. Had he sold it for ₹45 more, his profit would have been
+20%. Find the selling price.
+A) ₹435 B) ₹450 C) ₹480 D) ₹495
+ALGEBRA — 30 QUESTIONS (FULL STATEMENTS + OPTIONS + NO BLANK LINES)
+Q1. If there are 2 apples in a bag and x apples are added to make the total 10 apples, how many
+apples were added?
+A) 6 B) 7 C) 8 D) 10
+Q2. A pen costs x dollars. If 5 pens cost $15, what is the cost of one pen?
+A) $2 B) $3 C) $4 D) $5
+Q3. A train travels x miles in 2 hours. If it travels 100 miles in 2 hours, how many miles does it travel
+per hour?
+A) 25 B) 40 C) 50 D) 60
+Q4. If x people complete a task in 4 hours and 8 people can do the same task in 2 hours, how many
+people were originally there?
+A) 2 B) 3 C) 4 D) 5
+
+Q5. A rectangle’s length is twice its width. If width is x feet and area is 50 sq ft, what is the width?
+A) 3 B) 4 C) 5 D) 6
+Q6. Sarah had x dollars. After buying a book for $10, she has $30 left. How much money did she have
+initially?
+A) 30 B) 35 C) 40 D) 45
+Q7. A school has x students per class. If 5 classes have 150 students, how many students are there in
+each class?
+A) 20 B) 25 C) 30 D) 35
+Q8. A baker divides 120 cookies equally into 6 boxes. How many cookies are in each box?
+A) 15 B) 18 C) 20 D) 25
+Q9. A baker used x cups of flour for each of 3 cakes. If total flour used is 15 cups, how much flour
+was used for each cake?
+A) 3 B) 4 C) 5 D) 6
+Q10. A garden has x roses and twice as many tulips. If total flowers are 30, how many roses are
+there?
+A) 8 B) 10 C) 12 D) 15
+Q11. A car travels 240 km in 4 hours. What is its speed (x) in km/hour?
+A) 40 B) 50 C) 55 D) 60
+Q12. A bottle contains x liters of water. After pouring out half, 2 liters remain. What was the initial
+amount?
+A) 3 B) 4 C) 5 D) 6
+Q13. A class has x students. After 3 more students join, total becomes 25. How many students were
+there initially?
+A) 20 B) 21 C) 22 D) 23
+Q14. A rectangle has width w and length 2w. If the perimeter is 30 m, what is the width?
+A) 4 B) 5 C) 6 D) 7
+Q15. A pool fills with water at x liters per minute. If 10 minutes fill 300 liters, how many liters per
+minute?
+A) 25 B) 30 C) 35 D) 40
+Q16. A store sells x apples per day. If 120 apples are sold in 4 days, how many apples are sold each
+day?
+A) 20 B) 25 C) 30 D) 35
+Q17. A train passes a pole in 3 seconds at a speed of 10 m/s. What is the train’s length?
+A) 20 B) 25 C) 30 D) 35
+Q18. A farmer has x chickens and 4x cows. Total animals are 100. How many chickens are there?
+A) 10 B) 15 C) 20 D) 25
+Q19. In the polynomial 7x³ − 4x² + 9x − 5, what is the coefficient of x²?
+A) −9 B) −5 C) −4 D) 4
+Q20. In the polynomial 3x⁴ − 2x³ + 5x − 7, what is the coefficient of x?
+A) −2 B) −7 C) 3 D) 5
+Q21. What is the constant term in the expression 8x² − 6x + 4?
+A) −6 B) 4 C) 8 D) 2
+Q22. Simplify the expression 3x + 5x.
+A) 2x B) 6x C) 8x D) 10x
+Q23. Simplify the expression 7y − 3y.
+A) 2y B) 3y C) 4y D) 10y
+Q24. Simplify 4a + 7b − 3a.
+A) a + 7b B) a + 3b C) 4a + b D) 7a + b
+
+Q25. Calculate the sum of (5x + 8y) and (3x − 2y).
+A) 6x + 10y B) 7x + 5y C) 8x + 6y D) 9x + 4y
+Q26. Subtract (2x − 3y) from (6x + 4y).
+A) 2x + 7y B) 4x + 7y C) 4x − 7y D) 7x + 4y
+Q27. Simplify the expression 9m − 5n + 2m + 3n.
+A) 7m + 2n B) 7m − 8n C) 11m − 2n D) 11m + n
+Q28. Find the sum of (3p + 4q) and (−2p − 6q).
+A) p + 2q B) p − 2q C) p − 10q D) 5p − 2q
+Q29. Simplify: 4x² + 5x − 3 + 2x² − 7x + 6.
+A) 5x² − 2x + 3 B) 6x² − 2x + 3 C) 7x² + x − 3 D) 6x² + x + 2
+Q30. Find the result of subtracting (3y² − 4y + 7) from (5y² + 2y − 1).
+A) 2y² + 6y + 6 B) 2y² + 6y − 8 C) 2y² − 2y − 6 D) 8y² − 2y + 6
+AVERAGE, MIXTURE & ALLIGATION — 30 QUESTIONS (Same Pattern + Options)
+Q1. The average of 15 consecutive natural numbers is x. If the 9th number is 23, what is the value of
+x?
+a) 21 b) 23 c) 25 d) None of these
+Q2. The average of 6 consecutive even numbers is 48. What is the product of the smallest and
+largest number?
+a) 40 × 56 b) 42 × 54 c) 44 × 52 d) None of these
+Q3. A group of 20 people went to a restaurant. 12 of them paid ₹150 each and the rest paid ₹100
+each. What is the average amount paid by each person?
+a) ₹130 b) ₹135 c) ₹140 d) ₹145
+Q4. The average age of father, mother and their son is 28 years. Five years ago, the average age was
+23 years. What is the present age of the father if the mother is 30 years old?
+a) 40 b) 42 c) 38 d) 45
+Q5. The average of 18 numbers is 24. If two numbers 18 and 30 are removed, what will be the new
+average?
+a) 23 b) 24 c) 25 d) 26
+Q6. Rahul’s average score in 10 innings is 35. If he scores 75 runs in the 11th inning, what will be his
+new average?
+a) 38 b) 40 c) 42 d) 45
+Q7. The average height of 9 boys is 140 cm. If one new boy joins and the average increases by 2 cm,
+what is the height of the new boy?
+a) 158 cm b) 162 cm c) 160 cm d) 168 cm
+Q8. The average of 30 numbers is 18. If one number 48 is included, what will be the new average?
+a) 18.5 b) 19 c) 19.5 d) 20
+Q9. A bucket contains 15 liters of mixture of milk and water in the ratio 3:2. How much milk must be
+added to make the ratio 5:2?
+a) 3 L b) 4 L c) 5 L d) 6 L
+Q10. A container contains 180 liters of pure milk. 30 liters is removed and replaced with water. After
+repeating this operation 3 times, how much milk is left?
+a) 85 L b) 92 L c) 98 L d) 100 L
+Q11. A cup of coffee contains milk and water in the ratio 3:1. How much of the mixture should be
+replaced with milk to make the ratio 5:1?
+a) 1/6 b) 1/5 c) 1/4 d) None of these
+
+Q12. Two varieties of sugar costing ₹36/kg and ₹48/kg are mixed in the ratio 2:3. What is the
+average cost of the mixture?
+a) ₹40 b) ₹42 c) ₹44 d) ₹46
+Q13. In what ratio must tea costing ₹240/kg be mixed with tea costing ₹300/kg so that the mixture
+costs ₹270/kg?
+a) 1:1 b) 2:1 c) 3:2 d) 4:1
+Q14. A can contains 120 liters of mixture of milk and water in the ratio 7:3. How much water must
+be added to make the ratio 5:4?
+a) 20 L b) 25 L c) 30 L d) 35 L
+Q15. A milk vendor has two cans of milk. The first contains 30% water and the second contains 50%
+water. How much milk must be taken from each so that the final mixture has 40% water?
+a) 3:2 b) 4:3 c) 5:4 d) None of these
+Q16. A mixture contains 70% acid and 30% water. How much water must be added to 20 liters of
+this mixture to make it 50% acid?
+a) 10 L b) 14 L c) 20 L d) 28 L
+Q17. A vessel contains 40 liters of milk. 8 liters is removed and replaced by water. After repeating
+once more, how much milk remains?
+a) 24 L b) 25.6 L c) 26.4 L d) 28 L
+Q18. A man’s average monthly expenditure for 8 months is ₹12,500. For the next 4 months, the
+average expenditure is ₹15,000. What is his average yearly expenditure?
+a) ₹13,000 b) ₹13,500 c) ₹14,000 d) ₹14,500
+Q19. The average of 5 numbers is 46. The average of the first three numbers is 40. The average of
+the last three is 52. What is the third number?
+a) 45 b) 48 c) 50 d) 52
+Q20. A mixture contains 60% milk. How many liters of water must be added to 40 liters of mixture to
+make it 40% milk?
+a) 20 L b) 25 L c) 30 L d) 35 L
+Q21. Two mixtures contain milk and water in the ratio 5:3 and 4:1. In what ratio should they be
+mixed so that final mixture has ratio 3:1?
+a) 1:1 b) 2:1 c) 3:1 d) 4:1
+Q22. The average age of a family of 6 members is 25. If a child aged 5 joins the family, what is the
+new average?
+a) 21 b) 22 c) 23 d) 24
+Q23. A mixture contains 64% copper and 36% zinc. How much zinc must be added to 50 kg of the
+mixture to make zinc 40%?
+a) 3 kg b) 4 kg c) 5 kg d) 6 kg
+Q24. A man has 80 liters of a mixture with 70% alcohol. How much water should he add to make the
+alcohol content 50%?
+a) 20 L b) 30 L c) 40 L d) 50 L
+Q25. The average of 12 numbers is 18. If two numbers 22 and 26 are added, what will be the new
+average?
+a) 18.5 b) 19 c) 20 d) 21
+Q26. A milkman mixes water with milk in ratio 1:4. What is percentage of water in final mixture?
+a) 15% b) 18% c) 20% d) 25%
+Q27. 10 liters of water is added to 40 liters of mixture containing milk and water in ratio 3:1. What is
+the new ratio?
+a) 5:3 b) 3:2 c) 2:1 d) 3:1
+Q28. A shopkeeper mixes two oils costing ₹60/l and ₹90/l. If he wants a mixture costing ₹75/l, in
+
+what ratio must they be mixed?
+a) 1:1 b) 1:2 c) 2:1 d) 3:1
+Q29. A mixture has 45 liters of milk and 15 liters of water. How much milk must be added to make
+ratio 5:1?
+a) 10 L b) 12 L c) 15 L d) 18 L
+Q30. The average of 30 numbers is 25. If one number 55 is removed, what will be the new average?
+a) 23.5 b) 24 c) 24.5 d) 25
+TIME & WORK — 30 QUESTIONS (Same Pattern + Options)
+Q1. A can do a work in 15 days and B can do the same work in 20 days. In how many days will they
+finish the work together?
+a) 7 days b) 8 days c) 10 days d) 12 days
+Q2. A and B together can complete a work in 12 days. B alone can do it in 30 days. In how many days
+can A alone complete it?
+a) 15 b) 20 c) 25 d) 30
+Q3. A can do a job in 18 days and B in 24 days. They work together for 6 days. What fraction of the
+work is still left?
+a) 1/4 b) 1/3 c) 1/2 d) 2/3
+Q4. P and Q can do a work in 10 days and 15 days respectively. If R joins them, they finish the work
+in 6 days. How many days will R alone take?
+a) 15 b) 18 c) 20 d) 30
+Q5. A is twice as efficient as B. Together they finish a work in 12 days. In how many days can A alone
+finish it?
+a) 16 b) 24 c) 18 d) 36
+Q6. A, B, C do a work in 15, 20, and 30 days respectively. Working together, what is their total time
+to finish the work?
+a) 7.5 days b) 8 days c) 9 days d) 10 days
+Q7. A works twice as fast as B. If they complete work together in 10 days, how long will B alone
+require?
+a) 15 days b) 20 days c) 25 days d) 30 days
+Q8. A and B can do a work in 12 and 16 days respectively. If they work on alternate days beginning
+with A, in how many days will the work be completed?
+a) 13 days b) 14 days c) 15 days d) 16 days
+Q9. 4 men or 6 women can do a work in 15 days. How long will 8 men and 3 women take to
+complete the same work?
+a) 6 days b) 7 days c) 8 days d) 10 days
+Q10. A does a work in 10 days, B in 12 days and C in 20 days. If they work together, how long will the
+work take?
+a) 4 days b) 5 days c) 6 days d) 8 days
+Q11. A and B together can finish a work in 40 days. B alone can do it in 60 days. In how many days
+can A alone do it?
+a) 90 days b) 100 days c) 120 days d) 150 days
+Q12. A can do a work in 8 days and B in 16 days. After working together for 3 days, A leaves. How
+long will B take to finish the remaining work?
+a) 8 days b) 6 days c) 5 days d) 4 days
+Q13. Three men and four women can finish work in 10 days. Six men and two women can finish it in
+
+6 days. How many days will 1 man alone take?
+a) 20 days b) 25 days c) 30 days d) 40 days
+Q14. A alone can complete a job in 30 days. B alone takes 45 days. If they work together but B leaves
+after 10 days, how long will A take to finish the remaining work?
+a) 12 days b) 15 days c) 20 days d) 22 days
+Q15. A can do a work in 40 days. He works for 10 days and leaves. B completes the remaining work
+in 30 days. How long does B alone take to do the whole work?
+a) 45 days b) 50 days c) 55 days d) 60 days
+Q16. P, Q and R together can finish a work in 8 days. P alone can finish it in 12 days and Q alone in 24
+days. How long will R alone take?
+a) 16 days b) 18 days c) 20 days d) 22 days
+Q17. A completes a work in 25 days, B in 20 days. A starts but leaves after 5 days. B completes the
+rest. How long did the work take?
+a) 12 days b) 14 days c) 15 days d) 17 days
+Q18. A and B can complete a work in 18 days and 27 days respectively. If they work together for 6
+days, what part of the work is left?
+a) 2/5 b) 1/3 c) 4/9 d) 1/2
+Q19. A can do a work in 9 days, B in 12 days and C in 18 days. If A leaves after 3 days, in how many
+days will B and C finish the remaining?
+a) 4 days b) 5 days c) 6 days d) 7 days
+Q20. A tank is filled by Pipe A in 12 hours and by Pipe B in 16 hours. If both pipes are opened
+together, how long will the tank take to fill?
+a) 6.8 hours b) 7 hours c) 7.5 hours d) 8 hours
+Q21. Three pipes A, B, and C can fill a tank in 10, 12, and 15 hours respectively. If A is opened first,
+and after 1 hour B is opened, and after another 1 hour C is opened, how long will the tank take to
+fill?
+a) 5 hours b) 6 hours c) 7 hours d) 8 hours
+Q22. A and B can do a work in 28 and 35 days respectively. If they work together for 7 days, what
+part of the work remains?
+a) 1/2 b) 3/5 c) 2/5 d) 1/3
+Q23. A can do a work in 32 days and B in 48 days. They begin together but B leaves after 8 days. How
+long will A take to finish the remaining work?
+a) 14 days b) 16 days c) 18 days d) 20 days
+Q24. A does 1/3 of a work in 6 days. How long will he take to finish the whole work?
+a) 12 days b) 15 days c) 18 days d) 20 days
+Q25. A and B complete a work in 15 days. They work together for 5 days and A leaves. B completes
+the remaining in 18 days. In how many days can A finish the work alone?
+a) 24 b) 30 c) 32 d) 36
+Q26. A can do a work in 14 days, B can do it in 21 days. They work together for 3 days, then A leaves.
+In how many more days will B finish the remaining work?
+a) 6 b) 8 c) 9 d) 12
+Q27. A can finish a work in 10 days, B in 15 days and C in 20 days. If all three work together for 3
+days and then A leaves, how long will B and C take to finish?
+a) 4 days b) 5 days c) 6 days d) 7 days
+Q28. A machine completes a job in 8 hours. After 2 hours of working, its efficiency drops by 25%.
+How long will it take to finish the remaining work?
+a) 7 hours b) 6.5 hours c) 6 hours d) 5.5 hours
+Q29. A contractor employs 40 workers to finish a job in 25 days. After 10 days, he removes 10
+
+workers. How many additional days will they take to finish?
+a) 16 b) 17 c) 18 d) 20
+Q30. A and B can finish a work in 24 days. B and C do it in 30 days. A and C in 40 days. How long will
+all three take together?
+a) 16 days b) 18 days c) 20 days d) 22 days
+TIME, SPEED & DISTANCE — 30 Questions (Exact CRT Pattern)
+Q1. A man would have taken 2 hours less to cover a distance if he had travelled 5 km/h faster. If
+travelling 4 km/h slower would make him take 5 hours more. What is the distance?
+a) 160 km b) 180 km c) 200 km d) None of these
+Q2. A car covers a distance from town A to town B at 60 km/h and returns at 90 km/h. What is its
+average speed for the total journey?
+a) 70 km/h b) 72 km/h c) 75 km/h d) 80 km/h
+Q3. A train stops at a station for 10 minutes during a journey. Excluding stoppage time, its speed is
+40 km/h. Including stoppage, its speed becomes 36 km/h. How long is the train’s journey?
+a) 3 hours b) 4 hours c) 5 hours d) 6 hours
+Q4. A car travels at 60 km/h with a full tank. With 2/3rd tank it can travel 300 km. What is the
+maximum distance it can travel on a full tank?
+a) 420 km b) 450 km c) 500 km d) 540 km
+Q5. A person walking at 56% of his usual speed reaches the office 40 minutes late. What is his usual
+travel time?
+a) 1 hour b) 1 hr 20 mins c) 1 hr 30 mins d) 2 hours
+Q6. A man walks from his home to office daily. He leaves at 8:15 am and reaches at 9:00 am. If he
+walks 4 km/h faster, he will reach 15 minutes early. What is the distance?
+a) 3 km b) 4 km c) 5 km d) 6 km
+Q7. A farmer travelled 61 km in 9 hours. He travelled partly at 4 km/h and partly at 9 km/h. How
+much distance did he travel at 9 km/h?
+a) 15 km b) 18 km c) 21 km d) 24 km
+Q8. A man travels 2 km at 6 km/h and returns 2 km at 4 km/h. What is his average speed?
+a) 4.5 km/h b) 4.8 km/h c) 5 km/h d) 5.1 km/h
+Q9. Vijay walks from home to school at 5 km/h. When he walks at 4 km/h, he takes 20 minutes
+more. What is the distance?
+a) 2 km b) 2.5 km c) 3 km d) 3.5 km
+Q10. Two cars start at 9 am and 10 am from the same city and travel at 65 km/h and 85 km/h
+respectively. If the distance is 690 km, at what time will the second car catch the first?
+a) 1 pm b) 2 pm c) 3 pm d) None of these
+Q11. Two cyclists start from A and B towards each other. One reaches B in 4 hours and the other
+reaches A in 9 hours. If the speed of the first is 30 km/h, what is the speed of the second?
+a) 12 km/h b) 18 km/h c) 20 km/h d) 30 km/h
+
+Q12. A police jeep travelling at 60 km/h chases a car travelling at 48 km/h. The jeep starts 6 minutes
+later. How long will it take to catch the car?
+a) 25 minutes b) 30 minutes c) 36 minutes d) 45 minutes
+Q13. A train travelling at 36 km/h crosses a man in 8 seconds. What is the length of the train?
+a) 60 m b) 72 m c) 80 m d) 90 m
+Q14. A 150 m long train crosses a platform in 30 seconds at 54 km/h. What is the length of the
+platform?
+a) 150 m b) 200 m c) 225 m d) 250 m
+Q15. A train crosses a post in 5 secs at 72 km/h. How long is the train?
+a) 80 m b) 90 m c) 100 m d) 120 m
+Q16. Two trains pass each other in opposite directions in 12 seconds. Their speeds are 45 km/h and
+54 km/h. If one train is 120 m long, what is the length of the other?
+a) 100 m b) 120 m c) 140 m d) 150 m
+Q17. A bus reduces speed by 20% and covers the same distance in 15 minutes more. What is the
+original time?
+a) 45 min b) 50 min c) 60 min d) 75 min
+Q18. A man cycles at 12 km/h and reaches 15 minutes late. If he cycles at 15 km/h, he reaches 10
+minutes early. What is the distance?
+a) 10 km b) 12 km c) 15 km d) 18 km
+Q19. A train crosses a platform twice as long as itself in 36 seconds at 45 km/h. What is the length of
+the train?
+a) 50 m b) 75 m c) 100 m d) 120 m
+Q20. A man covers a journey at 10 km/h and returns at 15 km/h. If total time taken is 5 hours, what
+is the distance one way?
+a) 12 km b) 15 km c) 18 km d) 20 km
+Q21. A boat takes 2 hours less going downstream than upstream for the same distance. If speed of
+stream is 3 km/h, find boat speed in still water.
+a) 6 km/h b) 8 km/h c) 9 km/h d) 10 km/h
+Q22. A motorboat can row 10 km in still water in 30 minutes. In running water, it takes twice the
+time. Find speed of current.
+a) 2 km/h b) 3 km/h c) 4 km/h d) 5 km/h
+Q23. Two trains 300 m and 200 m long run in opposite directions at 72 km/h & 54 km/h. How long
+will they take to cross each other?
+a) 12 sec b) 10 sec c) 15 sec d) 20 sec
+Q24. A car travels 180 km in x hours at 60 km/h. How much faster should it travel to cover the same
+distance in (x – 1) hours?
+a) 66 km/h b) 72 km/h c) 75 km/h d) 80 km/h
+Q25. A jogger increases speed by 2 km/h and takes 10 minutes less to cover 5 km. What is his
+original speed?
+a) 6 km/h b) 7 km/h c) 8 km/h d) 9 km/h
+
+Q26. Two persons start walking towards each other from two towns 30 km apart. They meet in 2
+hours. If one walks at 7 km/h, what is the speed of the other?
+a) 6 km/h b) 7 km/h c) 8 km/h d) 9 km/h
+Q27. A man travels 40 km at a speed of x km/h then returns at 2x km/h. If total time is 3 hours, find
+x.
+a) 12 b) 15 c) 16 d) 20
+Q28. A train crosses a man in 6 sec and a platform of length 200 m in 16 sec. Find train length.
+a) 100 m b) 120 m c) 140 m d) 160 m
+Q29. A man rowed 12 km downstream in 1 hr and the same distance upstream in 2 hrs. What is
+speed of boat in still water?
+a) 9 b) 8 c) 7 d) 6
+Q30. A cyclist travels 45 km at 15 km/h and returns at 9 km/h. What is his average speed?
+a) 11.25 km/h b) 12 km/h c) 12.5 km/h d) 13.5 km/h
+PROBABILITY — 30 Questions (Exact CRT Pattern)
+Q1. Four fair coins are tossed simultaneously. What is the probability of getting exactly 3 heads?
+a) 1/4 b) 1/8 c) 1/16 d) 3/16
+Q2. Four fair coins are tossed. What is the probability of getting at least 2 tails?
+a) 3/8 b) 1/2 c) 11/16 d) 13/16
+Q3. If a die is thrown, what is the probability that the number obtained is divisible by 3?
+a) 1/2 b) 1/3 c) 2/3 d) 1/6
+Q4. Find the probability that the sum of two dice is greater than 8.
+a) 5/12 b) 7/36 c) 1/4 d) 13/36
+Q5. Three dice are thrown simultaneously. What is the probability of getting all three numbers
+different?
+a) 1/2 b) 5/9 c) 2/3 d) 5/6
+Q6. A card is drawn from a standard deck of 52 cards. What is the probability of getting a heart or a
+king?
+a) 4/13 b) 17/52 c) 16/52 d) 4/52
+Q7. Two cards are drawn without replacement. What is the probability that both cards are black?
+a) 25/102 b) 3/17 c) 25/51 d) 13/51
+Q8. One card is drawn from 52 cards. What is the probability that it is a red face card?
+a) 1/26 b) 3/26 c) 2/13 d) 3/13
+Q9. A box contains 8 good bulbs and 4 defective ones. Two bulbs are drawn at random. What is the
+probability that both are good?
+a) 7/33 b) 14/33 c) 1/11 d) 2/11
+Q10. The probability that it rains on Monday is 0.7 and on Tuesday is 0.5. What is the probability
+that it rains on both days?
+a) 0.20 b) 0.30 c) 0.35 d) 0.50
+
+Q11. Out of 2-digit numbers between 10 and 99, one number is chosen at random. What is the
+probability that it is divisible by 7?
+a) 9/90 b) 11/90 c) 13/90 d) 15/90
+Q12. A 7-letter word is arranged randomly using letters of “MISSION”. What is the probability that all
+three S appear together?
+a) 1/210 b) 1/140 c) 1/70 d) None of these
+Q13. Six persons sit randomly around a circular table. What is the probability that two particular
+persons sit together?
+a) 1/6 b) 1/5 c) 2/5 d) 1/3
+Q14. A box contains 3 red, 4 blue and 5 green balls. One ball is drawn at random. What is the
+probability that it is green?
+a) 4/15 b) 1/3 c) 5/12 d) 1/5
+Q15. Two dice are thrown. What is the probability that the product is even?
+a) 3/4 b) 1/4 c) 2/3 d) 5/6
+Q16. A bag contains 4 white, 3 black and 3 red balls. If one ball is drawn at random, what is the
+probability it is black or red?
+a) 1/2 b) 3/5 c) 2/5 d) 3/4
+Q17. From 12 people, 3 officers are selected. What is the probability that a particular person is
+selected?
+a) 1/6 b) 1/4 c) 3/12 d) 1/12
+Q18. In a class of 40 students, 12 are girls. If 3 students are chosen at random, what is the probability
+that all are boys?
+a) 91/760 b) 28/123 c) 91/123 d) 364/988
+Q19. Two fair coins are tossed 3 times. What is the probability of getting exactly 2 tails?
+a) 3/8 b) 9/64 c) 3/16 d) 12/64
+Q20. A jar contains 6 red and 4 blue marbles. Two marbles are drawn without replacement. What is
+the probability of getting one red and one blue?
+a) 24/90 b) 48/90 c) 56/90 d) 12/90
+Q21. A letter is chosen from the word “EQUATION”. What is the probability that it is a vowel?
+a) 4/8 b) 5/8 c) 3/8 d) 2/8
+Q22. A number is selected from 1 to 100. What is the probability that the number chosen is a prime?
+a) 25/100 b) 21/100 c) 30/100 d) 10/100
+Q23. Three unbiased coins are tossed. What is the probability of getting at most 2 heads?
+a) 3/4 b) 7/8 c) 1/2 d) 5/8
+Q24. One card is drawn from a deck. What is the probability that the card is neither king nor queen?
+a) 48/52 b) 44/52 c) 36/52 d) 40/52
+Q25. A box contains 3 red, 5 black and 7 white balls. What is the probability that if 2 balls are drawn,
+both are white?
+a) 21/105 b) 21/91 c) 7/45 d) 1/15
+
+Q26. Two dice are thrown. What is the probability that the sum is a prime number?
+a) 5/12 b) 1/2 c) 7/12 d) 11/36
+Q27. A random 3-digit number is selected. What is the probability that it contains the digit 9?
+a) 1/10 b) 27/100 c) 19/100 d) 3/10
+Q28. A bag contains 4 apples, 3 oranges and 3 mangoes. What is the probability that a randomly
+picked fruit is not an apple?
+a) 3/5 b) 1/2 c) 2/3 d) 3/4
+Q29. Two cards are drawn from a deck. What is the probability that at least one is an ace?
+a) 1/13 b) 1/26 c) 15/221 d) 25/221
+Q30. A dice is rolled twice. What is the probability that the second number is greater than the first?
+a) 5/12 b) 1/2 c) 7/12 d) 1/3
+MENSTRUATION — 30 QUESTIONS (CRT Pattern + Options)
+Q1. What is the area of an equilateral triangle of side 20 cm?
+A) 100√3 sq.cm B) 200√3 sq.cm C) 300√3 sq.cm D) 400√3 sq.cm
+Q2. The sides of a triangle are 15 cm, 17 cm and 8 cm. What is its area?
+A) 60 sq.cm B) 64 sq.cm C) 120 sq.cm D) 240 sq.cm
+Q3. The perimeter of a triangle is 36 cm and its inradius is 3 cm. What is the area of the triangle?
+A) 36 sq.cm B) 48 sq.cm C) 54 sq.cm D) 108 sq.cm
+Q4. Find the area of a trapezium whose parallel sides are 12 cm and 20 cm and height is 10 cm.
+A) 120 sq.cm B) 140 sq.cm C) 160 sq.cm D) 180 sq.cm
+Q5. Area of a parallelogram is 432 sq.cm and base is 24 cm. What is its height?
+A) 16 cm B) 18 cm C) 20 cm D) 22 cm
+Q6. Length and breadth of a rectangle are in ratio 5 : 3. Its area is 1500 sq.cm. What is its perimeter?
+A) 140 cm B) 160 cm C) 180 cm D) 200 cm
+Q7. A circular wire of radius 2.8 m is bent into a rectangle whose length is 6 parts and breadth is 5
+parts. Find the area of the rectangle.
+A) 22 sq.m B) 30 sq.m C) 42 sq.m D) 55 sq.m
+Q8. A cube of side 50 cm is cut into cubes of side 5 cm each. How many smaller cubes are obtained?
+A) 100 B) 500 C) 1000 D) 1250
+Q9. The radius of a wheel is 21 cm. What distance does it cover in 800 revolutions?
+A) 1056 m B) 1056 cm C) 1056 km D) 528 m
+Q10. The ratio of the volumes of two cubes is 512 : 2197. What is the ratio of their total surface
+areas?
+A) 16 : 49 B) 8 : 21 C) 64 : 169 D) 4 : 7
+Q11. The radius of a circle is increased by 20%. What is the percentage increase in its area?
+A) 20% B) 40% C) 44% D) 50%
+
+Q12. Area of a circle is 616 sq.cm. Find its circumference (Take π = 22/7).
+A) 88 cm B) 77 cm C) 66 cm D) 55 cm
+Q13. The diameter of a cylinder is 14 cm and height is 20 cm. Find its curved surface area.
+A) 440 sq.cm B) 560 sq.cm C) 880 sq.cm D) 1040 sq.cm
+Q14. Find the total surface area of a cube with volume 729 cubic cm.
+A) 194 sq.cm B) 486 sq.cm C) 354 sq.cm D) 294 sq.cm
+Q15. A cuboid has dimensions 12 cm × 15 cm × 20 cm. Find its volume.
+A) 2400 cubic cm B) 3600 cubic cm C) 4000 cubic cm D) 5400 cubic cm
+Q16. A hemisphere has radius 7 cm. What is its curved surface area?
+A) 154 sq.cm B) 308 sq.cm C) 462 sq.cm D) 616 sq.cm
+Q17. Find the volume of a sphere of diameter 14 cm.
+A) 718 cubic cm B) 900 cubic cm C) 1437 cubic cm D) 1715 cubic cm
+Q18. Find the area of a rhombus whose diagonals are 16 cm and 10 cm.
+A) 40 sq.cm B) 60 sq.cm C) 80 sq.cm D) 160 sq.cm
+Q19. Area of a triangle is 120 sq.cm and its base is 24 cm. Find the height.
+A) 8 cm B) 10 cm C) 12 cm D) 15 cm
+Q20. The length of a rectangle is increased by 20% and breadth decreased by 10%. What is the %
+change in area?
+A) 8% increase B) 8% decrease C) No change D) 10% decrease
+Q21. A cone has radius 7 cm and slant height 25 cm. Find its curved surface area.
+A) 385 sq.cm B) 550 sq.cm C) 275 sq.cm D) 440 sq.cm
+Q22. A cylindrical tank has radius 4 m and height 7 m. Find its volume.
+A) 351 m³ B) 352 m³ C) 355 m³ D) 360 m³
+Q23. A path of uniform width 3 m is built around a rectangular field 50 m × 40 m. Find the area of
+the path.
+A) 270 sq.m B) 540 sq.m C) 720 sq.m D) 420 sq.m
+Q24. Find the perimeter of a semicircle of radius 14 cm (Take π = 22/7).
+A) 22 cm B) 44 cm C) 66 cm D) 72 cm
+Q25. The diagonal of a square is 12√2 cm. What is the area of the square?
+A) 72 sq.cm B) 96 sq.cm C) 120 sq.cm D) 144 sq.cm
+Q26. A cone has height 24 cm and volume 1232 cubic cm. Find its radius.
+A) 7 cm B) 8 cm C) 9 cm D) 6 cm
+Q27. A solid cylinder is melted and recast into 8 small spheres. Radius of cylinder is 6 cm, height 7
+cm. What is radius of each sphere?
+A) 3 cm B) 2.5 cm C) 2 cm D) 1.5 cm
+Q28. The radius of a circular garden is 21 m. Find its area.
+A) 1386 sq.m B) 1540 sq.m C) 1764 sq.m D) 1680 sq.m
+
+Q29. A rectangular field has length 80 m and breadth 60 m. A road of width 5 m is built inside along
+all sides. Find area of road.
+A) 650 sq.m B) 700 sq.m C) 750 sq.m D) 800 sq.m
+Q30. A cylindrical drum has radius 3 m and height 10 m. Find its total surface area.
+A) 246 sq.m B) 260 sq.m C) 234 sq.m D) 246π sq.m
+GEOMETRY — 30 QUESTIONS (CRT Pattern + Options)
+Q1. In a circle of radius 12 cm, find the length of a chord that is 5 cm from the center.
+A) 20 cm B) 22 cm C) 24 cm D) 26 cm
+Q2. The sum of the interior angles of a 12-sided polygon is:
+A) 1440° B) 1620° C) 1800° D) 1980°
+Q3. If the complement of an angle is 40° more than one-third of its supplement, find the angle.
+A) 30° B) 40° C) 45° D) 50°
+Q4. In triangle ABC, 2∠A = 3∠B = 4∠C. Find ∠A.
+A) 30° B) 36° C) 40° D) 45°
+Q5. Find the volume of a cylinder with radius 6 cm and height 14 cm.
+A) 504π B) 448π C) 378π D) 336π
+Q6. A triangle has sides 15 cm, 15 cm, and 18 cm. Find its area.
+A) 108 sq.cm B) 120 sq.cm C) 135 sq.cm D) 144 sq.cm
+Q7. Two circles have radii 10 cm and 6 cm. The distance between centers is 30 cm. What is the
+length of the transverse common tangent?
+A) 26.8 cm B) 27.5 cm C) 28 cm D) 29.4 cm
+Q8. If each exterior angle of a regular polygon is 24°, how many sides does it have?
+A) 12 B) 15 C) 18 D) 20
+Q9. In a circle with radius 13 cm, a chord subtends a right angle at the center. Find its length.
+A) 13√2 B) 10√2 C) 13√3 D) 26
+Q10. A triangle has sides in ratio 3 : 4 : 5. If perimeter is 72 cm, find the area.
+A) 96 sq.cm B) 144 sq.cm C) 216 sq.cm D) 288 sq.cm
+Q11. The area of a circle is 154 sq.cm. Find its diameter. (π = 22/7)
+A) 12 cm B) 14 cm C) 16 cm D) 18 cm
+Q12. The diagonals of a rhombus are 24 cm and 32 cm. Find its perimeter.
+A) 40 cm B) 56 cm C) 64 cm D) 80 cm
+Q13. In a cyclic quadrilateral, the angles are 70°, 85°, 110°, and x. Find x.
+A) 95° B) 110° C) 115° D) 130°
+Q14. A regular polygon has interior angle 140°. How many sides does it have?
+A) 7 B) 8 C) 9 D) 10
+Q15. The diameter of a semicircle is 28 cm. Find its area.
+A) 154 cm² B) 308 cm² C) 224 cm² D) 196 cm²
+
+Q16. A right triangle has hypotenuse 25 cm and one side 7 cm. Find the other side.
+A) 22 B) 23 C) 24 D) 25
+Q17. A circle has a tangent of length 15 cm drawn from a point 17 cm away from its center. Find its
+radius.
+A) 7 cm B) 8 cm C) 9 cm D) 10 cm
+Q18. The length of an arc subtending 60° at the center of a circle of radius 21 cm is:
+A) 11 cm B) 22 cm C) 33 cm D) 44 cm
+Q19. Find the area of an equilateral triangle with perimeter 72 cm.
+A) 108√3 B) 144√3 C) 216√3 D) 288√3
+Q20. The radii of two circles are in the ratio 3 : 5. What is the ratio of their areas?
+A) 3 : 5 B) 9 : 25 C) 15 : 25 D) 5 : 3
+Q21. A triangle has sides 10 cm and 14 cm, and the included angle is 60°. Find its area.
+A) 35√3 B) 28√3 C) 70√3 D) 14√3
+Q22. A chord of length 24 cm is drawn in a circle of radius 13 cm. Find its distance from the center.
+A) 5 cm B) 7 cm C) 11 cm D) 12 cm
+Q23. In a triangle ABC, AB = AC = 13 cm and BC = 10 cm. Find the height from A.
+A) 10 B) 12 C) 9 D) 5
+Q24. A circular park has circumference 132 m. Find its area. (π = 22/7)
+A) 1386 sq.m B) 1540 sq.m C) 1680 sq.m D) 1764 sq.m
+Q25. If each interior angle of a regular polygon is 150°, how many sides does it have?
+A) 10 B) 12 C) 14 D) 15
+Q26. A triangle has sides 9 cm, 10 cm, and 11 cm. Find its area using Heron’s formula.
+A) 36 B) 40.5 C) 45 D) 49.5
+Q27. A cube has diagonal 12√3 cm. What is its total surface area?
+A) 864 B) 432 C) 576 D) 288
+Q28. The slant height of a cone is 25 cm and radius is 7 cm. Find its total surface area.
+A) 704 sq.cm B) 792 sq.cm C) 880 sq.cm D) 968 sq.cm
+Q29. A triangle has base 20 cm and area 120 sq.cm. Find the height.
+A) 10 B) 12 C) 14 D) 15
+Q30. A circle has area 154 sq.cm. What is its circumference? (π = 22/7)
+A) 22 cm B) 33 cm C) 44 cm D) 66 cm
+DATA INTERPRETATION SET – 30 QUESTIONS (TABLE + PIE + GRAPH)
+SET–1: TABLE DI (Q1–Q10)
+Table: Exports & Imports (in ₹ Crores) of 5 Countries Over 4 Years
+
+Year Country Exports Imports
+2020 A 250 190
+2020 B 180 220
+2020 C 300 260
+2021 A 270 210
+2021 B 200 240
+2021 C 330 280
+2022 A 290 220
+2022 B 210 260
+2022 C 360 310
+2023 A 310 240
+2023 B 250 290
+2023 C 400 350
+Q1. In which year did Country B have the highest trade deficit?
+A) 2020 B) 2021 C) 2022 D) 2023
+Q2. What is the ratio of total exports of Country A in 2020–2023 to total imports of Country A in
+the same period?
+A) 1120 : 860 B) 1120 : 600 C) 860 : 1120 D) 1000 : 820
+Q3. By how much did exports of Country C increase from 2020 to 2023?
+A) 80 B) 90 C) 100 D) 120
+Q4. Average imports of Country B over the four years is:
+A) 252.5 B) 257.5 C) 265 D) 270
+Q5. In which year was total trade (Exports + Imports) maximum for Country A?
+A) 2020 B) 2021 C) 2022 D) 2023
+Q6. For Country C, what percentage of imports in 2023 are imports in 2020?
+A) 65% B) 70% C) 75% D) 80%
+Q7. Total exports of all countries in 2023 is:
+A) 960 B) 930 C) 880 D) 860
+
+Q8. Total imports of Country B for 2021 and 2023 together is:
+A) 530 B) 520 C) 500 D) 550
+Q9. In which country and year was the trade surplus the highest?
+A) A – 2020 B) A – 2021 C) C – 2023 D) C – 2022
+Q10. What is the average exports of Country C over all four years?
+A) 315 B) 320 C) 330 D) 340
+SET–2: PIE CHART DI (Q11–Q20)
+Pie Chart: Company’s Annual Expenditure (Total = ₹20 lakh)
+Category % Share
+Salaries 35%
+Raw Material 25%
+Marketing 15%
+R&D 10%
+Maintenance 10%
+Misc 5%
+Q11. How much was spent on Raw Material?
+A) ₹3.5 lakh B) ₹5 lakh C) ₹4 lakh D) ₹3 lakh
+Q12. How much more is spent on Salaries than on Marketing?
+A) ₹2 lakh B) ₹3 lakh C) ₹4 lakh D) ₹1 lakh
+Q13. What percentage of total expenditure is on R&D + Maintenance?
+A) 15% B) 20% C) 25% D) 30%
+Q14. If the expenditure on Salaries increases by 10%, new Salary expenditure becomes:
+A) 7.7 lakh B) 7.5 lakh C) 8 lakh D) 9 lakh
+Q15. What is the ratio of Raw Material to Salaries?
+A) 5 : 7 B) 7 : 5 C) 1 : 2 D) 3 : 4
+Q16. How much was spent on categories other than Salaries and Raw Material?
+A) ₹6 lakh B) ₹7 lakh C) ₹8 lakh D) ₹9 lakh
+Q17. Marketing + Misc expenditure together account for:
+
+A) 15% B) 20% C) 30% D) 35%
+Q18. If total budget increases to 25 lakh but % distribution remains same, amount spent on Misc
+is:
+A) 1.25 lakh B) 1 lakh C) 0.75 lakh D) 0.5 lakh
+Q19. Salaries exceed Maintenance by:
+A) 20% B) 25% C) 30% D) 35%
+Q20. What is the difference between Raw Material and R&D expenditure?
+A) ₹2 lakh B) ₹3 lakh C) ₹4 lakh D) ₹5 lakh
+SET–3: LINE GRAPH DI (Q21–Q30)
+Line Graph: Marks of two students P & Q in 6 Subjects (out of 100)
+Subject A B C D E F
+P 78 62 85 70 90 88
+Q 65 75 80 72 84 92
+Q21. In how many subjects did P score more than Q?
+A) 2 B) 3 C) 4 D) 5
+Q22. The difference between total marks of P and Q is:
+A) 10 B) 12 C) 20 D) 22
+Q23. In which subject is the difference between marks of P and Q maximum?
+A) A B) B C) C D) F
+Q24. What is the average marks of P?
+A) 78.8 B) 79.1 C) 80 D) 82.5
+Q25. What is the ratio of P’s marks in A and D?
+A) 78 : 70 B) 80 : 70 C) 85 : 70 D) 90 : 70
+Q26. In which subject do both P and Q score more than 80?
+A) C, E, F B) A, C, E C) C, D, F D) B, C, E
+Q27. Q scored highest in which subject?
+A) C B) E C) F D) D
+Q28. What is total of Q’s marks in A + C + E?
+A) 229 B) 235 C) 240 D) 251
+
+Q29. What is the percentage score of P across 6 subjects?
+A) 79% B) 82% C) 85% D) 90%
+Q30. What is the average difference between P and Q’s marks?
+A) 4 B) 5 C) 6 D) 7
+STATISTICS – 30 QUESTIONS (No Line Gaps, Clean Pattern)
+Q1. If the variance of 5 values is 5.6, what is the standard deviation?
+A) 4.35 B) 3.95 C) 2.85 D) 2.36
+Q2. Find the range of the data: 143, 148, 135, 150, 128, 139, 149, 146, 151, 132
+A) 23 B) 24 C) 25 D) 22
+Q3. Find the mean of the following:
+CI: 90–100, 80–90, 70–80, 60–70, 50–60
+f : 10, 15, 14, 12, 9
+A) 73.2 B) 75.8 C) 74.6 D) 71.5
+Q4. Mean = 26, Mode = 20. Find the median for moderately skewed data.
+A) 25.3 B) 22.4 C) 28 D) 24
+Q5. Find the average score:
+Marks: 20, 30, 40, 50, 60, 70
+f: 8, 12, 20, 10, 6, 4
+A) 39 B) 40 C) 42 D) 41
+Q6. SD of 10 values is 4. If each value is increased by 3, find new variance.
+A) 16 B) 49 C) 19 D) 7
+Q7. Find median of: 31, 35, 27, 29, 43, 37, 41, 35, 30
+A) 31 B) 35 C) 37 D) 30
+Q8. A, B, C have means 58, 48, 147 and SDs 15, 12, 2. Who is most consistent?
+A) A B) B C) C D) Cannot be determined
+Q9. Sangeetha is 7 years older than Divya. 15 years ago, Divya’s age was ¾ of Sangeetha’s. Find
+Sangeetha’s age now.
+A) 44 B) 43 C) 42 D) 41
+Q10. Find median: 19, 12, 25, 30, 18, 21, 27, 20, 23
+A) 21 B) 23 C) 25 D) 22
+Q11. Two farms produced:
+A: 32, 48, 50, 36, 34
+B: 25, 40, 35, 75, 25
+Which is more consistent?
+A) A B) B C) Both equal D) Cannot be determined
+Q12. Find the mode:
+Score: 2, 3, 4, 5, 6
+f: 4, 7, 9, 6, 3
+A) 3 B) 4 C) 5 D) 6
+Q13. SD of 4, 8, 12 is:
+A) 3.2 B) 4 C) 3.5 D) 2.6
+Q14. If mean = 32 and median = 30, find mode approx.
+A) 26 B) 28 C) 30 D) 34
+
+Q15. If mean = 50 and SD = 5, find coefficient of variation.
+A) 5% B) 10% C) 15% D) 20%
+Q16. Find range: 12, 19, 25, 9, 32, 28
+A) 21 B) 23 C) 24 D) 20
+Q17. Which measure is least affected by extreme values?
+A) Mean B) Mode C) Median D) Variance
+Q18. Mean = 45, SD = 12. Find variance.
+A) 144 B) 12 C) 157 D) 133
+Q19. Find median: 6, 9, 12, 15, 18, 21
+A) 12 B) 13.5 C) 15 D) 16
+Q20. Mean of first 10 natural numbers?
+A) 5.5 B) 6 C) 5 D) 6.5
+Q21. For grouped data:
+Class: 0–10, 10–20, 20–30
+f: 5, 9, 6
+Find modal class.
+A) 0–10 B) 10–20 C) 20–30 D) None
+Q22. If all values are multiplied by 6, SD becomes—?
+A) 6 times B) 36 times C) 1/6 times D) Same
+Q23. Mode of: 11, 14, 14, 18, 19, 14, 17
+A) 14 B) 18 C) 17 D) No mode
+Q24. Mean – Median = 4, skewness = 1. Find mode.
+A) Mean – 6 B) Median – 6 C) Mean + 6 D) Median + 6
+Q25. Find mean:
+X: 5, 10, 15, 20
+f: 2, 3, 4, 1
+A) 12.5 B) 13 C) 14 D) 16
+Q26. Mean = 60, CV = 25%. Find SD.
+A) 15 B) 12 C) 20 D) 18
+Q27. Find range: 55, 41, 62, 39, 48, 59, 63
+A) 23 B) 24 C) 21 D) 25
+Q28. Find median: 102, 98, 75, 80, 110, 120, 85
+A) 85 B) 98 C) 102 D) 95
+Q29. Which is an absolute measure of dispersion?
+A) CV B) Variance C) Standard deviation D) Interquartile range
+Q30. SD of set A is 9. If each value is divided by 3, SD becomes—?
+A) 3 B) 6 C) 9 D) 1
+

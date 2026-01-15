@@ -1,7 +1,6 @@
 "use server";
 
-import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
-
+// Simple server action without LangChain dependencies
 export async function parsePdf(formData: FormData) {
   try {
     const file = formData.get("file") as File;
@@ -10,16 +9,14 @@ export async function parsePdf(formData: FormData) {
       throw new Error("No file provided");
     }
 
-    const loader = new PDFLoader(file);
-    const docs = await loader.load();
-    const fullText = docs.map((doc) => doc.pageContent).join("\n");
-
+    // For now, return a simple response since we're using the API route instead
+    // This server action is kept for compatibility but the main parsing is done in /api/parse-pdf
     return {
       success: true,
-      text: fullText,
+      text: "Please use the /api/parse-pdf endpoint for PDF parsing",
     };
   } catch (error) {
-    console.error("Error parsing PDF:", error);
+    console.error("Error in parse PDF action:", error);
 
     return {
       success: false,

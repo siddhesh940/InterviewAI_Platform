@@ -2,15 +2,17 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 const supabase = createClientComponentClient();
 
-const getAllInterviewers = async (clientId: string = "") => {
+const getAllInterviewers = async (_clientId: string = "") => {
   try {
+    // Get all interviewers - they are global, not client-specific
     const { data: clientData, error: clientError } = await supabase
       .from("interviewer")
-      .select(`*`);
+      .select(`*`)
+      .order('id', { ascending: true });
 
     if (clientError) {
       console.error(
-        `Error fetching interviewers for clientId ${clientId}:`,
+        `Error fetching interviewers:`,
         clientError,
       );
 

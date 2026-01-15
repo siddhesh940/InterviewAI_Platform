@@ -82,3 +82,15 @@ CREATE TABLE feedback (
     feedback TEXT,
     satisfaction INTEGER
 );
+
+CREATE TABLE resumes (
+    id TEXT PRIMARY KEY DEFAULT uuid_generate_v4(),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW()),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW()),
+    user_id TEXT NOT NULL,
+    title TEXT NOT NULL,
+    target_role TEXT,
+    template TEXT NOT NULL DEFAULT 'modern-blue',
+    resume_data JSONB NOT NULL,
+    data JSONB -- For compatibility with user's requirement
+);

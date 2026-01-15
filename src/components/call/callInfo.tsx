@@ -6,24 +6,24 @@ import SuggestionsSection from "@/components/call/SuggestionsSection";
 import QuestionAnswerCard from "@/components/dashboard/interview/questionAnswerCard";
 import LoaderWithText from "@/components/loaders/loader-with-text/loaderWithText";
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CandidateStatus } from "@/lib/enum";
@@ -465,7 +465,7 @@ function CallInfo({
               <div
                 className="text-sm p-4 rounded-2xl leading-5 bg-slate-50"
                 // eslint-disable-next-line react/no-danger
-                dangerouslySetInnerHTML={{ __html: marked(transcript) }}
+                dangerouslySetInnerHTML={{ __html: marked.parse(transcript) as string }}
               />
             </ScrollArea>
           </div>

@@ -73,7 +73,6 @@ function Call({ interview }: InterviewProps) {
   const [email, setEmail] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
-  const [isOldUser, setIsOldUser] = useState<boolean>(false);
   const [callId, setCallId] = useState<string>("");
   const { tabSwitchCount } = useTabSwitchPrevention();
   const [isFeedbackSubmitted, setIsFeedbackSubmitted] = useState(false);
@@ -148,9 +147,7 @@ function Call({ interview }: InterviewProps) {
   }, [isCalling, time, currentTimeDuration]);
 
   useEffect(() => {
-    if (testEmail(email)) {
-      setIsValidEmail(true);
-    }
+    setIsValidEmail(testEmail(email));
   }, [email]);
 
   useEffect(() => {
@@ -211,47 +208,85 @@ function Call({ interview }: InterviewProps) {
   };
 
   const startConversation = async () => {
-    const data = {
-      mins: interview?.time_duration,
-      objective: interview?.objective,
-      questions: interview?.questions.map((q) => q.question).join(", "),
-      name: name || "not provided",
-    };
-    setLoading(true);
+    try {
+      const data = {
+        mins: interview?.time_duration,
+        objective: interview?.objective,
+        questions: interview?.questions.map((q) => q.question).join(", "),
+        name: name || "not provided",
+      };
+      setLoading(true);
+      console.log("🚀 Starting interview process...");
 
-    const oldUserEmails: string[] = (
-      await ResponseService.getAllEmails(interview.id)
-    ).map((item) => item.email);
-    const OldUser =
-      oldUserEmails.includes(email) ||
-      (interview?.respondents && !interview?.respondents.includes(email));
+      // Check if interview has respondents whitelist and if user is allowed
+      const isNotInWhitelist = interview?.respondents && 
+        interview.respondents.length > 0 && 
+        !interview.respondents.includes(email);
 
-    if (OldUser) {
-      setIsOldUser(true);
-    } else {
-      const registerCallResponse: registerCallResponseType = await axios.post(
-        "/api/register-call",
-        { dynamic_data: data, interviewer_id: interview?.interviewer_id },
-      );
-      if (registerCallResponse.data.registerCallResponse.access_token) {
-        await webClient
-          .startCall({
-            accessToken:
-              registerCallResponse.data.registerCallResponse.access_token,
-          })
-          .catch(console.error);
-        setIsCalling(true);
-        setIsStarted(true);
+      if (isNotInWhitelist) {
+        toast.error("You are not eligible to respond to this interview.");
 
-        setCallId(registerCallResponse?.data?.registerCallResponse?.call_id);
-
-        // Camera is already handled by useSimpleCamera hook - no need to request again
-      } else {
-        console.log("Failed to register call");
+        return;
       }
-    }
 
-    setLoading(false);
+      // Check microphone permission before starting
+      try {
+        await navigator.mediaDevices.getUserMedia({ audio: true });
+        console.log("✅ Microphone access granted");
+      } catch (micError) {
+        console.error("❌ Microphone access denied:", micError);
+        toast.error("Microphone access is required for the interview. Please allow microphone permissions and try again.");
+        setLoading(false);
+
+        return;
+      }
+
+      // Allow multiple responses from the same user
+      try {
+        const registerCallResponse: registerCallResponseType = await axios.post(
+          "/api/register-call",
+          { dynamic_data: data, interviewer_id: interview?.interviewer_id },
+        );
+          
+          if (registerCallResponse.data?.registerCallResponse?.access_token) {
+            await webClient
+              .startCall({
+                accessToken:
+                  registerCallResponse.data.registerCallResponse.access_token,
+              })
+              .then(() => {
+                console.log("✅ WebClient call started successfully");
+                setIsCalling(true);
+                setIsStarted(true);
+                toast.success("Interview started! Please speak clearly into your microphone.");
+                console.log("✅ Interview started successfully - transitioning to interview screen");
+              })
+              .catch((error) => {
+                console.error("Error starting call:", error);
+                toast.error("Failed to start the call. Please check your microphone permissions and try again.");
+                setLoading(false);
+
+                return;
+              });
+
+            setCallId(registerCallResponse?.data?.registerCallResponse?.call_id);
+
+            // Camera is already handled by useSimpleCamera hook - no need to request again
+        } else {
+          console.error("Failed to register call - no access token received");
+          toast.error("Failed to register call. Please try again.");
+        }
+      } catch (apiError: any) {
+        console.error("API Error:", apiError);
+        const errorMessage = apiError.response?.data?.error || "Failed to start interview. Please check your configuration.";
+        toast.error(errorMessage);
+      }
+    } catch (error) {
+      console.error("General error:", error);
+      toast.error("An unexpected error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -351,7 +386,7 @@ return (
                 </div>
               )}
             </CardHeader>
-            {!isStarted && !isEnded && !isOldUser && (
+            {!isStarted && !isEnded && (
               <div className="w-fit min-w-[400px] max-w-[400px] mx-auto mt-2  border border-indigo-200 rounded-md p-2 m-2 bg-slate-50">
                 <div>
                   {interview?.logo_url && (
@@ -405,7 +440,12 @@ return (
                       (!interview?.is_anonymous && (!isValidEmail || !name))}
                     onClick={startConversation}
                   >
-                    {!Loading ? "Start Interview" : <MiniLoader />}
+                    {!Loading ? "Start Interview" : (
+                      <div className="flex items-center gap-2">
+                        <MiniLoader />
+                        <span>Starting Interview...</span>
+                      </div>
+                    )}
                   </Button>
                   <AlertDialog>
                     <AlertDialogTrigger>
@@ -437,7 +477,7 @@ return (
                 </div>
               </div>
             )}
-            {isStarted && !isEnded && !isOldUser && (
+            {isStarted && !isEnded && (
               <div className="flex flex-row p-2 grow">
                 <div className="border-x-2 border-grey w-[50%] my-auto min-h-[70%]">
                   <div className="flex flex-col justify-evenly">
@@ -485,7 +525,7 @@ return (
                 </div>
               </div>
             )}
-            {isStarted && !isEnded && !isOldUser && (
+            {isStarted && !isEnded && (
               <div className="items-center p-2">
                 <AlertDialog>
                   <AlertDialogTrigger className="w-full">
@@ -521,7 +561,7 @@ return (
               </div>
             )}
 
-            {isEnded && !isOldUser && (
+            {isEnded && (
               <div className="w-fit min-w-[400px] max-w-[400px] mx-auto mt-2  border border-indigo-200 rounded-md p-2 m-2 bg-slate-50  absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
                 <div>
                   <div className="p-2 font-normal text-base mb-4 whitespace-pre-line">
@@ -560,23 +600,7 @@ return (
                 </div>
               </div>
             )}
-            {isOldUser && (
-              <div className="w-fit min-w-[400px] max-w-[400px] mx-auto mt-2  border border-indigo-200 rounded-md p-2 m-2 bg-slate-50  absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-                <div>
-                  <div className="p-2 font-normal text-base mb-4 whitespace-pre-line">
-                    <CheckCircleIcon className="h-[2rem] w-[2rem] mx-auto my-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-indigo-500 " />
-                    <p className="text-lg font-semibold text-center">
-                      You have already responded in this interview or you are
-                      not eligible to respond. Thank you!
-                    </p>
-                    <p className="text-center">
-                      {"\n"}
-                      You can close this tab now.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
+
           </div>
         </Card>
         <a

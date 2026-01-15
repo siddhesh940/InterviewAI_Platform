@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { v4 as uuidv4 } from "uuid";
-import { useInterviewers } from "@/contexts/interviewers.context";
-import { InterviewBase, Question } from "@/types/interview";
-import { ChevronRight, ChevronLeft, Info } from "lucide-react";
-import Image from "next/image";
-import { CardTitle } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import FileUpload from "../fileUpload";
 import Modal from "@/components/dashboard/Modal";
 import InterviewerDetailsModal from "@/components/dashboard/interviewer/interviewerDetailsModal";
+import { Button } from "@/components/ui/button";
+import { CardTitle } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
+import { useInterviewers } from "@/contexts/interviewers.context";
+import { INTERVIEWERS } from "@/lib/constants";
+import { InterviewBase, Question } from "@/types/interview";
 import { Interviewer } from "@/types/interviewer";
+import axios from "axios";
+import { ChevronLeft, ChevronRight, Info } from "lucide-react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import FileUpload from "../fileUpload";
 
 interface Props {
   open: boolean;
@@ -35,14 +36,50 @@ function DetailsPopup({
   fileName,
   setFileName,
 }: Props) {
-  const { interviewers } = useInterviewers();
+  const { interviewers, interviewersLoading } = useInterviewers();
+  
+  // Create fallback interviewers from constants if database is empty
+  const fallbackInterviewers: Interviewer[] = [
+    {
+      id: BigInt(1),
+      user_id: '',
+      created_at: new Date(),
+      agent_id: 'temp-lisa',
+      name: INTERVIEWERS.LISA.name,
+      description: INTERVIEWERS.LISA.description,
+      image: INTERVIEWERS.LISA.image,
+      audio: INTERVIEWERS.LISA.audio,
+      empathy: INTERVIEWERS.LISA.empathy,
+      exploration: INTERVIEWERS.LISA.exploration,
+      rapport: INTERVIEWERS.LISA.rapport,
+      speed: INTERVIEWERS.LISA.speed,
+    },
+    {
+      id: BigInt(2),
+      user_id: '',
+      created_at: new Date(),
+      agent_id: 'temp-bob',
+      name: INTERVIEWERS.BOB.name,
+      description: INTERVIEWERS.BOB.description,
+      image: INTERVIEWERS.BOB.image,
+      audio: INTERVIEWERS.BOB.audio,
+      empathy: INTERVIEWERS.BOB.empathy,
+      exploration: INTERVIEWERS.BOB.exploration,
+      rapport: INTERVIEWERS.BOB.rapport,
+      speed: INTERVIEWERS.BOB.speed,
+    }
+  ];
+  
+  // Use fallback interviewers if none are loaded and not loading
+  const displayInterviewers = interviewers.length > 0 ? interviewers : 
+                              (!interviewersLoading ? fallbackInterviewers : []);
   const [isClicked, setIsClicked] = useState(false);
   const [openInterviewerDetails, setOpenInterviewerDetails] = useState(false);
   const [interviewerDetails, setInterviewerDetails] = useState<Interviewer>();
 
   const [name, setName] = useState(interviewData.name);
-  const [selectedInterviewer, setSelectedInterviewer] = useState(
-    interviewData.interviewer_id,
+  const [selectedInterviewer, setSelectedInterviewer] = useState<bigint>(
+    interviewData.interviewer_id || BigInt(0),
   );
   const [objective, setObjective] = useState(interviewData.objective);
   const [isAnonymous, setIsAnonymous] = useState<boolean>(
@@ -140,6 +177,19 @@ function DetailsPopup({
     }
   }, [open]);
 
+  // Auto-select first interviewer when interviewers are loaded and none is selected
+  useEffect(() => {
+    console.log('🎯 Interviewers in details component:', interviewers);
+    console.log('🎯 Display interviewers:', displayInterviewers);
+    console.log('🎯 Current selected interviewer:', selectedInterviewer);
+    console.log('🎯 Interviewers loading:', interviewersLoading);
+    
+    if (displayInterviewers.length > 0 && selectedInterviewer === BigInt(0)) {
+      console.log('🎯 Auto-selecting first interviewer:', displayInterviewers[0]);
+      setSelectedInterviewer(displayInterviewers[0].id);
+    }
+  }, [interviewers, displayInterviewers, selectedInterviewer, interviewersLoading]);
+
   return (
     <>
       <div className="text-center w-[38rem]">
@@ -162,7 +212,16 @@ function DetailsPopup({
               id="slider-3"
               className=" h-36 pt-1 overflow-x-scroll scroll whitespace-nowrap scroll-smooth scrollbar-hide w-[27.5rem]"
             >
-              {interviewers.map((item, key) => (
+              {interviewersLoading ? (
+                <div className="flex items-center justify-center h-full w-full">
+                  <div className="text-gray-500">Loading interviewers...</div>
+                </div>
+              ) : displayInterviewers.length === 0 ? (
+                <div className="flex items-center justify-center h-full w-full">
+                  <div className="text-red-500">No interviewers available</div>
+                </div>
+              ) : (
+                displayInterviewers.map((item, key) => (
                 <div
                   className=" p-0 inline-block cursor-pointer ml-1 mr-5 rounded-xl shrink-0 overflow-hidden"
                   key={item.id}
@@ -197,7 +256,8 @@ function DetailsPopup({
                     {item.name}
                   </CardTitle>
                 </div>
-              ))}
+                ))
+              )}
             </div>
             {interviewers.length > 4 ? (
               <div className="flex-row justify-center ml-3 mb-1 items-center space-y-6">
