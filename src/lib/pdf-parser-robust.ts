@@ -74,7 +74,7 @@ function extractStructuredData(text: string) {
   // Advanced skill extraction patterns
   const skillPatterns = [
     // Direct skill lists with common separators
-    /(?:skills?|technologies?|tools?|languages?)[\s:]*(.+?)(?:\n\n|\n[A-Z]|$)/gis,
+    /(?:skills?|technologies?|tools?|languages?)[\s:]*(.+?)(?:\n\n|\n[A-Z]|$)/gi,
     // Programming languages specifically
     /(?:programming\s+languages?|languages?)[\s:]*([^\n]+)/gi,
     // Frameworks and libraries

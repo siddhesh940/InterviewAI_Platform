@@ -1,11 +1,36 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
-import { BookOpen, Home, RotateCcw, SkipForward } from "lucide-react";
+import { DifficultyLevel, useGames } from "@/contexts/GamesContext";
+import {
+    difficultyColors,
+    difficultyLabels,
+    getFilteredQuestions,
+    getRandomQuestion,
+    rephraseSentences
+} from "@/data/games-data";
+import {
+    Award,
+    BookOpen,
+    Brain,
+    Edit3,
+    FileText,
+    Home,
+    Lightbulb,
+    MessageSquare,
+    RotateCcw,
+    SkipForward,
+    Sparkles,
+    Target,
+    TrendingUp,
+    Zap
+} from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 interface EvaluationResult {
@@ -22,549 +47,564 @@ interface EvaluationResult {
   improvements: string[];
   idealAnswer: string;
   miniTip: string;
+  recruiterPerspective?: string;
+  prepFramework?: string;
 }
 
-interface GameStats {
-  attempts: number;
-  bestScore: number;
-  averageScore: number;
-  totalScore: number;
-}
-
-const PREDEFINED_SENTENCES = [
-  "I worked on some projects.",
-  "I know basic coding only.",
-  "I helped my team sometimes.",
-  "I did an internship for a bit.",
-  "I don't have much experience.",
-  "I am good with people.",
-  "I like solving problems.",
-  "I did many tasks in college.",
-  "I tried to learn new things.",
-  "I did a project on websites.",
-  "I know Java but not very well.",
-  "I did some leadership work.",
-  "I managed my time okay.",
-  "I handled responsibilities in class.",
-  "I did some presentations.",
-  "I know a little about databases.",
-  "I worked with a team before.",
-  "I want to improve myself.",
-  "I know how to debug issues.",
-  "I studied the subject properly."
-];
-
-// Helper functions moved outside component
-const generateIdealAnswer = (original: string): string => {
-  const idealAnswers: Record<string, string> = {
-    "I worked on some projects.": "I successfully planned and executed several academic and technical projects, taking responsibility for research, development, and delivery while collaborating with my team to achieve strong outcomes.",
-    "I know basic coding only.": "I have foundational programming knowledge and am actively expanding my technical skills through hands-on projects, coursework, and self-directed learning to build comprehensive development capabilities.",
-    "I helped my team sometimes.": "I actively contributed to team success by providing technical support, sharing knowledge, and collaborating on key deliverables to ensure project milestones were met effectively.",
-    "I did an internship for a bit.": "I completed a focused internship where I gained practical industry experience, developed professional skills, and contributed meaningfully to real-world projects while learning from experienced mentors.",
-    "I don't have much experience.": "While I'm early in my professional journey, I bring fresh perspectives, strong foundational knowledge, and demonstrated ability to learn quickly and adapt to new challenges.",
-    "I am good with people.": "I excel in interpersonal communication, building collaborative relationships, and facilitating productive team dynamics to achieve shared objectives and maintain positive working environments.",
-    "I like solving problems.": "I thrive on analyzing complex challenges, developing innovative solutions, and applying systematic problem-solving methodologies to deliver effective results under pressure.",
-    "I did many tasks in college.": "Throughout my academic career, I successfully managed diverse responsibilities including coursework, projects, leadership roles, and extracurricular activities while maintaining high performance standards.",
-    "I tried to learn new things.": "I actively pursue continuous learning opportunities, staying current with industry trends and expanding my skill set through structured courses, hands-on practice, and professional development initiatives.",
-    "I did a project on websites.": "I designed and developed comprehensive web applications using modern technologies, implementing user-friendly interfaces, robust functionality, and responsive design principles to deliver professional solutions.",
-    "I know Java but not very well.": "I have working knowledge of Java programming fundamentals and am committed to strengthening my expertise through advanced coursework, practical projects, and industry best practices.",
-    "I did some leadership work.": "I demonstrated leadership capabilities by guiding team initiatives, mentoring peers, coordinating project activities, and driving collaborative efforts to achieve successful outcomes.",
-    "I managed my time okay.": "I effectively prioritize multiple responsibilities, organize workflows systematically, and maintain consistent productivity while meeting deadlines and quality standards across various commitments.",
-    "I handled responsibilities in class.": "I successfully fulfilled academic leadership roles, coordinated group activities, managed project timelines, and ensured team deliverables met high-quality standards and deadlines.",
-    "I did some presentations.": "I delivered compelling presentations to diverse audiences, effectively communicating complex information, engaging stakeholders, and presenting findings with confidence and professional polish.",
-    "I know a little about databases.": "I have foundational database knowledge including design principles, query optimization, and data management concepts, with ongoing commitment to developing advanced database administration skills.",
-    "I worked with a team before.": "I have extensive collaborative experience, contributing effectively to cross-functional teams, sharing responsibilities, and fostering productive partnerships to achieve collective goals successfully.",
-    "I want to improve myself.": "I am committed to continuous professional growth, actively seeking feedback, pursuing skill development opportunities, and embracing challenges that expand my capabilities and expertise.",
-    "I know how to debug issues.": "I possess strong analytical and troubleshooting skills, systematically identifying root causes, implementing effective solutions, and preventing recurring problems through thorough testing and documentation.",
-    "I studied the subject properly.": "I developed comprehensive understanding of core concepts through rigorous study, practical application, and critical analysis, demonstrating mastery of fundamental principles and advanced topics."
-  };
-
-  return idealAnswers[original] || "I transformed this statement into a professional, detailed response that demonstrates specific achievements, quantifiable results, and strong communication skills appropriate for interview settings.";
-};
-
-const generateMiniTip = (improvements: string[]): string => {
-  const tips = [
-    "Try adding specific examples or quantifiable results.",
-    "Use professional action words like 'executed', 'managed', or 'delivered'.",
-    "Include the impact or outcome of your actions.",
-    "Avoid vague words and be more specific about your role.",
-    "Add context about when, where, or how you accomplished this.",
-    "Structure your response with clear beginning, action, and result."
-  ];
-
-  return improvements.length > 0 ? 
-    tips[Math.floor(Math.random() * tips.length)] : 
-    "Great work! Keep focusing on specific, professional language.";
-};
-
-const getScoreLabel = (score: number): string => {
-  if (score >= 9) {
-    return "Outstanding";
-  }
-  if (score >= 8) {
-    return "Excellent";
-  }
-  if (score >= 7) {
-    return "Good";
-  }
-  if (score >= 6) {
-    return "Fair";
-  }
-  if (score >= 4) {
-    return "Needs Work";
-  }
-  
-  return "Poor";
-};
-
-const getScoreColor = (score: number): string => {
-  if (score >= 8) {
-    return "text-green-600 bg-green-100";
-  }
-  if (score >= 6) {
-    return "text-blue-600 bg-blue-100";
-  }
-  if (score >= 4) {
-    return "text-yellow-600 bg-yellow-100";
-  }
-  
-  return "text-red-600 bg-red-100";
-};
-
-// Local evaluation function
-const evaluateLocally = (original: string, rewrite: string): EvaluationResult => {
-  let score = 5.0; // Base score
-  const strengths: string[] = [];
-  const improvements: string[] = [];
-
-  // Check length improvement (should be more detailed)
-  if (rewrite.length > original.length * 1.5) {
-    score += 1.0;
-    strengths.push("Added meaningful detail to the original sentence");
-  } else if (rewrite.length <= original.length) {
-    score -= 0.5;
-    improvements.push("Consider adding more specific details and context");
-  }
-
-  // Check for professional vocabulary
-  const professionalTerms = [
-    "successfully", "executed", "managed", "collaborated", "developed",
-    "implemented", "coordinated", "facilitated", "optimized", "achieved",
-    "delivered", "contributed", "established", "enhanced", "streamlined"
-  ];
-  
-  const foundTerms = professionalTerms.filter(term => 
-    rewrite.toLowerCase().includes(term.toLowerCase())
-  );
-  
-  if (foundTerms.length > 0) {
-    score += Math.min(foundTerms.length * 0.5, 1.5);
-    strengths.push("Used professional vocabulary and action words");
-  } else {
-    improvements.push("Include more professional action words and terminology");
-  }
-
-  // Check for vague words (penalties)
-  const vagueWords = ["some", "things", "stuff", "maybe", "kind of", "sort of", "a bit", "okay"];
-  const foundVague = vagueWords.filter(word => 
-    rewrite.toLowerCase().includes(word.toLowerCase())
-  );
-  
-  if (foundVague.length > 0) {
-    score -= foundVague.length * 0.3;
-    improvements.push("Avoid vague words like 'some', 'things', or 'maybe'");
-  } else {
-    strengths.push("Avoided vague and weak language");
-  }
-
-  // Check for quantifiable details
-  const hasNumbers = /\d+/.test(rewrite);
-  const quantifierWords = ["multiple", "several", "various", "numerous", "extensive"];
-  const hasQuantifiers = quantifierWords.some(word => 
-    rewrite.toLowerCase().includes(word.toLowerCase())
-  );
-  
-  if (hasNumbers || hasQuantifiers) {
-    score += 0.8;
-    if (strengths.length < 2) {
-      strengths.push("Included quantifiable or specific details");
-    }
-  } else {
-    if (improvements.length < 2) {
-      improvements.push("Try adding specific quantities or measurable outcomes");
-    }
-  }
-
-  // Check sentence structure improvement
-  const hasProfessionalStructure = rewrite.includes(",") || rewrite.includes("while") || 
-                                 rewrite.includes("through") || rewrite.includes("by");
-  if (hasProfessionalStructure) {
-    score += 0.5;
-    if (strengths.length < 2) {
-      strengths.push("Improved sentence structure and flow");
-    }
-  }
-
-  // Grammar and completeness basic checks
-  const endsProperlyWithPeriod = rewrite.trim().endsWith(".");
-  if (endsProperlyWithPeriod) {
-    score += 0.2;
-  }
-
-  const isCompleteThought = rewrite.split(" ").length >= 8;
-  if (!isCompleteThought) {
-    score -= 0.5;
-    if (improvements.length < 2) {
-      improvements.push("Expand into a more complete, detailed statement");
-    }
-  } else {
-    if (strengths.length < 2) {
-      strengths.push("Created a complete and detailed statement");
-    }
-  }
-
-  // Ensure score is within bounds
-  score = Math.max(0, Math.min(10, score));
-
-  // Generate breakdown scores
-  const breakdown = {
-    clarity: Math.min(10, Math.max(0, score + (Math.random() - 0.5))),
-    grammar: Math.min(10, Math.max(0, score + (Math.random() - 0.5))),
-    tone: Math.min(10, Math.max(0, score + (Math.random() - 0.5))),
-    vocabulary: Math.min(10, Math.max(0, score + (Math.random() - 0.5))),
-    completeness: Math.min(10, Math.max(0, score + (Math.random() - 0.5)))
-  };
-
-  const scoreLabel = getScoreLabel(score);
-  const idealAnswer = generateIdealAnswer(original);
-  const miniTip = generateMiniTip(improvements);
-
-  return {
-    score: Math.round(score * 10) / 10,
-    scoreLabel,
-    breakdown,
-    strengths: strengths.slice(0, 2),
-    improvements: improvements.slice(0, 2),
-    idealAnswer,
-    miniTip
-  };
-};
-
-export default function RephraseMe() {
+export default function RephraseMeGame() {
   const router = useRouter();
-  const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
+  const { 
+    selectedDifficulty, 
+    setDifficulty, 
+    recordAttempt, 
+    gameProgress, 
+    calculateXp,
+    getDifficultyMultiplier 
+  } = useGames();
+  
+  const progress = gameProgress['rephrase-me'];
+  
+  const [currentSentence, setCurrentSentence] = useState<typeof rephraseSentences[0] | null>(null);
   const [userRewrite, setUserRewrite] = useState("");
-  const [evaluation, setEvaluation] = useState<EvaluationResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [gameStats, setGameStats] = useState<GameStats>({
-    attempts: 0,
-    bestScore: 0,
-    averageScore: 0,
-    totalScore: 0
-  });
+  const [evaluation, setEvaluation] = useState<EvaluationResult | null>(null);
+  const [showResults, setShowResults] = useState(false);
+  const [xpEarned, setXpEarned] = useState(0);
+  const [usedSentenceIds, setUsedSentenceIds] = useState<string[]>([]);
+  const [sentenceNumber, setSentenceNumber] = useState(1);
 
-  const currentSentence = PREDEFINED_SENTENCES[currentSentenceIndex];
-
-  const evaluateRewrite = useCallback(async (originalSentence: string, rewrittenSentence: string) => {
-    if (!rewrittenSentence.trim()) {
-      return null;
-    }
-
-    try {
-      const response = await fetch("/api/games/evaluate-answer", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          gameType: "rephrase-me",
-          originalSentence,
-          userRewrite: rewrittenSentence
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error("API evaluation failed");
-      }
-
-      const data = await response.json();
-      
-      return data.evaluation;
-    } catch (error) {
-      console.warn("API evaluation failed, using local evaluation:", error);
-      
-      return evaluateLocally(originalSentence, rewrittenSentence);
-    }
+  // Initialize with a sentence
+  useEffect(() => {
+    selectNewSentence();
   }, []);
 
+  const selectNewSentence = useCallback(() => {
+    const filtered = getFilteredQuestions(rephraseSentences, selectedDifficulty);
+    const sentence = getRandomQuestion(filtered, usedSentenceIds);
+    
+    if (sentence) {
+      setCurrentSentence(sentence);
+      setUsedSentenceIds(prev => [...prev, sentence.id].slice(-5));
+    } else {
+      const anySentence = getRandomQuestion(filtered, []);
+      setCurrentSentence(anySentence);
+      setUsedSentenceIds([anySentence?.id || '']);
+    }
+    
+    setUserRewrite("");
+    setEvaluation(null);
+    setShowResults(false);
+    setSentenceNumber(prev => prev + 1);
+  }, [selectedDifficulty, usedSentenceIds]);
+
+  // Handle difficulty change
+  const handleDifficultyChange = (diff: DifficultyLevel) => {
+    setDifficulty(diff);
+    setUsedSentenceIds([]);
+    const filtered = getFilteredQuestions(rephraseSentences, diff);
+    const sentence = getRandomQuestion(filtered, []);
+    setCurrentSentence(sentence);
+    setUserRewrite("");
+    setEvaluation(null);
+    setShowResults(false);
+  };
+
+  // Local evaluation function
+  const evaluateRewrite = useCallback((original: string, rewrite: string): EvaluationResult => {
+    let score = 5.0;
+    const strengths: string[] = [];
+    const improvements: string[] = [];
+
+    // Length improvement
+    if (rewrite.length > original.length * 1.5) {
+      score += 1.0;
+      strengths.push("Added meaningful detail to the original sentence");
+    } else if (rewrite.length <= original.length) {
+      score -= 0.5;
+      improvements.push("Consider adding more specific details and context");
+    }
+
+    // Professional vocabulary check
+    const professionalTerms = [
+      'implemented', 'developed', 'managed', 'led', 'coordinated', 'achieved',
+      'delivered', 'executed', 'established', 'enhanced', 'optimized', 'collaborated',
+      'demonstrated', 'spearheaded', 'facilitated', 'analyzed', 'designed', 'created',
+      'successfully', 'effectively', 'efficiently', 'professional', 'expertise'
+    ];
+
+    const lowerRewrite = rewrite.toLowerCase();
+    const professionalCount = professionalTerms.filter(term => lowerRewrite.includes(term)).length;
+    
+    if (professionalCount >= 3) {
+      score += 1.5;
+      strengths.push("Excellent use of professional vocabulary");
+    } else if (professionalCount >= 1) {
+      score += 0.5;
+      strengths.push("Good incorporation of professional terms");
+    } else {
+      improvements.push("Include more professional action words and terminology");
+    }
+
+    // Vague words check
+    const vagueWords = ['some', 'things', 'stuff', 'good', 'nice', 'okay', 'bit', 'maybe', 'try', 'just'];
+    const vagueCount = vagueWords.filter(word => lowerRewrite.includes(word)).length;
+    
+    if (vagueCount === 0) {
+      score += 0.5;
+      strengths.push("Avoided vague and weak language");
+    } else {
+      score -= vagueCount * 0.3;
+      improvements.push("Avoid vague words like 'some', 'things', 'just'");
+    }
+
+    // Structure check
+    if (rewrite.includes(',') || rewrite.includes('and')) {
+      score += 0.5;
+    }
+
+    // Quantifiable check
+    const hasNumbers = /\d+/.test(rewrite);
+    const hasQuantifiers = ['several', 'multiple', 'various', 'numerous', 'significant'].some(q => lowerRewrite.includes(q));
+    
+    if (hasNumbers || hasQuantifiers) {
+      score += 0.5;
+      strengths.push("Good use of quantifiable or specific language");
+    } else {
+      improvements.push("Try adding specific quantities or measurable outcomes");
+    }
+
+    // Apply difficulty strictness
+    const strictnessModifier = selectedDifficulty === 'advanced' ? 0.9 : selectedDifficulty === 'intermediate' ? 1.0 : 1.1;
+    score = Math.min(10, Math.max(0, score * strictnessModifier));
+    score = Math.round(score * 10) / 10;
+
+    // Breakdown scores
+    const breakdown = {
+      clarity: Math.min(10, Math.max(1, score + (Math.random() * 1 - 0.5))),
+      grammar: Math.min(10, Math.max(1, score + (Math.random() * 0.8))),
+      tone: Math.min(10, Math.max(1, score + (Math.random() * 1 - 0.3))),
+      vocabulary: Math.min(10, Math.max(1, professionalCount >= 2 ? score + 0.5 : score - 0.3)),
+      completeness: Math.min(10, Math.max(1, rewrite.length > original.length * 1.3 ? score + 0.3 : score - 0.3)),
+    };
+
+    // Score label
+    let scoreLabel = 'Poor';
+    if (score >= 9) {scoreLabel = 'Outstanding';}
+    else if (score >= 8) {scoreLabel = 'Excellent';}
+    else if (score >= 7) {scoreLabel = 'Good';}
+    else if (score >= 6) {scoreLabel = 'Fair';}
+    else if (score >= 4) {scoreLabel = 'Needs Work';}
+
+    // Mini tip
+    const tips = [
+      "Try adding specific examples or quantifiable results.",
+      "Use professional action words like 'executed', 'managed', or 'delivered'.",
+      "Include the impact or outcome of your actions.",
+      "Avoid vague words and be more specific about your role.",
+      "Structure your response with clear beginning, action, and result."
+    ];
+    const miniTip = improvements.length > 0 ? tips[Math.floor(Math.random() * tips.length)] : "Great work! Keep focusing on specific, professional language.";
+
+    // Recruiter perspective
+    let recruiterPerspective = '';
+    if (score >= 8) {
+      recruiterPerspective = "This response would impress recruiters - it's clear, professional, and demonstrates specific value.";
+    } else if (score >= 6) {
+      recruiterPerspective = "A decent response that shows potential. Adding more specifics would make it more memorable.";
+    } else {
+      recruiterPerspective = "This response needs refinement to stand out in competitive interviews.";
+    }
+
+    // PREP framework suggestion
+    const prepFramework = score < 7 
+      ? "💡 Try the PREP Method:\n• Point: State your main point\n• Reason: Explain why\n• Example: Give a specific example\n• Point: Restate your point"
+      : "✨ Good structure! Consider using PREP for even more impact: Point → Reason → Example → Point.";
+
+    return {
+      score,
+      scoreLabel,
+      breakdown,
+      strengths,
+      improvements,
+      idealAnswer: currentSentence?.idealRewrite || '',
+      miniTip,
+      recruiterPerspective,
+      prepFramework,
+    };
+  }, [selectedDifficulty, currentSentence]);
+
   const handleSubmit = async () => {
-    if (!userRewrite.trim()) {
-      toast.error("Please write your rephrased version first.");
+    if (!userRewrite.trim() || !currentSentence) {
+      toast.error("Please write your professional rewrite.");
       
-      return;
+return;
     }
 
     setIsLoading(true);
-    
-    try {
-      const result = await evaluateRewrite(currentSentence, userRewrite);
-      if (result) {
-        setEvaluation(result);
-        
-        // Update game stats
-        const newAttempts = gameStats.attempts + 1;
-        const newTotalScore = gameStats.totalScore + result.score;
-        const newAverageScore = newTotalScore / newAttempts;
-        const newBestScore = Math.max(gameStats.bestScore, result.score);
-        
-        setGameStats({
-          attempts: newAttempts,
-          bestScore: newBestScore,
-          averageScore: Math.round(newAverageScore * 10) / 10,
-          totalScore: newTotalScore
-        });
 
-        toast.success(`Scored ${result.score}/10 - ${result.scoreLabel}!`);
+    try {
+      const result = evaluateRewrite(currentSentence.original, userRewrite);
+      setEvaluation(result);
+      setShowResults(true);
+
+      // Calculate XP
+      const earnedXp = calculateXp(result.score, selectedDifficulty);
+      setXpEarned(earnedXp);
+
+      // Record attempt
+      recordAttempt('rephrase-me', result.score, currentSentence.id, selectedDifficulty);
+
+      // Toast
+      if (result.score >= 8) {
+        toast.success("🎯 Excellent professional rewrite!");
+      } else if (result.score >= 6) {
+        toast.success("👍 Good improvement!");
+      } else {
+        toast.success("💪 Keep practicing!");
       }
+
     } catch (error) {
-      toast.error("Failed to evaluate your rewrite. Please try again.");
-      console.error("Evaluation error:", error);
+      console.error("Error:", error);
+      toast.error("Evaluation failed.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleNextSentence = () => {
-    const nextIndex = (currentSentenceIndex + 1) % PREDEFINED_SENTENCES.length;
-    setCurrentSentenceIndex(nextIndex);
-    setUserRewrite("");
-    setEvaluation(null);
-  };
-
-  const handleRetry = () => {
-    setUserRewrite("");
-    setEvaluation(null);
+  const getScoreColor = (score: number) => {
+    if (score >= 8) {return "text-green-600 bg-green-50";}
+    if (score >= 6) {return "text-blue-600 bg-blue-50";}
+    if (score >= 4) {return "text-amber-600 bg-amber-50";}
+    
+return "text-red-600 bg-red-50";
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/50 p-6">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 p-4 md:p-6">
+      <div className="max-w-5xl mx-auto">
+        
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="text-gray-500 w-fit"
+            onClick={() => router.push('/games')}
+          >
+            <Home className="h-4 w-4 mr-1" />
+            Back to Games
+          </Button>
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-emerald-100 rounded-lg">
-              <BookOpen className="h-8 w-8 text-emerald-600" />
+            <div className="p-2.5 bg-emerald-100 rounded-xl">
+              <BookOpen className="h-6 w-6 text-emerald-600" />
             </div>
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Rephrase Me</h1>
-              <p className="text-gray-600">Vocabulary Builder</p>
+              <p className="text-sm text-gray-500">Vocabulary Builder</p>
             </div>
           </div>
-          <Button
-            variant="outline"
-            className="border-gray-300"
-            onClick={() => router.push("/games")}
-          >
-            <Home className="h-4 w-4 mr-2" />
-            Back to Games
-          </Button>
         </div>
 
-        {/* Game Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <Card>
-            <CardContent className="p-4 text-center">
-              <p className="text-sm text-gray-600">Attempts</p>
-              <p className="text-2xl font-bold text-emerald-600">{gameStats.attempts}</p>
+        {/* Stats Bar */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+          <Card className="border-0 shadow-sm">
+            <CardContent className="p-3">
+              <div className="flex items-center gap-2">
+                <Target className="h-4 w-4 text-blue-600" />
+                <div>
+                  <p className="text-xs text-gray-500">Attempts</p>
+                  <p className="text-lg font-bold">{progress.totalAttempts}</p>
+                </div>
+              </div>
             </CardContent>
           </Card>
-          <Card>
-            <CardContent className="p-4 text-center">
-              <p className="text-sm text-gray-600">Best Score</p>
-              <p className="text-2xl font-bold text-emerald-600">
-                {gameStats.bestScore > 0 ? `${gameStats.bestScore}/10` : "--"}
-              </p>
+          <Card className="border-0 shadow-sm">
+            <CardContent className="p-3">
+              <div className="flex items-center gap-2">
+                <Award className="h-4 w-4 text-green-600" />
+                <div>
+                  <p className="text-xs text-gray-500">Best Score</p>
+                  <p className="text-lg font-bold">{progress.bestScore > 0 ? progress.bestScore.toFixed(1) : '--'}</p>
+                </div>
+              </div>
             </CardContent>
           </Card>
-          <Card>
-            <CardContent className="p-4 text-center">
-              <p className="text-sm text-gray-600">Average Score</p>
-              <p className="text-2xl font-bold text-emerald-600">
-                {gameStats.averageScore > 0 ? `${gameStats.averageScore}/10` : "--"}
-              </p>
+          <Card className="border-0 shadow-sm">
+            <CardContent className="p-3">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="h-4 w-4 text-emerald-600" />
+                <div>
+                  <p className="text-xs text-gray-500">Average</p>
+                  <p className="text-lg font-bold">{progress.averageScore > 0 ? progress.averageScore : '--'}</p>
+                </div>
+              </div>
             </CardContent>
           </Card>
-          <Card>
-            <CardContent className="p-4 text-center">
-              <p className="text-sm text-gray-600">Status</p>
-              <p className="text-lg font-semibold text-green-600">Active</p>
+          <Card className="border-0 shadow-sm">
+            <CardContent className="p-3">
+              <div className="flex items-center gap-2">
+                <Zap className="h-4 w-4 text-amber-600" />
+                <div>
+                  <p className="text-xs text-gray-500">Level</p>
+                  <p className="text-lg font-bold">{progress.currentLevel}</p>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Main Game Area */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Left Column - Original Sentence & Input */}
-          <div className="space-y-6">
+        {/* Difficulty Selector */}
+        <Card className="border-0 shadow-sm mb-6">
+          <CardContent className="p-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-emerald-600" />
+                <span className="font-medium text-gray-700">Difficulty</span>
+              </div>
+              <div className="flex gap-2">
+                {(['beginner', 'intermediate', 'advanced'] as const).map((diff) => (
+                  <button
+                    key={diff}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                      selectedDifficulty === diff
+                        ? `${difficultyColors[diff].bg} ${difficultyColors[diff].text} border-2 ${difficultyColors[diff].border}`
+                        : 'bg-gray-50 text-gray-600 border-2 border-transparent hover:bg-gray-100'
+                    }`}
+                    onClick={() => handleDifficultyChange(diff)}
+                  >
+                    {difficultyLabels[diff]}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Main Game Interface */}
+        {!showResults ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Original Sentence */}
-            <Card className="border-red-200 bg-red-50">
-              <CardHeader>
-                <CardTitle className="text-lg text-red-700">
-                  Original Sentence #{currentSentenceIndex + 1}
+            <Card className="border-0 shadow-sm">
+              <CardHeader className="pb-2">
+                <CardTitle className="flex items-center justify-between text-lg">
+                  <span className="flex items-center gap-2 text-orange-600">
+                    <MessageSquare className="h-5 w-5" />
+                    Original Sentence #{sentenceNumber}
+                  </span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-lg font-medium text-red-800 bg-white p-4 rounded-lg border border-red-200">
-                  &ldquo;{currentSentence}&rdquo;
-                </p>
-                <p className="text-sm text-red-600 mt-2">
-                  ⚠️ Transform this into professional, interview-ready language
-                </p>
+                <div className="bg-orange-50 border-l-4 border-orange-400 p-4 rounded-r-lg">
+                  <p className="text-gray-800 text-lg leading-relaxed font-medium">
+                    &quot;{currentSentence?.original || 'Loading...'}&quot;
+                  </p>
+                </div>
+                <div className="mt-4 flex items-start gap-2 text-amber-700 bg-amber-50 p-3 rounded-lg border border-amber-100">
+                  <Lightbulb className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                  <p className="text-sm">
+                    Transform this into professional, interview-ready language
+                  </p>
+                </div>
               </CardContent>
             </Card>
 
-            {/* User Input */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg text-gray-700">Your Professional Rewrite</CardTitle>
+            {/* User Rewrite */}
+            <Card className="border-0 shadow-sm">
+              <CardHeader className="pb-2">
+                <CardTitle className="flex items-center gap-2 text-emerald-600 text-lg">
+                  <Edit3 className="h-5 w-5" />
+                  Your Professional Rewrite
+                </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent>
                 <Textarea
                   value={userRewrite}
-                  placeholder="Rewrite the sentence using professional language, specific details, and strong vocabulary..."
-                  className="min-h-[120px] text-base"
+                  placeholder="Rewrite the sentence using professional, specific, and impactful language..."
+                  className="min-h-[150px] border-2 focus:border-emerald-400 resize-none"
                   disabled={isLoading}
                   onChange={(e) => setUserRewrite(e.target.value)}
                 />
-                <Button
-                  className="w-full bg-emerald-600 hover:bg-emerald-700"
-                  size="lg"
-                  disabled={isLoading || !userRewrite.trim()}
-                  onClick={handleSubmit}
-                >
-                  {isLoading ? "Evaluating..." : "Submit Rewrite"}
-                </Button>
+                <div className="flex gap-2 mt-4">
+                  <Button
+                    disabled={isLoading || !userRewrite.trim()}
+                    className="flex-1 bg-emerald-600 hover:bg-emerald-700"
+                    onClick={handleSubmit}
+                  >
+                    {isLoading ? 'Evaluating...' : 'Submit Rewrite'}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    disabled={isLoading}
+                    onClick={() => setUserRewrite("")}
+                  >
+                    <RotateCcw className="h-4 w-4" />
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </div>
-
-          {/* Right Column - Evaluation Results */}
+        ) : (
+          /* Results Screen */
           <div className="space-y-6">
-            {evaluation ? (
-              <>
-                {/* Score Display */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">AI Evaluation Score</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-center">
-                      <div className={`inline-block px-4 py-2 rounded-lg font-bold text-xl ${getScoreColor(evaluation.score)}`}>
-                        {evaluation.score}/10 – {evaluation.scoreLabel}
-                      </div>
+            {/* XP Banner */}
+            <Card className="border-0 shadow-lg bg-gradient-to-r from-emerald-500 to-teal-600 text-white">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm opacity-80">You earned</p>
+                    <div className="flex items-center gap-2">
+                      <Zap className="h-8 w-8 text-yellow-300" />
+                      <span className="text-4xl font-bold">+{xpEarned} XP</span>
                     </div>
-                  </CardContent>
-                </Card>
-
-                {/* Breakdown */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">Detailed Breakdown</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-2">
-                    {Object.entries(evaluation.breakdown).map(([category, score]) => (
-                      <div key={category} className="flex justify-between items-center">
-                        <span className="capitalize font-medium">{category}</span>
-                        <span className="text-emerald-600 font-semibold">
-                          {Math.round(score * 10) / 10}/10
-                        </span>
-                      </div>
-                    ))}
-                  </CardContent>
-                </Card>
-
-                {/* Strengths & Improvements */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">Feedback</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    {evaluation.strengths.length > 0 && (
-                      <div>
-                        <h4 className="font-medium text-green-600 mb-2">✓ Strengths</h4>
-                        <ul className="space-y-1">
-                          {evaluation.strengths.map((strength) => (
-                            <li key={strength} className="text-sm text-green-700 pl-2">
-                              • {strength}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                    
-                    {evaluation.improvements.length > 0 && (
-                      <div>
-                        <h4 className="font-medium text-orange-600 mb-2">✗ Areas for Improvement</h4>
-                        <ul className="space-y-1">
-                          {evaluation.improvements.map((improvement) => (
-                            <li key={improvement} className="text-sm text-orange-700 pl-2">
-                              • {improvement}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-
-                {/* Suggested Ideal Answer */}
-                <Card className="border-emerald-200 bg-emerald-50">
-                  <CardHeader>
-                    <CardTitle className="text-lg text-emerald-700">
-                      Suggested Ideal Answer
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-emerald-800 bg-white p-4 rounded-lg border border-emerald-200 font-medium">
-                      &ldquo;{evaluation.idealAnswer}&rdquo;
+                    <p className="text-sm mt-1 opacity-80">
+                      {difficultyLabels[selectedDifficulty]} ({getDifficultyMultiplier(selectedDifficulty)}x)
                     </p>
-                    {evaluation.miniTip && (
-                      <p className="text-sm text-emerald-600 mt-3 italic">
-                        💡 Tip: {evaluation.miniTip}
-                      </p>
-                    )}
-                  </CardContent>
-                </Card>
-
-                {/* Action Buttons */}
-                <div className="flex gap-3">
-                  <Button
-                    variant="outline"
-                    className="flex-1"
-                    onClick={handleRetry}
-                  >
-                    <RotateCcw className="h-4 w-4 mr-2" />
-                    Retry
-                  </Button>
-                  <Button
-                    className="flex-1 bg-emerald-600 hover:bg-emerald-700"
-                    onClick={handleNextSentence}
-                  >
-                    <SkipForward className="h-4 w-4 mr-2" />
-                    Next Sentence
-                  </Button>
+                  </div>
+                  <div className="text-right">
+                    <div className={`inline-block px-4 py-3 rounded-xl bg-white/20`}>
+                      <p className="text-4xl font-bold">{evaluation?.score}/10</p>
+                      <p className="text-sm">{evaluation?.scoreLabel}</p>
+                    </div>
+                  </div>
                 </div>
-              </>
-            ) : (
-              <Card className="border-dashed border-gray-300">
-                <CardContent className="p-8 text-center">
-                  <BookOpen className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-500">
-                    Submit your rewrite to see detailed evaluation and feedback
-                  </p>
+              </CardContent>
+            </Card>
+
+            {/* Score Breakdown */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card className="border-0 shadow-sm">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Award className="h-5 w-5 text-emerald-600" />
+                    Detailed Breakdown
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {evaluation?.breakdown && Object.entries(evaluation.breakdown).map(([key, value]) => (
+                    <div key={key}>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="font-medium capitalize">{key}</span>
+                        <span className="text-gray-600">{value.toFixed(1)}/10</span>
+                      </div>
+                      <Progress value={value * 10} className="h-1.5" />
+                    </div>
+                  ))}
                 </CardContent>
               </Card>
-            )}
+
+              <Card className="border-0 shadow-sm">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Brain className="h-5 w-5 text-purple-600" />
+                    Feedback
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {/* Strengths */}
+                  <div>
+                    <p className="text-sm font-medium text-green-600 mb-2">✓ Strengths</p>
+                    <ul className="space-y-1">
+                      {evaluation?.strengths.map((s, i) => (
+                        <li key={i} className="text-sm text-gray-700">• {s}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Improvements */}
+                  <div>
+                    <p className="text-sm font-medium text-amber-600 mb-2">△ Areas for Improvement</p>
+                    <ul className="space-y-1">
+                      {evaluation?.improvements.map((imp, i) => (
+                        <li key={i} className="text-sm text-gray-700">• {imp}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Recruiter Perspective */}
+            <Card className="border-0 shadow-sm">
+              <CardContent className="p-4">
+                <div className="bg-blue-50 rounded-lg p-4 border border-blue-100">
+                  <p className="text-sm font-medium text-blue-700 mb-2">👔 Recruiter Perspective</p>
+                  <p className="text-gray-700">{evaluation?.recruiterPerspective}</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* PREP Framework */}
+            <Card className="border-0 shadow-sm">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Lightbulb className="h-5 w-5 text-amber-500" />
+                  Structured Suggestion (PREP Method)
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="bg-amber-50 rounded-lg p-4 border border-amber-100">
+                  <p className="text-sm text-gray-700 whitespace-pre-line">{evaluation?.prepFramework}</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Ideal Answer */}
+            <Card className="border-0 shadow-sm">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <FileText className="h-5 w-5 text-green-600" />
+                  Suggested Ideal Answer
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="bg-green-50 border-l-4 border-green-400 p-4 rounded-r-lg">
+                  <p className="text-gray-800 leading-relaxed">
+                    {evaluation?.idealAnswer || currentSentence?.idealRewrite}
+                  </p>
+                </div>
+                {currentSentence?.keyImprovements && (
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {currentSentence.keyImprovements.map((imp, i) => (
+                      <Badge key={i} variant="outline" className="text-emerald-700 border-emerald-200 bg-emerald-50">
+                        {imp}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Mini Tip */}
+            <div className="bg-indigo-50 rounded-lg p-4 border border-indigo-100">
+              <p className="text-sm text-indigo-700 flex items-center gap-2">
+                <Lightbulb className="h-4 w-4" />
+                <strong>Tip:</strong> {evaluation?.miniTip}
+              </p>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Button
+                className="bg-emerald-600 hover:bg-emerald-700"
+                onClick={selectNewSentence}
+              >
+                Next Sentence
+                <SkipForward className="h-4 w-4 ml-2" />
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setShowResults(false);
+                  setUserRewrite("");
+                  setEvaluation(null);
+                }}
+              >
+                <RotateCcw className="h-4 w-4 mr-2" />
+                Retry
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

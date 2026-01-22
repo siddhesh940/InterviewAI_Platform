@@ -1,6 +1,7 @@
 "use client";
 
-import { Bell, Brain, Briefcase, FileCheck, FileText, Gamepad2, MapPin, Mic, PlayCircle, Speech, Zap } from "lucide-react";
+import { useSidebar } from "@/contexts/SidebarContext";
+import { Bell, Brain, Briefcase, FileCheck, FileText, Gamepad2, MapPin, Mic, PlayCircle, Sparkles, Speech, Zap } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -8,6 +9,7 @@ function SideMenu() {
   const pathname = usePathname();
   const router = useRouter();
   const [unreadNotifications, setUnreadNotifications] = useState(0);
+  const { isCollapsed } = useSidebar();
 
   useEffect(() => {
     // Fetch unread notification count
@@ -32,16 +34,20 @@ function SideMenu() {
   }, []);
 
   return (
-    <div className="z-[10] bg-slate-100 p-6 w-72 fixed top-[64px] left-0 h-full">
+    <div 
+      className={`z-[10] bg-slate-100 dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 p-6 fixed top-[64px] left-0 h-full transition-all duration-300 ease-in-out ${
+        isCollapsed ? '-translate-x-full w-0 opacity-0' : 'translate-x-0 w-72 opacity-100'
+      }`}
+    >
       <div className="flex flex-col gap-1">
         <div className="flex flex-col justify-between gap-2">
           
           {/* ---- Interviews ---- */}
           <div
-            className={`flex flex-row px-6 py-3 rounded-md hover:bg-slate-200 cursor-pointer ${
+            className={`flex flex-row px-6 py-3 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 cursor-pointer transition-colors ${
               pathname.endsWith("/dashboard") || pathname.includes("/interviews")
-                ? "bg-indigo-200"
-                : "bg-slate-100"
+                ? "bg-indigo-200 dark:bg-indigo-900/50 text-indigo-900 dark:text-indigo-200"
+                : "bg-slate-100 dark:bg-transparent text-slate-900 dark:text-slate-200"
             }`}
             onClick={() => router.push("/dashboard")}
           >
@@ -51,10 +57,10 @@ function SideMenu() {
 
           {/* ---- Interviewers ---- */}
           <div
-            className={`flex flex-row px-6 py-3 rounded-md hover:bg-slate-200 cursor-pointer ${
+            className={`flex flex-row px-6 py-3 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 cursor-pointer transition-colors ${
               pathname.endsWith("/interviewers")
-                ? "bg-indigo-200"
-                : "bg-slate-100"
+                ? "bg-indigo-200 dark:bg-indigo-900/50 text-indigo-900 dark:text-indigo-200"
+                : "bg-slate-100 dark:bg-transparent text-slate-900 dark:text-slate-200"
             }`}
             onClick={() => router.push("/dashboard/interviewers")}
           >
@@ -64,10 +70,10 @@ function SideMenu() {
 
           {/* ---- Soft Skills ---- */}
           <div
-            className={`flex flex-row px-6 py-3 rounded-md hover:bg-slate-200 cursor-pointer ${
+            className={`flex flex-row px-6 py-3 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 cursor-pointer transition-colors ${
               pathname.includes("/soft-skills")
-                ? "bg-indigo-200"
-                : "bg-slate-100"
+                ? "bg-indigo-200 dark:bg-indigo-900/50 text-indigo-900 dark:text-indigo-200"
+                : "bg-slate-100 dark:bg-transparent text-slate-900 dark:text-slate-200"
             }`}
             onClick={() => router.push("/soft-skills")}
           >
@@ -77,10 +83,10 @@ function SideMenu() {
 
           {/* ---- Interview Resource Hub ---- */}
           <div
-            className={`flex flex-row px-6 py-3 rounded-md hover:bg-slate-200 cursor-pointer ${
+            className={`flex flex-row px-6 py-3 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 cursor-pointer transition-colors ${
               pathname.includes("/interview-resources")
-                ? "bg-indigo-200"
-                : "bg-slate-100"
+                ? "bg-indigo-200 dark:bg-indigo-900/50 text-indigo-900 dark:text-indigo-200"
+                : "bg-slate-100 dark:bg-transparent text-slate-900 dark:text-slate-200"
             }`}
             onClick={() => router.push("/interview-resources")}
           >
@@ -90,10 +96,10 @@ function SideMenu() {
 
           {/* ---- Games ---- */}
           <div
-            className={`flex flex-row px-6 py-3 rounded-md hover:bg-slate-200 cursor-pointer ${
+            className={`flex flex-row px-6 py-3 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 cursor-pointer transition-colors ${
               pathname.includes("/games")
-                ? "bg-indigo-200"
-                : "bg-slate-100"
+                ? "bg-indigo-200 dark:bg-indigo-900/50 text-indigo-900 dark:text-indigo-200"
+                : "bg-slate-100 dark:bg-transparent text-slate-900 dark:text-slate-200"
             }`}
             onClick={() => router.push("/games")}
           >
@@ -103,10 +109,10 @@ function SideMenu() {
 
           {/* ---- Aptitude Arena ---- */}
           <div
-            className={`flex flex-row px-6 py-3 rounded-md hover:bg-slate-200 cursor-pointer ${
+            className={`flex flex-row px-6 py-3 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 cursor-pointer transition-colors ${
               pathname.includes("/aptitude")
-                ? "bg-indigo-200"
-                : "bg-slate-100"
+                ? "bg-indigo-200 dark:bg-indigo-900/50 text-indigo-900 dark:text-indigo-200"
+                : "bg-slate-100 dark:bg-transparent text-slate-900 dark:text-slate-200"
             }`}
             onClick={() => router.push("/aptitude")}
           >
@@ -116,10 +122,10 @@ function SideMenu() {
 
           {/* ---- Dream Company Station ---- */}
           <div
-            className={`flex flex-row px-6 py-3 rounded-md hover:bg-slate-200 cursor-pointer ${
+            className={`flex flex-row px-6 py-3 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 cursor-pointer transition-colors ${
               pathname.includes("/dream-company")
-                ? "bg-indigo-200"
-                : "bg-slate-100"
+                ? "bg-indigo-200 dark:bg-indigo-900/50 text-indigo-900 dark:text-indigo-200"
+                : "bg-slate-100 dark:bg-transparent text-slate-900 dark:text-slate-200"
             }`}
             onClick={() => router.push("/dream-company")}
           >
@@ -129,22 +135,22 @@ function SideMenu() {
 
           {/* ---- Placement Drives ---- */}
           <div
-            className={`flex flex-row px-6 py-3 rounded-md hover:bg-slate-200 cursor-pointer relative ${
+            className={`flex flex-row px-6 py-3 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 cursor-pointer transition-colors relative ${
               pathname.includes("/placement-drives")
-                ? "bg-indigo-200"
-                : "bg-slate-100"
+                ? "bg-indigo-200 dark:bg-indigo-900/50 text-indigo-900 dark:text-indigo-200"
+                : "bg-slate-100 dark:bg-transparent text-slate-900 dark:text-slate-200"
             }`}
             onClick={() => router.push("/dashboard/placement-drives")}
           >
             <MapPin className="font-thin mr-2" />
             <div className="flex flex-col flex-1">
               <p className="font-medium">Placement Drives</p>
-              <p className="text-xs text-gray-500">Live Opportunities</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Live Opportunities</p>
             </div>
             {unreadNotifications > 0 && (
               <div className="flex items-center">
-                <Bell className="w-4 h-4 mr-1 text-orange-500" />
-                <span className="bg-orange-500 text-white text-xs rounded-full px-2 py-1 min-w-[20px] text-center">
+                <Bell className="w-4 h-4 mr-1 text-orange-500 dark:text-orange-400" />
+                <span className="bg-orange-500 dark:bg-orange-600 text-white text-xs rounded-full px-2 py-1 min-w-[20px] text-center">
                   {unreadNotifications > 99 ? '99+' : unreadNotifications}
                 </span>
               </div>
@@ -153,10 +159,10 @@ function SideMenu() {
 
           {/* ---- Resume Builder ---- */}
           <div
-            className={`flex flex-row px-6 py-3 rounded-md hover:bg-slate-200 cursor-pointer ${
+            className={`flex flex-row px-6 py-3 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 cursor-pointer transition-colors ${
               pathname.includes("/resume-builder")
-                ? "bg-indigo-200"
-                : "bg-slate-100"
+                ? "bg-indigo-200 dark:bg-indigo-900/50 text-indigo-900 dark:text-indigo-200"
+                : "bg-slate-100 dark:bg-transparent text-slate-900 dark:text-slate-200"
             }`}
             onClick={() => router.push("/resume-builder")}
           >
@@ -164,23 +170,34 @@ function SideMenu() {
             <p className="font-medium">Resume Builder</p>
           </div>
 
+          {/* ---- Skill Autofill ---- */}
+          <div
+            className={`flex flex-row px-6 py-3 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 cursor-pointer transition-colors ${
+              pathname.includes("/skill-autofill")
+                ? "bg-indigo-200 dark:bg-indigo-900/50 text-indigo-900 dark:text-indigo-200"
+                : "bg-slate-100 dark:bg-transparent text-slate-900 dark:text-slate-200"
+            }`}
+            onClick={() => router.push("/skill-autofill")}
+          >
+            <Sparkles className="font-thin mr-2" />
+            <p className="font-medium">Skill Autofill</p>
+          </div>
+
           {/* ---- Time Machine ---- */}
           <div
-            className={`flex flex-row px-6 py-3 rounded-md hover:bg-slate-200 cursor-pointer ${
+            className={`flex flex-row px-6 py-3 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 cursor-pointer transition-colors ${
               pathname.includes("/time-machine")
-                ? "bg-indigo-200"
-                : "bg-slate-100"
+                ? "bg-indigo-200 dark:bg-indigo-900/50 text-indigo-900 dark:text-indigo-200"
+                : "bg-slate-100 dark:bg-transparent text-slate-900 dark:text-slate-200"
             }`}
             onClick={() => router.push("/time-machine")}
           >
             <Zap className="font-thin mr-2" />
             <div className="flex flex-col">
               <p className="font-medium">🕒 Time Machine</p>
-              <p className="text-xs text-gray-500">Future Self Predictor</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Future Self Predictor</p>
             </div>
           </div>
-
-
 
         </div>
       </div>

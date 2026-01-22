@@ -95,36 +95,37 @@ export function formatCurrency(amount: number, currency: 'USD' | 'LPA' = 'USD'):
 }
 
 // Validate and ensure salary data integrity
-export function ensureSalaryFormat(prediction: any): any {
-  if (!prediction?.salary?.estimate) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function ensureSalaryFormat(prediction: Record<string, unknown>): Record<string, unknown> {
+  if (!prediction?.salary) {
     return prediction;
   }
   
-  const salaryInfo = formatSalaryWithBoth(prediction.salary.estimate);
+  const salary = prediction.salary as Record<string, unknown>;
+  if (!salary?.estimate) {
+    return prediction;
+  }
+  
+  const salaryInfo = formatSalaryWithBoth(salary.estimate as string);
   
   return {
     ...prediction,
     salary: {
-      ...prediction.salary,
+      ...salary,
       estimate: salaryInfo.combined,
       estimateUSD: salaryInfo.usd,
       estimateLPA: salaryInfo.lpa,
-      range: prediction.salary.range ? {
-        ...prediction.salary.range,
-        minLPA: usdToLPA(prediction.salary.range.min),
-        maxLPA: usdToLPA(prediction.salary.range.max)
+      range: salary.range ? {
+        ...(salary.range as Record<string, unknown>),
+        minLPA: usdToLPA((salary.range as { min: number }).min),
+        maxLPA: usdToLPA((salary.range as { max: number }).max)
       } : undefined
     }
   };
 }
 
-// Convert LPA to USD
-export function lpaToUSD(lpaAmount: number): number {
-  return (lpaAmount * 100000) / USD_TO_INR_RATE;
-}
-
 // Enhanced salary formatting with comprehensive options
-export function formatSalaryWithBoth(amount: number, options: {
+export function formatSalaryDisplay(amount: number, options: {
   showUSD?: boolean;
   showINR?: boolean;
   showLPA?: boolean;
@@ -168,7 +169,7 @@ export function formatSalaryWithBoth(amount: number, options: {
     return result;
   }
   
-  return formatSalary(amount);
+  return `${amount}`;
 }
 
 // Validate and normalize salary input

@@ -2,15 +2,44 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getLogicalReasoningQuestions } from "@/data/logical-reasoning-questions";
-import { AlertTriangle, ArrowLeft, BookOpen, CheckCircle, Lightbulb, Play, XCircle } from "lucide-react";
+import { AlertTriangle, ArrowLeft, BookOpen, Brain, CheckCircle, Eye, Filter, Lightbulb, Play, RefreshCw, Target, XCircle, Zap } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface PracticeSession {
   currentQuestion: number;
   answers: { questionId: number; selectedAnswer: string; isCorrect: boolean }[];
   score: number;
   isComplete: boolean;
+}
+
+// Mini Insight Card Component
+function InsightCard({ 
+  icon: Icon, 
+  title, 
+  content, 
+  bgColor, 
+  iconColor, 
+  borderColor 
+}: { 
+  icon: React.ElementType; 
+  title: string; 
+  content: string; 
+  bgColor: string; 
+  iconColor: string; 
+  borderColor: string;
+}) {
+  return (
+    <div className={`${bgColor} ${borderColor} border rounded-xl p-4 hover:shadow-md transition-shadow`}>
+      <div className="flex items-center gap-2 mb-2">
+        <div className={`p-1.5 rounded-lg ${iconColor.replace('text-', 'bg-').replace('600', '100')}`}>
+          <Icon className={`h-4 w-4 ${iconColor}`} />
+        </div>
+        <h4 className="font-semibold text-gray-800 text-sm">{title}</h4>
+      </div>
+      <p className="text-gray-600 text-sm leading-relaxed">{content}</p>
+    </div>
+  );
 }
 
 export default function LogicalReasoningTopicPage() {
@@ -28,8 +57,79 @@ export default function LogicalReasoningTopicPage() {
   const [selectedAnswer, setSelectedAnswer] = useState<string>('');
   const [, setShowExplanation] = useState(false);
   const [hasAnswered, setHasAnswered] = useState(false);
+  
+  // PHASE-2: Practice Controls State
+  const [difficulty, setDifficulty] = useState<'all' | 'easy' | 'medium' | 'hard'>('all');
+  const [repeatWeak, setRepeatWeak] = useState(false);
+  const [weakQuestionIds, setWeakQuestionIds] = useState<number[]>([]);
+
+  // Load weak questions from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem(`weak-questions-logical-${topicId}`);
+    if (saved) {
+      setWeakQuestionIds(JSON.parse(saved));
+    }
+  }, [topicId]);
+
+  // Save progress to localStorage
+  const saveProgressToLocalStorage = (attempted: number, correct: number) => {
+    const savedProgress = localStorage.getItem("aptitude-progress");
+    const progress = savedProgress ? JSON.parse(savedProgress) : {};
+    
+    if (!progress["logical-reasoning"]) {
+      progress["logical-reasoning"] = {};
+    }
+    
+    progress["logical-reasoning"][topicId] = {
+      attempted: attempted,
+      correct: correct
+    };
+    
+    localStorage.setItem("aptitude-progress", JSON.stringify(progress));
+    console.log("Logical Progress saved:", progress);
+  };
+  };
+
+  // Save weak question
+  const saveWeakQuestion = (questionId: number) => {
+  const saveWeakQuestion = (questionId: number) => {
+    if (!weakQuestionIds.includes(questionId)) {
+      const updated = [...weakQuestionIds, questionId];
+      setWeakQuestionIds(updated);
+      localStorage.setItem(`weak-questions-logical-${topicId}`, JSON.stringify(updated));
+    }
+  };
+
+  const removeWeakQuestion = (questionId: number) => {
+    const updated = weakQuestionIds.filter(id => id !== questionId);
+    setWeakQuestionIds(updated);
+    localStorage.setItem(`weak-questions-logical-${topicId}`, JSON.stringify(updated));
+  };
 
   const questions = getLogicalReasoningQuestions(topicId);
+
+  // Filter questions based on settings
+  const getFilteredQuestions = () => {
+    if (!questions || questions.length === 0) return [];
+    
+    let filtered = [...questions];
+    
+    // Filter by weak questions if enabled
+    if (repeatWeak && weakQuestionIds.length > 0) {
+      filtered = filtered.filter(q => weakQuestionIds.includes(q.id));
+    }
+    
+    // Filter by difficulty if not 'all'
+    if (difficulty !== 'all') {
+      filtered = filtered.filter(q => 
+        q.difficulty?.toLowerCase() === difficulty
+      );
+    }
+    
+    return filtered.length > 0 ? filtered : questions;
+  };
+
+  const filteredQuestions = getFilteredQuestions();
 
   if (!questions || questions.length === 0) {
     return (
@@ -275,7 +375,7 @@ export default function LogicalReasoningTopicPage() {
 
   const currentTopicInfo = topicInfo[topicId];
   const topicName = currentTopicInfo?.name || 'Unknown Topic';
-  const currentQuestion = questions[session.currentQuestion];
+  const currentQuestion = filteredQuestions[session.currentQuestion];
 
   const handleStartPractice = () => {
     setMode('practice');
@@ -299,11 +399,20 @@ export default function LogicalReasoningTopicPage() {
       isCorrect
     }];
 
+    const newScore = session.score + (isCorrect ? 1 : 0);
+
     setSession({
       ...session,
       answers: newAnswers,
-      score: session.score + (isCorrect ? 1 : 0)
+      score: newScore
     });
+
+    // Save wrong answers as weak questions
+    if (!isCorrect) {
+      saveWeakQuestion(currentQuestion.id);
+    } else {
+      removeWeakQuestion(currentQuestion.id);
+    }
 
     setHasAnswered(true);
     setShowExplanation(true);
@@ -312,7 +421,12 @@ export default function LogicalReasoningTopicPage() {
   const handleNextQuestion = () => {
     const nextQuestionIndex = session.currentQuestion + 1;
     
-    if (nextQuestionIndex >= questions.length) {
+    if (nextQuestionIndex >= filteredQuestions.length) {
+      // Session complete - SAVE PROGRESS!
+      const totalAttempted = session.answers.length;
+      const totalCorrect = session.score;
+      saveProgressToLocalStorage(totalAttempted, totalCorrect);
+      
       setSession({
         ...session,
         isComplete: true
@@ -431,7 +545,7 @@ export default function LogicalReasoningTopicPage() {
           </Card>
 
           {/* Common Mistakes */}
-          <Card className="mb-8">
+          <Card className="mb-6">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-xl">
                 <XCircle className="h-5 w-5 text-red-600" />
@@ -450,14 +564,124 @@ export default function LogicalReasoningTopicPage() {
             </CardContent>
           </Card>
 
+          {/* PHASE-2: Mini Insight Cards */}
+          <div className="mb-8">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+              <Zap className="h-5 w-5 text-amber-500" />
+              Quick Insights
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <InsightCard
+                icon={AlertTriangle}
+                title="🎯 Common Trap"
+                content={`In ${topicName}, students often rush and miss subtle patterns. Always double-check your reasoning before selecting the answer.`}
+                bgColor="bg-red-50"
+                iconColor="text-red-600"
+                borderColor="border-red-200"
+              />
+              <InsightCard
+                icon={Eye}
+                title="👀 Interviewer's View"
+                content={`Interviewers use ${topicName.toLowerCase()} to test analytical thinking. They want to see systematic approach and clear logic.`}
+                bgColor="bg-purple-50"
+                iconColor="text-purple-600"
+                borderColor="border-purple-200"
+              />
+              <InsightCard
+                icon={Brain}
+                title="💡 Pattern Tip"
+                content={`${topicName} problems follow predictable patterns. Master 3-4 core patterns to solve 80% of questions quickly.`}
+                bgColor="bg-blue-50"
+                iconColor="text-blue-600"
+                borderColor="border-blue-200"
+              />
+            </div>
+          </div>
+
+          {/* PHASE-2: Practice Controls */}
+          <Card className="mb-6 border-2 border-purple-200 bg-purple-50/30">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-purple-700">
+                <Filter className="h-5 w-5" />
+                Practice Settings
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap gap-6">
+                {/* Difficulty Selector */}
+                <div className="flex-1 min-w-[200px]">
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">
+                    Difficulty Level
+                  </label>
+                  <div className="flex gap-2">
+                    {(['all', 'easy', 'medium', 'hard'] as const).map((level) => (
+                      <button
+                        key={level}
+                        onClick={() => setDifficulty(level)}
+                        className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all capitalize ${
+                          difficulty === level
+                            ? level === 'easy' ? 'bg-green-500 text-white' :
+                              level === 'medium' ? 'bg-yellow-500 text-white' :
+                              level === 'hard' ? 'bg-red-500 text-white' :
+                              'bg-purple-500 text-white'
+                            : 'bg-white border border-gray-300 text-gray-600 hover:bg-gray-50'
+                        }`}
+                      >
+                        {level === 'all' ? 'Mix' : level}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                
+                {/* Repeat Weak Toggle */}
+                <div className="flex-1 min-w-[200px]">
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">
+                    Focus Mode
+                  </label>
+                  <button
+                    onClick={() => setRepeatWeak(!repeatWeak)}
+                    className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                      repeatWeak
+                        ? 'bg-orange-500 text-white'
+                        : 'bg-white border border-gray-300 text-gray-600 hover:bg-gray-50'
+                    }`}
+                  >
+                    <RefreshCw className={`h-4 w-4 ${repeatWeak ? 'animate-spin' : ''}`} />
+                    Repeat Weak Questions
+                    {weakQuestionIds.length > 0 && (
+                      <span className={`ml-1 px-1.5 py-0.5 rounded-full text-xs ${repeatWeak ? 'bg-white/20' : 'bg-orange-100 text-orange-600'}`}>
+                        {weakQuestionIds.length}
+                      </span>
+                    )}
+                  </button>
+                </div>
+              </div>
+              
+              {repeatWeak && weakQuestionIds.length === 0 && (
+                <p className="mt-3 text-sm text-orange-600 flex items-center gap-1">
+                  <Target className="h-4 w-4" />
+                  No weak questions yet. Practice first to identify them!
+                </p>
+              )}
+              
+              {/* Show filtered question count */}
+              {(repeatWeak || difficulty !== 'all') && filteredQuestions.length > 0 && (
+                <p className="mt-3 text-sm text-purple-600 flex items-center gap-1">
+                  <Target className="h-4 w-4" />
+                  {filteredQuestions.length} questions selected based on your settings
+                </p>
+              )}
+            </CardContent>
+          </Card>
+
           {/* Start Practice Button */}
           <div className="text-center">
             <button
-              className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg text-lg transition-colors"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg text-lg transition-colors"
               onClick={handleStartPractice}
             >
               <Play className="h-5 w-5" />
-              Start Practice Questions (30 Questions)
+              Start Practice ({filteredQuestions.length} Questions)
             </button>
           </div>
         </div>
@@ -475,14 +699,14 @@ export default function LogicalReasoningTopicPage() {
             <div className="flex items-center justify-between mb-4">
               <button
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                onClick={() => router.push('/aptitude/logical-reasoning')}
+                onClick={() => setMode('intro')}
               >
                 <ArrowLeft className="h-6 w-6 text-gray-600" />
               </button>
               <div className="text-center">
                 <h1 className="text-xl font-semibold">{topicName} Practice</h1>
                 <p className="text-sm text-gray-600">
-                  Question {session.currentQuestion + 1} of {questions.length}
+                  Question {session.currentQuestion + 1} of {filteredQuestions.length}
                 </p>
               </div>
               <div className="text-right">
@@ -495,7 +719,7 @@ export default function LogicalReasoningTopicPage() {
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div 
                 className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                style={{ width: `${((session.currentQuestion + (hasAnswered ? 1 : 0)) / questions.length) * 100}%` }}
+                style={{ width: `${((session.currentQuestion + (hasAnswered ? 1 : 0)) / filteredQuestions.length) * 100}%` }}
               />
             </div>
           </div>
@@ -504,13 +728,13 @@ export default function LogicalReasoningTopicPage() {
           <Card className="mb-6">
             <CardHeader>
               <CardTitle className="text-lg">
-                Q{session.currentQuestion + 1}. {currentQuestion.question}
+                Q{session.currentQuestion + 1}. {currentQuestion?.question}
               </CardTitle>
             </CardHeader>
             <CardContent>
               {/* Answer Options */}
               <div className="space-y-3 mb-6">
-                {Object.entries(currentQuestion.options).map(([key, option]) => (
+                {currentQuestion && Object.entries(currentQuestion.options).map(([key, option]) => (
                   <button
                     key={key}
                     className={`w-full text-left p-4 rounded-lg border transition-colors ${

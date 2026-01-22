@@ -332,6 +332,11 @@ const generateGenericMathQuestion = (id: number): PDFQuestion => {
 
 export const getPDFQuestions = (topicId: string): PDFQuestion[] => {
   const baseQuestions = pdfQuestions[topicId as keyof typeof pdfQuestions] || [];
+  // Cast correctAnswer to the proper type
+  const typedQuestions = baseQuestions.map(q => ({
+    ...q,
+    correctAnswer: q.correctAnswer as 'A' | 'B' | 'C' | 'D'
+  }));
   
-return generateAdditionalQuestions(topicId, baseQuestions);
+  return generateAdditionalQuestions(topicId, typedQuestions);
 };

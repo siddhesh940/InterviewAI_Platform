@@ -1,14 +1,13 @@
-import { useState, useEffect, useRef } from "react";
-import axios from "axios";
-import { v4 as uuidv4 } from "uuid";
-import { useClerk, useOrganization } from "@clerk/nextjs";
-import { InterviewBase, Question } from "@/types/interview";
-import { useInterviews } from "@/contexts/interviews.context";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import QuestionCard from "@/components/dashboard/interview/create-popup/questionCard";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { ChevronLeft } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useInterviews } from "@/contexts/interviews.context";
+import { InterviewBase, Question } from "@/types/interview";
+import { useClerk, useOrganization } from "@clerk/nextjs";
+import axios from "axios";
+import { ChevronLeft, Plus } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 interface Props {
   interviewData: InterviewBase;
@@ -100,13 +99,13 @@ function QuestionsPopup({ interviewData, setProceed, setOpen }: Props) {
   }, [questions.length]);
 
   return (
-    <div>
+    <div className="p-4">
       <div
-        className={`text-center px-1 flex flex-col justify-top items-center w-[38rem] ${
-          interviewData.question_count > 1 ? "h-[29rem]" : ""
+        className={`text-center px-2 flex flex-col justify-top items-center w-[42rem] ${
+          interviewData.question_count > 1 ? "min-h-[32rem]" : ""
         } `}
       >
-        <div className="relative flex justify-center w-full">
+        <div className="relative flex justify-center w-full mb-2">
           <ChevronLeft
             className="absolute left-0 opacity-50 cursor-pointer hover:opacity-100 text-gray-600 mr-36"
             size={30}
@@ -116,11 +115,11 @@ function QuestionsPopup({ interviewData, setProceed, setOpen }: Props) {
           />
           <h1 className="text-2xl font-semibold">Create Interview</h1>
         </div>
-        <div className="my-3 text-left w-[96%] text-sm">
+        <div className="my-4 text-left w-[96%] text-sm text-gray-600">
           We will be using these questions during the interviews. Please make
           sure they are ok.
         </div>
-        <ScrollArea className="flex flex-col justify-center items-center w-full mt-3">
+        <ScrollArea className="flex flex-col justify-center items-center w-full mt-2 max-h-[280px]">
           {questions.map((question, index) => (
             <QuestionCard
               key={question.id}
@@ -147,43 +146,45 @@ function QuestionsPopup({ interviewData, setProceed, setOpen }: Props) {
           <></>
         )}
       </div>
-      <p className="mt-3 mb-1 ml-2 font-medium">
-        Interview Description{" "}
-        <span
-          style={{ fontSize: "0.7rem", lineHeight: "0.66rem" }}
-          className="font-light text-xs italic w-full text-left block"
-        >
-          Note: Interviewees will see this description.
-        </span>
-      </p>
-      <textarea
-        value={description}
-        className="h-fit mt-3 mx-2 py-2 border-2 rounded-md px-2 w-full border-gray-400"
-        placeholder="Enter your interview description."
-        rows={3}
-        onChange={(e) => {
-          setDescription(e.target.value);
-        }}
-        onBlur={(e) => {
-          setDescription(e.target.value.trim());
-        }}
-      />
-      <div className="flex flex-row justify-end items-end w-full">
-        <Button
-          disabled={
-            isClicked ||
-            questions.length < interviewData.question_count ||
-            description.trim() === "" ||
-            questions.some((question) => question.question.trim() === "")
-          }
-          className="bg-indigo-600 hover:bg-indigo-800 mr-5 mt-2"
-          onClick={() => {
-            setIsClicked(true);
-            onSave();
+      <div className="px-2 mt-4">
+        <p className="mb-2 font-medium text-sm">
+          Interview Description{" "}
+          <span
+            style={{ fontSize: "0.7rem", lineHeight: "0.66rem" }}
+            className="font-light text-xs italic text-gray-500 block mt-1"
+          >
+            Note: Interviewees will see this description.
+          </span>
+        </p>
+        <textarea
+          value={description}
+          className="h-fit py-2 border-2 rounded-md px-3 w-full border-gray-300 focus:border-indigo-400 focus:outline-none transition-colors"
+          placeholder="Enter your interview description."
+          rows={4}
+          onChange={(e) => {
+            setDescription(e.target.value);
           }}
-        >
-          Save
-        </Button>
+          onBlur={(e) => {
+            setDescription(e.target.value.trim());
+          }}
+        />
+        <div className="flex flex-row justify-end items-end w-full mt-4">
+          <Button
+            disabled={
+              isClicked ||
+              questions.length < interviewData.question_count ||
+              description.trim() === "" ||
+              questions.some((question) => question.question.trim() === "")
+            }
+            className="bg-indigo-600 hover:bg-indigo-800 px-6 py-2"
+            onClick={() => {
+              setIsClicked(true);
+              onSave();
+            }}
+          >
+            Save
+          </Button>
+        </div>
       </div>
     </div>
   );

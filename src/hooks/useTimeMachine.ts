@@ -20,11 +20,28 @@ export const useTimeMachine = () => {
         body: formData,
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to upload and parse resume');
+      const data = await response.json();
+
+      // Handle 422 - NON_EXTRACTABLE_PDF (not a server error, but extraction failure)
+      if (response.status === 422) {
+        const errorMsg = data.message || 'This PDF cannot be read. Please use a different file or paste your resume text.';
+        const error = new Error(errorMsg);
+        (error as any).errorCode = data.errorCode || 'NON_EXTRACTABLE_PDF';
+        (error as any).solutions = data.solutions || [];
+        throw error;
       }
 
-      const data = await response.json();
+      if (!response.ok) {
+        // Extract specific error message from API response
+        const errorMsg = data.message || data.userMessage || data.error || 'Failed to upload and parse resume';
+        throw new Error(errorMsg);
+      }
+      
+      // Check if parsing actually succeeded
+      if (data.success === false) {
+        const errorMsg = data.message || data.userMessage || data.error || 'Resume parsing failed';
+        throw new Error(errorMsg);
+      }
       
       const resumeData: ResumeUpload = {
         file,
@@ -72,7 +89,8 @@ return resumeData;
     setError(null);
 
     try {
-      const response = await fetch('/api/time-machine/analyze', {
+      // Use the STRICT analyze-fixed endpoint (v4.0)
+      const response = await fetch('/api/time-machine/analyze-fixed', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -80,14 +98,23 @@ return resumeData;
         body: JSON.stringify(timeMachineData),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to analyze future prediction');
+      const data: TimeMachineResponse = await response.json();
+
+      // Handle 422 - Extraction/validation failure (not a server error)
+      if (response.status === 422) {
+        const errorMsg = data.message || 'Cannot generate predictions. Resume data is insufficient.';
+        const error = new Error(errorMsg);
+        (error as any).errorCode = data.errorCode || 'EXTRACTION_FAILED';
+        (error as any).solutions = data.solutions || [];
+        throw error;
       }
 
-      const data: TimeMachineResponse = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to analyze future prediction');
+      }
       
       if (!data.success) {
-        throw new Error(data.error || 'Failed to generate prediction');
+        throw new Error(data.message || data.error || 'Failed to generate prediction');
       }
 
       setPrediction(data.prediction);

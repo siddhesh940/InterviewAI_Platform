@@ -1,7 +1,47 @@
-import { , Education, Project, WorkExperience
+import { ContactInfo } from '@/types/resume-builder';
+
+// Type definitions for parsed resume data
+export interface WorkExperience {
+  company: string;
+  role: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+  location?: string;
+  impact?: string[];
+}
+
+export interface Education {
+  institution: string;
+  degree: string;
+  field?: string;
+  startDate?: string;
+  endDate?: string;
+  gpa?: string;
+  location?: string;
+}
+
+export interface Project {
+  title: string;
+  description: string;
+  techStack: string[];
+  link?: string;
+  impact?: string;
+}
+
+export interface ExtractedData {
+  skills: string[];
+  experience: WorkExperience[];
+  education: Education[];
+  projects: Project[];
+  achievements: string[];
+  certifications: string[];
+  contact: Partial<ContactInfo>;
+  summary: string;
+}
 
 export interface ParseConfidence {
-  overall: number;
+  overall: number,
   skills: number;
   experience: number;
   projects: number;
@@ -32,14 +72,14 @@ async function getParsingLibraries() {
     const pdfParse = await import('pdf-parse');
     
     return {
-      mammoth: mammoth.default || mammoth,
+      mammoth: mammoth,
       pdfParse: pdfParse.default || pdfParse,
       available: true
     };
   } catch (error) {
     console.warn('Failed to load parsing libraries:', error);
     
-return {
+    return {
       mammoth: null,
       pdfParse: null,
       available: false
@@ -58,7 +98,8 @@ async function extractText(file: File): Promise<{ text: string; method: string }
       const { pdfParse } = await getParsingLibraries();
       if (pdfParse) {
         const arrayBuffer = await file.arrayBuffer();
-        const result = await pdfParse(new Uint8Array(arrayBuffer));
+        const parser = typeof pdfParse === 'function' ? pdfParse : (pdfParse as Record<string, unknown>).default;
+        const result = await (parser as (buffer: Buffer) => Promise<{ text: string }>)(Buffer.from(arrayBuffer));
         extractedText = result.text;
         method = 'pdf-parse';
         console.log('✅ PDF extraction successful with pdf-parse');
@@ -316,7 +357,6 @@ function extractExperience(text: string): WorkExperience[] {
       if (match) {
         const part1 = match[1]?.trim() || '';
         const part2 = match[2]?.trim() || '';
-        const part3 = match[3]?.trim() || '';
 
         // Try to identify job title vs company
         const isJobTitle = (text: string) => {
@@ -374,13 +414,12 @@ return jobTitleKeywords.some(keyword => text.toLowerCase().includes(keyword));
 
         if (jobTitle && companyName) {
           experiences.push({
-            jobTitle,
-            companyName,
+            role: jobTitle,
+            company: companyName,
             startDate,
             endDate,
-            responsibilities,
-            impactKeywords: extractImpactKeywords(responsibilities.join(' ')),
-            duration: calculateDuration(startDate, endDate)
+            description: responsibilities.join('\n'),
+            impact: extractImpactKeywords(responsibilities.join(' '))
           });
         }
       }
@@ -411,24 +450,6 @@ function extractImpactKeywords(text: string): string[] {
 }
 
 // Calculate duration between dates
-function calculateDuration(startDate: string, endDate: string): string {
-  if (startDate === 'Not Specified' || endDate === 'Not Specified') {
-    return 'Duration not specified';
-  }
-
-  // Simple duration calculation (can be enhanced)
-  const startYear = parseInt(startDate.match(/\d{4}/)?.[0] || '0');
-  const endYear = endDate === 'Present' ? new Date().getFullYear() : parseInt(endDate.match(/\d{4}/)?.[0] || '0');
-  
-  if (startYear && endYear) {
-    const years = endYear - startYear;
-    if (years === 0) {return 'Less than 1 year';}
-    
-return years === 1 ? '1 year' : `${years} years`;
-  }
-
-  return 'Duration not calculated';
-}
 
 // Extract projects with comprehensive parsing
 function extractProjects(text: string): Project[] {
@@ -507,12 +528,11 @@ function extractProjects(text: string): Project[] {
         }
 
         projects.push({
-          projectName,
+          title: projectName,
           techStack: techStack.length > 0 ? techStack : ['Technology not specified'],
-          outcomes,
-          metrics,
-          description: description.trim() || 'Description not provided',
-          link: extractProjectLink(description)
+          description: description.trim() || outcomes.join(' ') || 'Description not provided',
+          link: extractProjectLink(description),
+          impact: metrics.join(', ') || undefined
         });
       }
     }
@@ -608,9 +628,9 @@ function extractEducation(text: string): Education[] {
 
       education.push({
         degree: degree || 'Degree not specified',
-        college: college || 'Institution not specified',
-        year: year || 'Year not specified',
-        cgpa
+        institution: college || 'Institution not specified',
+        endDate: year || 'Year not specified',
+        gpa: cgpa
       });
     }
   }
@@ -689,8 +709,8 @@ function extractCertifications(text: string): string[] {
 }
 
 // Extract contact information
-function extractContactInfo(text: string): ContactInfo {
-  const contact: ContactInfo = {};
+function extractContactInfo(text: string): Partial<ContactInfo> {
+  const contact: Partial<ContactInfo> = {};
   
   // Email extraction
   const emailMatch = text.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
@@ -776,7 +796,6 @@ function calculateParseConfidence(extractedData: ExtractedData, text: string): P
                      extractedData.achievements.length;
 
   const textClarity = Math.min(100, (text.length / 1000) * 20); // Text length indicator
-  const sectionCompleteness = (sectionsFound / totalSections) * 100;
   
   const skillsConfidence = Math.min(100, (extractedData.skills.length / 10) * 100);
   const experienceConfidence = Math.min(100, (extractedData.experience.length / 3) * 100);

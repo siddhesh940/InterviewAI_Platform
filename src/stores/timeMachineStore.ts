@@ -108,9 +108,9 @@ export const useTimeMachineStore = create<TimeMachineState>()(
         return {
           ...currentState,
           ...persisted,
-          resumeData: validResumeData,
+          resumeData: validResumeData ?? null,
           // If resumeData is invalid, also clear analysis and reset step
-          analysisData: validResumeData ? persisted.analysisData : null,
+          analysisData: validResumeData ? (persisted.analysisData ?? null) : null,
           currentStep: validResumeData ? (persisted.currentStep || 1) : 1,
         };
       },

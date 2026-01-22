@@ -90,6 +90,7 @@ export interface FutureSalary {
   };
   currency: string;
   timeline: string;
+  growth?: string;
   reasoning: string;
   factors: string[];
 }

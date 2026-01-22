@@ -1,6 +1,4 @@
 import { EnhancedExtractionData, ParseConfidence, ParsedResume, ResumeSection } from '@/types/time-machine';
-
-// Enhanced Skill Dictionary (300+ skills)
 const SKILL_DICTIONARY = {
   // Programming Languages
   programmingLanguages: [
@@ -208,55 +206,76 @@ class EnhancedPDFParser {
         return cleaned;
       }
     }
-    return '';
+    
+return '';
   }
 
   private extractEmail(text: string): string {
     const emailPattern = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/;
     const match = text.match(emailPattern);
-    return match ? match[0] : '';
+    
+return match ? match[0] : '';
   }
 
   private extractPhone(text: string): string {
     const phonePattern = /(\+\d{1,3}[-.\s]?)?\(?\d{3,4}\)?[-.\s]?\d{3,4}[-.\s]?\d{3,4}/;
     const match = text.match(phonePattern);
-    return match ? match[0] : '';
+    
+return match ? match[0] : '';
   }
 
   private extractLinkedIn(text: string): string {
     const linkedInPattern = /(linkedin\.com\/in\/[A-Za-z0-9-]+)/;
     const match = text.match(linkedInPattern);
-    return match ? `https://${match[1]}` : '';
+    
+return match ? `https://${match[1]}` : '';
   }
 
   private extractGitHub(text: string): string {
     const githubPattern = /(github\.com\/[A-Za-z0-9-]+)/;
     const match = text.match(githubPattern);
-    return match ? `https://${match[1]}` : '';
+    
+return match ? `https://${match[1]}` : '';
   }
 
   private extractLocation(text: string): string {
     const locationPattern = /([A-Za-z\s]+,\s*[A-Za-z\s]+,?\s*\d{5,6}?)/;
     const match = text.match(locationPattern);
-    return match ? match[1] : '';
+    
+return match ? match[1] : '';
   }
 
   private extractSummary(sections: ResumeSection[]): string {
     const summarySection = sections.find(s => s.type === 'summary');
-    return summarySection ? summarySection.content : '';
+    
+return summarySection ? summarySection.content : '';
   }
 
-  private extractSkillsAdvanced(sections: ResumeSection[], fullText: string): any {
+  private extractSkillsAdvanced(sections: ResumeSection[], fullText: string): {
+    technical: string[];
+    softSkills: string[];
+    tools: string[];
+    languages: string[];
+    frameworks: string[];
+    databases: string[];
+  } {
     const skillsSection = sections.find(s => s.type === 'skills');
     const skillText = skillsSection ? skillsSection.content : fullText;
     
-    const extractedSkills = {
-      technical: [],
-      softSkills: [],
-      tools: [],
-      languages: [],
-      frameworks: [],
-      databases: []
+    const extractedSkills: {
+      technical: string[];
+      softSkills: string[];
+      tools: string[];
+      languages: string[];
+      frameworks: string[];
+      databases: string[];
+    } = {
+      technical: [] as string[],
+      softSkills: [] as string[],
+      tools: [] as string[],
+      languages: [] as string[],
+      frameworks: [] as string[],
+      databases: [] as string[]
     };
 
     // Flatten all skills for matching
@@ -319,7 +338,7 @@ class EnhancedPDFParser {
 
   private extractExperience(sections: ResumeSection[]): any[] {
     const experienceSection = sections.find(s => s.type === 'experience');
-    if (!experienceSection) return [];
+    if (!experienceSection) {return [];}
 
     const experiences = [];
     const lines = experienceSection.content.split('\n');
@@ -327,11 +346,11 @@ class EnhancedPDFParser {
 
     for (const line of lines) {
       const trimmed = line.trim();
-      if (!trimmed) continue;
+      if (!trimmed) {continue;}
 
       // Check if this is a job title line
       if (this.isJobTitleLine(trimmed)) {
-        if (currentExp) experiences.push(currentExp);
+        if (currentExp) {experiences.push(currentExp);}
         
         currentExp = {
           jobTitle: this.extractJobTitle(trimmed),
@@ -350,20 +369,21 @@ class EnhancedPDFParser {
       }
     }
 
-    if (currentExp) experiences.push(currentExp);
-    return experiences;
+    if (currentExp) {experiences.push(currentExp);}
+    
+return experiences;
   }
 
   private extractEducation(sections: ResumeSection[]): any[] {
     const educationSection = sections.find(s => s.type === 'education');
-    if (!educationSection) return [];
+    if (!educationSection) {return [];}
 
     const education = [];
     const lines = educationSection.content.split('\n');
 
     for (const line of lines) {
       const trimmed = line.trim();
-      if (!trimmed) continue;
+      if (!trimmed) {continue;}
 
       if (this.isEducationLine(trimmed)) {
         education.push({
@@ -381,7 +401,7 @@ class EnhancedPDFParser {
 
   private extractProjects(sections: ResumeSection[]): any[] {
     const projectsSection = sections.find(s => s.type === 'projects');
-    if (!projectsSection) return [];
+    if (!projectsSection) {return [];}
 
     const projects = [];
     const lines = projectsSection.content.split('\n');
@@ -389,10 +409,10 @@ class EnhancedPDFParser {
 
     for (const line of lines) {
       const trimmed = line.trim();
-      if (!trimmed) continue;
+      if (!trimmed) {continue;}
 
       if (this.isProjectTitleLine(trimmed)) {
-        if (currentProject) projects.push(currentProject);
+        if (currentProject) {projects.push(currentProject);}
         
         currentProject = {
           name: this.extractProjectName(trimmed),
@@ -413,20 +433,21 @@ class EnhancedPDFParser {
       }
     }
 
-    if (currentProject) projects.push(currentProject);
-    return projects;
+    if (currentProject) {projects.push(currentProject);}
+    
+return projects;
   }
 
   private extractAchievements(sections: ResumeSection[]): any[] {
     const achievementsSection = sections.find(s => s.type === 'achievements');
-    if (!achievementsSection) return [];
+    if (!achievementsSection) {return [];}
 
     const achievements = [];
     const lines = achievementsSection.content.split('\n');
 
     for (const line of lines) {
       const trimmed = line.trim();
-      if (!trimmed) continue;
+      if (!trimmed) {continue;}
 
       achievements.push({
         title: this.extractAchievementTitle(trimmed),
@@ -441,7 +462,7 @@ class EnhancedPDFParser {
 
   private extractCertifications(sections: ResumeSection[]): string[] {
     const certificationsSection = sections.find(s => s.type === 'certifications');
-    if (!certificationsSection) return [];
+    if (!certificationsSection) {return [];}
 
     return certificationsSection.content
       .split('\n')
@@ -474,7 +495,8 @@ class EnhancedPDFParser {
 
   private extractJobTitle(line: string): string {
     const match = line.match(/^([^|@\-–]+)[\s|@\-–]/);
-    return match ? match[1].trim() : line.split(' ').slice(0, 3).join(' ');
+    
+return match ? match[1].trim() : line.split(' ').slice(0, 3).join(' ');
   }
 
   private extractCompanyName(line: string): string {
@@ -487,23 +509,25 @@ class EnhancedPDFParser {
     
     for (const pattern of patterns) {
       const match = line.match(pattern);
-      if (match) return match[1].trim();
+      if (match) {return match[1].trim();}
     }
-    return '';
+    
+return '';
   }
 
   private extractDate(line: string, type: 'start' | 'end' = 'start'): string {
     const datePattern = /\b(\d{1,2}\/\d{4}|\d{4}|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b/g;
     const matches = line.match(datePattern);
     
-    if (!matches) return '';
+    if (!matches) {return '';}
     
     return type === 'start' ? matches[0] : matches[matches.length - 1];
   }
 
   private extractImpactKeywords(line: string): string[] {
     const impactWords = ['increased', 'improved', 'reduced', 'achieved', 'implemented', 'developed', 'created', 'optimized', 'enhanced', 'delivered'];
-    return impactWords.filter(word => new RegExp(`\\b${word}\\b`, 'i').test(line));
+    
+return impactWords.filter(word => new RegExp(`\\b${word}\\b`, 'i').test(line));
   }
 
   private extractTechnologies(line: string): string[] {
@@ -531,7 +555,7 @@ class EnhancedPDFParser {
     const metrics: string[] = [];
     for (const pattern of metricPatterns) {
       const matches = line.match(pattern);
-      if (matches) metrics.push(...matches);
+      if (matches) {metrics.push(...matches);}
     }
     
     return metrics;
@@ -540,24 +564,28 @@ class EnhancedPDFParser {
   private extractDegree(line: string): string {
     const degreePattern = /(Bachelor|Master|PhD|B\.Tech|M\.Tech|B\.E|M\.E|B\.Sc|M\.Sc|MBA|BCA|MCA)[^,|]*/i;
     const match = line.match(degreePattern);
-    return match ? match[0].trim() : '';
+    
+return match ? match[0].trim() : '';
   }
 
   private extractInstitution(line: string): string {
     const parts = line.split(/[,|–\-]/);
-    return parts.length > 1 ? parts[1].trim() : '';
+    
+return parts.length > 1 ? parts[1].trim() : '';
   }
 
   private extractYear(line: string): string {
     const yearPattern = /\b(19|20)\d{2}\b/;
     const match = line.match(yearPattern);
-    return match ? match[0] : '';
+    
+return match ? match[0] : '';
   }
 
   private extractCGPA(line: string): string {
     const cgpaPattern = /\b\d\.\d{1,2}\b/;
     const match = line.match(cgpaPattern);
-    return match ? match[0] : '';
+    
+return match ? match[0] : '';
   }
 
   private extractProjectName(line: string): string {
@@ -575,7 +603,8 @@ class EnhancedPDFParser {
   private extractLink(line: string): string {
     const linkPattern = /(https?:\/\/[^\s]+)/;
     const match = line.match(linkPattern);
-    return match ? match[0] : '';
+    
+return match ? match[0] : '';
   }
 
   private extractAchievementTitle(line: string): string {
@@ -583,19 +612,21 @@ class EnhancedPDFParser {
   }
 
   private categorizeAchievement(line: string): 'academic' | 'professional' | 'personal' | 'certification' {
-    if (/certified?|certification|course/i.test(line)) return 'certification';
-    if (/academic|school|university|college|grade|cgpa/i.test(line)) return 'academic';
-    if (/work|professional|company|project|team/i.test(line)) return 'professional';
-    return 'personal';
+    if (/certified?|certification|course/i.test(line)) {return 'certification';}
+    if (/academic|school|university|college|grade|cgpa/i.test(line)) {return 'academic';}
+    if (/work|professional|company|project|team/i.test(line)) {return 'professional';}
+    
+return 'personal';
   }
 
   private calculateSectionConfidence(line: string, sectionType: string): number {
     const exactMatch = new RegExp(`^${sectionType}$`, 'i').test(line.trim());
     const partialMatch = new RegExp(sectionType, 'i').test(line);
     
-    if (exactMatch) return 0.95;
-    if (partialMatch) return 0.75;
-    return 0.5;
+    if (exactMatch) {return 0.95;}
+    if (partialMatch) {return 0.75;}
+    
+return 0.5;
   }
 
   private calculateConfidence(text: string, sections: ResumeSection[], data: EnhancedExtractionData): ParseConfidence {
@@ -658,7 +689,8 @@ class EnhancedPDFParser {
     };
 
     const totalEntities = Object.values(entityCounts).reduce((sum, count) => sum + count, 0);
-    return Math.min(totalEntities / 20, 1); // Normalize against expected 20 entities
+    
+return Math.min(totalEntities / 20, 1); // Normalize against expected 20 entities
   }
 
   private calculateSectionCompleteness(sections: ResumeSection[]): number {

@@ -7,7 +7,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-200;
   }
 }
 @layer base {
@@ -44,33 +44,37 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 224 71% 7%;
+    --card-foreground: 213 31% 91%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 224 71% 7%;
+    --popover-foreground: 213 31% 91%;
 
     --primary: 210 40% 98%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
-    --secondary: 217.2 32.6% 17.5%;
+    --secondary: 215 28% 13%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
+    --muted: 215 28% 16%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 215 28% 16%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 215 28% 16%;
+    --input: 215 28% 16%;
+    --ring: 263.4 70% 50.4%;
+    
+    /* Custom dark mode colors for Interview.ai */
+    --sidebar-bg: 224 71% 3%;
+    --card-hover: 215 28% 12%;
   }
 }
 
@@ -199,12 +203,12 @@
 
 /* Premium Card Styles */
 .premium-card {
-  @apply bg-white rounded-xl border border-gray-200 shadow-sm;
+  @apply bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .premium-card:hover {
-  @apply shadow-lg border-gray-300;
+  @apply shadow-lg border-gray-300 dark:border-slate-600;
   transform: translateY(-2px);
 }
 
@@ -219,12 +223,12 @@
 
 /* Enhanced Border Card */
 .card-bordered {
-  @apply bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden;
+  @apply bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card-bordered:hover {
-  @apply shadow-lg border-gray-300;
+  @apply shadow-lg border-gray-300 dark:border-slate-600;
   transform: translateY(-2px);
 }
 
@@ -276,6 +280,10 @@
   -webkit-backdrop-filter: blur(10px);
 }
 
+:is(.dark .glass-effect) {
+  background: rgba(15, 23, 42, 0.8);
+}
+
 /* Gradient Text */
 .gradient-text {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -286,12 +294,12 @@
 
 /* Premium Stats Card */
 .stats-card {
-  @apply bg-white rounded-xl border border-gray-100 p-4;
+  @apply bg-white dark:bg-slate-900 rounded-xl border border-gray-100 dark:border-slate-700 p-4;
   transition: all 0.2s ease;
 }
 
 .stats-card:hover {
-  @apply border-gray-200 shadow-md;
+  @apply border-gray-200 dark:border-slate-600 shadow-md;
 }
 
 /* Section Header */
@@ -328,7 +336,7 @@
 
 /* Page Container */
 .page-container {
-  @apply min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 p-6;
+  @apply min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 p-6 transition-colors duration-200;
 }
 
 /* Content Container */
@@ -343,20 +351,121 @@ html {
 
 /* Focus States */
 .focus-ring:focus {
-  @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+  @apply outline-none ring-2 ring-blue-500 dark:ring-blue-400 ring-offset-2 dark:ring-offset-slate-900;
 }
 
 /* Company Logo Container */
 .company-logo-container {
-  @apply w-20 h-20 rounded-xl bg-white shadow-sm border border-gray-100 flex items-center justify-center overflow-hidden p-2;
+  @apply w-20 h-20 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-gray-100 dark:border-slate-700 flex items-center justify-center overflow-hidden p-2;
   transition: all 0.3s ease;
 }
 
 .company-logo-container:hover {
-  @apply shadow-md border-gray-200;
+  @apply shadow-md border-gray-200 dark:border-slate-600;
   transform: scale(1.05);
 }
 
 .company-logo-container img {
   @apply w-full h-full object-contain;
+}
+
+/* ===== SOFT SKILLS ANIMATIONS ===== */
+
+/* Animated gradient background */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animated-gradient {
+  background: linear-gradient(-45deg, #e0e7ff, #f3e8ff, #dbeafe, #fce7f3);
+  background-size: 400% 400%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+/* Pulse glow effect */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(99, 102, 241, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.6); }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Success celebration */
+@keyframes celebrate {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.1) rotate(5deg); }
+  50% { transform: scale(1.1) rotate(-5deg); }
+  75% { transform: scale(1.1) rotate(5deg); }
+  100% { transform: scale(1); }
+}
+
+.celebrate {
+  animation: celebrate 0.5s ease-in-out;
+}
+
+/* Shimmer effect */
+@keyframes shimmer {
+  0% { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(200%) skewX(-15deg); }
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  animation: shimmer 3s infinite;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Progress bar glow */
+[data-slot="progress-indicator"] {
+  transition: all 0.7s ease-out;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6, #6366f1);
+  background-size: 200% 100%;
+  animation: gradient-shift 3s linear infinite;
+}
+
+/* Card hover lift */
+.hover-lift {
+  transition: all 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.15);
+}
+
+/* Button shine effect */
+@keyframes button-shine {
+  0% { left: -100%; }
+  50%, 100% { left: 100%; }
+}
+
+.button-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.button-shine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: button-shine 3s infinite;
 }

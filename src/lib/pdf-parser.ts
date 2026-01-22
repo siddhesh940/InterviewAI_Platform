@@ -92,11 +92,11 @@ function extractStructuredData(text: string) {
   });
 
   return {
-    skills: [...new Set(skills)].slice(0, 20), // Remove duplicates, limit to 20
-    experience: [...new Set(experience)].slice(0, 10),
-    education: [...new Set(education)].slice(0, 5),
-    projects: [...new Set(projects)].slice(0, 10),
-    achievements: [...new Set(achievements)].slice(0, 10),
+    skills: Array.from(new Set(skills)).slice(0, 20), // Remove duplicates, limit to 20
+    experience: Array.from(new Set(experience)).slice(0, 10),
+    education: Array.from(new Set(education)).slice(0, 5),
+    projects: Array.from(new Set(projects)).slice(0, 10),
+    achievements: Array.from(new Set(achievements)).slice(0, 10),
   };
 }
 
@@ -174,7 +174,7 @@ async function parsePdfWithOCR(buffer: Buffer): Promise<ParseResult> {
     console.log('Attempting OCR parsing...');
     
     const worker = await createWorker('eng', 1, {
-      logger: m => console.log('OCR:', m)
+      logger: (m: { status: string; progress: number }) => console.log('OCR:', m)
     });
     
     // Try to OCR the buffer directly (works for image files)

@@ -12,18 +12,18 @@ function CreateInterviewCard() {
   return (
     <>
       <Card
-        className="flex items-center border-2 border-dashed border-gray-300 cursor-pointer hover:border-indigo-400 hover:shadow-lg hover:-translate-y-1 ease-in-out duration-300 h-60 w-56 rounded-xl shrink-0 overflow-hidden bg-gray-50/50 hover:bg-white group"
+        className="flex items-center border-2 border-dashed border-gray-300 dark:border-slate-600 cursor-pointer hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-lg hover:-translate-y-1 ease-in-out duration-300 h-60 w-56 rounded-xl shrink-0 overflow-hidden bg-gray-50/50 dark:bg-slate-900 hover:bg-white dark:hover:bg-slate-800 group"
         onClick={() => {
           setOpen(true);
         }}
       >
         <CardContent className="flex items-center flex-col mx-auto">
           <div className="flex flex-col justify-center items-center w-full overflow-hidden">
-            <div className="p-3 rounded-full bg-gray-100 group-hover:bg-indigo-100 transition-colors duration-300">
-              <Plus size={50} strokeWidth={1} className="text-gray-400 group-hover:text-indigo-600 transition-colors duration-300" />
+            <div className="p-3 rounded-full bg-gray-100 dark:bg-slate-800 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/50 transition-colors duration-300">
+              <Plus size={50} strokeWidth={1} className="text-gray-400 dark:text-gray-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300" />
             </div>
           </div>
-          <CardTitle className="p-0 text-md text-center mt-4 text-gray-600 group-hover:text-indigo-600 transition-colors duration-300">
+          <CardTitle className="p-0 text-md text-center mt-4 text-gray-600 dark:text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">
             Create an Interview
           </CardTitle>
         </CardContent>

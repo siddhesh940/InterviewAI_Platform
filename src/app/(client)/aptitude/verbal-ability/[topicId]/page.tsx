@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getVerbalAbilityQuestions } from "@/data/verbal-ability-questions";
-import { ArrowLeft, Brain, CheckCircle, RotateCcw, XCircle } from "lucide-react";
+import { AlertTriangle, ArrowLeft, Brain, CheckCircle, Eye, Filter, RefreshCw, RotateCcw, Target, XCircle, Zap } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -31,6 +31,35 @@ interface SessionState {
   timeSpent: number;
 }
 
+// Mini Insight Card Component
+function InsightCard({ 
+  icon: Icon, 
+  title, 
+  content, 
+  bgColor, 
+  iconColor, 
+  borderColor 
+}: { 
+  icon: React.ElementType; 
+  title: string; 
+  content: string; 
+  bgColor: string; 
+  iconColor: string; 
+  borderColor: string;
+}) {
+  return (
+    <div className={`${bgColor} ${borderColor} border rounded-xl p-4 hover:shadow-md transition-shadow`}>
+      <div className="flex items-center gap-2 mb-2">
+        <div className={`p-1.5 rounded-lg ${iconColor.replace('text-', 'bg-').replace('600', '100')}`}>
+          <Icon className={`h-4 w-4 ${iconColor}`} />
+        </div>
+        <h4 className="font-semibold text-gray-800 text-sm">{title}</h4>
+      </div>
+      <p className="text-gray-600 text-sm leading-relaxed">{content}</p>
+    </div>
+  );
+}
+
 const topicNames = {
   "reading-comprehension": "Reading Comprehension",
   "sentence-completion": "Sentence Completion",
@@ -47,6 +76,39 @@ const topicDescriptions = {
   "error-spotting": "Identify grammatical errors, subject-verb disagreements, and other language mistakes in sentences.",
   "idioms-phrases": "Understand the meaning and usage of common idioms, phrases, and figurative expressions.",
   "verbal-analogies": "Identify relationships between word pairs and find analogous relationships in given options."
+};
+
+const topicInsights = {
+  "reading-comprehension": {
+    trap: "Don't assume answers from prior knowledge. The answer must be supported by the passage text only.",
+    interviewer: "Tests your ability to quickly extract relevant information and make logical inferences.",
+    pattern: "Main idea questions, inference questions, and vocabulary-in-context follow predictable structures."
+  },
+  "sentence-completion": {
+    trap: "Don't pick the first option that 'sounds right'. Check if it fits grammatically AND contextually.",
+    interviewer: "Evaluates vocabulary range and understanding of sentence structure and tone.",
+    pattern: "Look for transition words and context clues that hint at the missing word's meaning."
+  },
+  "para-jumbles": {
+    trap: "Starting with the longest sentence isn't always correct. Focus on logical flow and connectors.",
+    interviewer: "Tests logical thinking and ability to understand coherent argument structure.",
+    pattern: "Find the independent sentence first, then link sentences using pronouns and connectors."
+  },
+  "error-spotting": {
+    trap: "Not all sentences have errors. Sometimes 'No Error' is the correct answer.",
+    interviewer: "Assesses grammar knowledge and attention to detail in written communication.",
+    pattern: "Check subject-verb agreement, tense consistency, and pronoun references first."
+  },
+  "idioms-phrases": {
+    trap: "Don't take idioms literally. 'Break the ice' doesn't involve actual ice!",
+    interviewer: "Tests cultural and linguistic awareness for professional communication.",
+    pattern: "Context clues in the sentence often hint at whether the idiom is positive or negative."
+  },
+  "verbal-analogies": {
+    trap: "The relationship must be identical, not just similar. 'Cat:Kitten' is not like 'Dog:Puppy'.",
+    interviewer: "Evaluates ability to identify precise relationships and logical reasoning.",
+    pattern: "Identify the relationship type first: synonyms, antonyms, function, degree, etc."
+  }
 };
 
 export default function VerbalAbilityTopicPage() {
@@ -67,6 +129,11 @@ export default function VerbalAbilityTopicPage() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [startTime] = useState(Date.now());
   const [practiceStarted, setPracticeStarted] = useState(false);
+  
+  // PHASE-2: Practice Controls State
+  const [difficulty, setDifficulty] = useState<'all' | 'easy' | 'medium' | 'hard'>('all');
+  const [repeatWeak, setRepeatWeak] = useState(false);
+  const [weakQuestionIds, setWeakQuestionIds] = useState<number[]>([]);
 
   useEffect(() => {
     const topicQuestions = getVerbalAbilityQuestions(topicId);
@@ -75,7 +142,72 @@ export default function VerbalAbilityTopicPage() {
     }
   }, [topicId]);
 
-  const currentQuestion = questions[sessionState.currentQuestion];
+  // Load weak questions from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem(`weak-questions-verbal-${topicId}`);
+    if (saved) {
+      setWeakQuestionIds(JSON.parse(saved));
+    }
+  }, [topicId]);
+
+  // Save progress to localStorage
+  const saveProgressToLocalStorage = (attempted: number, correct: number) => {
+    const savedProgress = localStorage.getItem("aptitude-progress");
+    const progress = savedProgress ? JSON.parse(savedProgress) : {};
+    
+    if (!progress["verbal-ability"]) {
+      progress["verbal-ability"] = {};
+    }
+    
+    progress["verbal-ability"][topicId] = {
+      attempted: attempted,
+      correct: correct
+    };
+    
+    localStorage.setItem("aptitude-progress", JSON.stringify(progress));
+    console.log("Verbal Progress saved:", progress);
+  };
+
+  // Save/Remove weak questions
+  const saveWeakQuestion = (questionId: number) => {
+    if (!weakQuestionIds.includes(questionId)) {
+      const updated = [...weakQuestionIds, questionId];
+      setWeakQuestionIds(updated);
+      localStorage.setItem(`weak-questions-verbal-${topicId}`, JSON.stringify(updated));
+    }
+  };
+
+  const removeWeakQuestion = (questionId: number) => {
+    const updated = weakQuestionIds.filter(id => id !== questionId);
+    setWeakQuestionIds(updated);
+    localStorage.setItem(`weak-questions-verbal-${topicId}`, JSON.stringify(updated));
+  };
+
+  // Filter questions based on settings
+  const getFilteredQuestions = () => {
+    if (!questions || questions.length === 0) return [];
+    
+    let filtered = [...questions];
+    
+    // Filter by weak questions if enabled
+    if (repeatWeak && weakQuestionIds.length > 0) {
+      filtered = filtered.filter(q => weakQuestionIds.includes(q.id));
+    }
+    
+    // Filter by difficulty if not 'all'
+    if (difficulty !== 'all') {
+      filtered = filtered.filter((q: any) => 
+        q.difficulty?.toLowerCase() === difficulty
+      );
+    }
+    
+    return filtered.length > 0 ? filtered : questions;
+  };
+
+  const filteredQuestions = getFilteredQuestions();
+
+  const currentQuestion = filteredQuestions[sessionState.currentQuestion];
+  const currentInsights = topicInsights[topicId as keyof typeof topicInsights];
 
   const handleAnswerSelect = (key: string) => {
     setSelectedAnswer(key.toUpperCase());
@@ -85,6 +217,13 @@ export default function VerbalAbilityTopicPage() {
     if (!selectedAnswer) {return;}
 
     const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
+    
+    // Save wrong answers as weak questions
+    if (!isCorrect) {
+      saveWeakQuestion(currentQuestion.id);
+    } else {
+      removeWeakQuestion(currentQuestion.id);
+    }
     
     setSessionState(prev => ({
       ...prev,
@@ -96,7 +235,7 @@ export default function VerbalAbilityTopicPage() {
   };
 
   const handleNextQuestion = () => {
-    if (sessionState.currentQuestion < questions.length - 1) {
+    if (sessionState.currentQuestion < filteredQuestions.length - 1) {
       setSessionState(prev => ({
         ...prev,
         currentQuestion: prev.currentQuestion + 1
@@ -104,8 +243,13 @@ export default function VerbalAbilityTopicPage() {
       setSelectedAnswer("");
       setShowFeedback(false);
     } else {
-      // Complete the session
+      // Complete the session - SAVE PROGRESS!
       const timeSpent = Math.floor((Date.now() - startTime) / 1000);
+      const totalAttempted = Object.keys(sessionState.answers).length + 1; // +1 for current
+      const totalCorrect = sessionState.score + (selectedAnswer === currentQuestion?.correctAnswer ? 1 : 0);
+      
+      saveProgressToLocalStorage(totalAttempted, totalCorrect);
+      
       setSessionState(prev => ({
         ...prev,
         showResult: true,
@@ -138,7 +282,7 @@ return `${mins}:${secs.toString().padStart(2, '0')}`;
     return (
       <div className="min-h-screen bg-gray-50 p-6 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4" />
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4" />
           <p className="text-gray-600">Loading questions...</p>
         </div>
       </div>
@@ -161,12 +305,12 @@ return `${mins}:${secs.toString().padStart(2, '0')}`;
             </Button>
             <div className="h-6 border-l border-gray-300" />
             <div className="flex items-center gap-2">
-              <Brain className="h-5 w-5 text-purple-600" />
+              <Brain className="h-5 w-5 text-green-600" />
               <span className="font-medium text-gray-900">Verbal Ability</span>
             </div>
           </div>
 
-          <Card>
+          <Card className="mb-6">
             <CardHeader>
               <CardTitle className="text-2xl font-bold text-gray-900">
                 {topicNames[topicId as keyof typeof topicNames]}
@@ -177,12 +321,12 @@ return `${mins}:${secs.toString().padStart(2, '0')}`;
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-blue-50 rounded-lg">
-                  <div className="text-2xl font-bold text-blue-600">{questions.length}</div>
+                <div className="text-center p-4 bg-green-50 rounded-lg">
+                  <div className="text-2xl font-bold text-green-600">{questions.length}</div>
                   <div className="text-sm text-gray-600">Questions</div>
                 </div>
-                <div className="text-center p-4 bg-green-50 rounded-lg">
-                  <div className="text-2xl font-bold text-green-600">15-20</div>
+                <div className="text-center p-4 bg-blue-50 rounded-lg">
+                  <div className="text-2xl font-bold text-blue-600">15-20</div>
                   <div className="text-sm text-gray-600">Minutes</div>
                 </div>
                 <div className="text-center p-4 bg-purple-50 rounded-lg">
@@ -202,24 +346,136 @@ return `${mins}:${secs.toString().padStart(2, '0')}`;
                   <li>Complete all questions to see your final score</li>
                 </ul>
               </div>
-
-              <div className="flex justify-center">
-                <Button 
-                  className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3"
-                  onClick={() => setPracticeStarted(true)}
-                >
-                  Start Practice
-                </Button>
-              </div>
             </CardContent>
           </Card>
+
+          {/* PHASE-2: Mini Insight Cards */}
+          {currentInsights && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <Zap className="h-5 w-5 text-amber-500" />
+                Quick Insights
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <InsightCard
+                  icon={AlertTriangle}
+                  title="🎯 Common Trap"
+                  content={currentInsights.trap}
+                  bgColor="bg-red-50"
+                  iconColor="text-red-600"
+                  borderColor="border-red-200"
+                />
+                <InsightCard
+                  icon={Eye}
+                  title="👀 Interviewer's View"
+                  content={currentInsights.interviewer}
+                  bgColor="bg-purple-50"
+                  iconColor="text-purple-600"
+                  borderColor="border-purple-200"
+                />
+                <InsightCard
+                  icon={Brain}
+                  title="💡 Pattern Tip"
+                  content={currentInsights.pattern}
+                  bgColor="bg-blue-50"
+                  iconColor="text-blue-600"
+                  borderColor="border-blue-200"
+                />
+              </div>
+            </div>
+          )}
+
+          {/* PHASE-2: Practice Controls */}
+          <Card className="mb-6 border-2 border-green-200 bg-green-50/30">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-green-700">
+                <Filter className="h-5 w-5" />
+                Practice Settings
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap gap-6">
+                {/* Difficulty Selector */}
+                <div className="flex-1 min-w-[200px]">
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">
+                    Difficulty Level
+                  </label>
+                  <div className="flex gap-2">
+                    {(['all', 'easy', 'medium', 'hard'] as const).map((level) => (
+                      <button
+                        key={level}
+                        onClick={() => setDifficulty(level)}
+                        className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all capitalize ${
+                          difficulty === level
+                            ? level === 'easy' ? 'bg-green-500 text-white' :
+                              level === 'medium' ? 'bg-yellow-500 text-white' :
+                              level === 'hard' ? 'bg-red-500 text-white' :
+                              'bg-green-500 text-white'
+                            : 'bg-white border border-gray-300 text-gray-600 hover:bg-gray-50'
+                        }`}
+                      >
+                        {level === 'all' ? 'Mix' : level}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                
+                {/* Repeat Weak Toggle */}
+                <div className="flex-1 min-w-[200px]">
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">
+                    Focus Mode
+                  </label>
+                  <button
+                    onClick={() => setRepeatWeak(!repeatWeak)}
+                    className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                      repeatWeak
+                        ? 'bg-orange-500 text-white'
+                        : 'bg-white border border-gray-300 text-gray-600 hover:bg-gray-50'
+                    }`}
+                  >
+                    <RefreshCw className={`h-4 w-4 ${repeatWeak ? 'animate-spin' : ''}`} />
+                    Repeat Weak Questions
+                    {weakQuestionIds.length > 0 && (
+                      <span className={`ml-1 px-1.5 py-0.5 rounded-full text-xs ${repeatWeak ? 'bg-white/20' : 'bg-orange-100 text-orange-600'}`}>
+                        {weakQuestionIds.length}
+                      </span>
+                    )}
+                  </button>
+                </div>
+              </div>
+              
+              {repeatWeak && weakQuestionIds.length === 0 && (
+                <p className="mt-3 text-sm text-orange-600 flex items-center gap-1">
+                  <Target className="h-4 w-4" />
+                  No weak questions yet. Practice first to identify them!
+                </p>
+              )}
+              
+              {/* Show filtered question count */}
+              {(repeatWeak || difficulty !== 'all') && filteredQuestions.length > 0 && (
+                <p className="mt-3 text-sm text-green-600 flex items-center gap-1">
+                  <Target className="h-4 w-4" />
+                  {filteredQuestions.length} questions selected based on your settings
+                </p>
+              )}
+            </CardContent>
+          </Card>
+
+          <div className="flex justify-center">
+            <Button 
+              className="bg-green-600 hover:bg-green-700 text-white px-8 py-3"
+              onClick={() => setPracticeStarted(true)}
+            >
+              Start Practice ({filteredQuestions.length} Questions)
+            </Button>
+          </div>
         </div>
       </div>
     );
   }
 
   if (sessionState.showResult) {
-    const percentage = Math.round((sessionState.score / questions.length) * 100);
+    const percentage = Math.round((sessionState.score / filteredQuestions.length) * 100);
     let performanceLevel = "Keep Practicing";
     let performanceColor = "text-red-600";
     
@@ -314,7 +570,7 @@ return `${mins}:${secs.toString().padStart(2, '0')}`;
               variant="ghost"
               size="sm"
               className="flex items-center gap-2"
-              onClick={() => router.push('/aptitude/verbal-ability')}
+              onClick={() => setPracticeStarted(false)}
             >
               <ArrowLeft className="h-4 w-4" />
               Back
@@ -328,24 +584,24 @@ return `${mins}:${secs.toString().padStart(2, '0')}`;
             </div>
           </div>
           <Badge variant="outline">
-            Question {sessionState.currentQuestion + 1} of {questions.length}
+            Question {sessionState.currentQuestion + 1} of {filteredQuestions.length}
           </Badge>
         </div>
 
         <Card>
           <CardContent className="p-6">
             {/* Reading Comprehension - Show paragraph first */}
-            {currentQuestion.paragraph && (
+            {currentQuestion?.paragraph && (
               <div className="mb-6 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
                 <h3 className="font-semibold text-gray-900 mb-3">Passage:</h3>
                 <p className="text-gray-700 leading-relaxed text-justify">
-                  {currentQuestion.paragraph}
+                  {currentQuestion?.paragraph}
                 </p>
               </div>
             )}
 
             {/* Para Jumbles - Show sentences list */}
-            {currentQuestion.sentences && (
+            {currentQuestion?.sentences && (
               <div className="mb-6">
                 <h3 className="font-semibold text-gray-900 mb-3">Sentences to arrange:</h3>
                 <div className="space-y-2">
@@ -364,11 +620,11 @@ return (
 
             <div className="mb-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                {currentQuestion.question}
+                {currentQuestion?.question}
               </h2>
 
               <div className="space-y-3">
-                {Object.entries(currentQuestion.options).map(([key, option]) => (
+                {currentQuestion && Object.entries(currentQuestion.options).map(([key, option]) => (
                   <div
                     key={key}
                     className={`p-4 border-2 rounded-lg cursor-pointer transition-all hover:bg-gray-50 ${
@@ -401,7 +657,7 @@ return (
               </div>
             </div>
 
-            {showFeedback && (
+            {showFeedback && currentQuestion && (
               <div className="mb-6">
                 <div className={`p-4 rounded-lg border-l-4 ${
                   selectedAnswer === currentQuestion.correctAnswer
@@ -428,7 +684,7 @@ return (
 
             <div className="flex justify-between">
               <div className="text-sm text-gray-500">
-                Progress: {sessionState.currentQuestion + 1} / {questions.length}
+                Progress: {sessionState.currentQuestion + 1} / {filteredQuestions.length}
               </div>
               <div className="flex gap-3">
                 {!showFeedback ? (
@@ -444,7 +700,7 @@ return (
                     className="bg-purple-600 hover:bg-purple-700 text-white"
                     onClick={handleNextQuestion}
                   >
-                    {sessionState.currentQuestion === questions.length - 1 ? "View Results" : "Next Question"}
+                    {sessionState.currentQuestion === filteredQuestions.length - 1 ? "View Results" : "Next Question"}
                   </Button>
                 )}
               </div>

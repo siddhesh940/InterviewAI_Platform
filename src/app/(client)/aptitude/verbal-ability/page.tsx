@@ -1,11 +1,91 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, BookOpen, Clock, MessageCircle, Target } from "lucide-react";
+import { ArrowLeft, BookOpen, CheckCircle, Clock, MessageCircle, Target, TrendingUp } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+// Completion Ring Component
+function CompletionRing({ progress, size = 48 }: { progress: number; size?: number }) {
+  const strokeWidth = 4;
+  const radius = (size - strokeWidth) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (progress / 100) * circumference;
+  
+  const getColor = () => {
+    if (progress >= 80) return "#22c55e"; // green
+    if (progress >= 50) return "#eab308"; // yellow
+    if (progress > 0) return "#22c55e";   // green (theme)
+    return "#e5e7eb"; // gray
+  };
+
+  return (
+    <div className="relative" style={{ width: size, height: size }}>
+      <svg className="transform -rotate-90" width={size} height={size}>
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke="#e5e7eb"
+          strokeWidth={strokeWidth}
+        />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke={getColor()}
+          strokeWidth={strokeWidth}
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          className="transition-all duration-500"
+        />
+      </svg>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className="text-xs font-semibold text-gray-700">{progress}%</span>
+      </div>
+    </div>
+  );
+}
 
 export default function VerbalAbilityPage() {
   const router = useRouter();
+  const [topicProgress, setTopicProgress] = useState<Record<string, { attempted: number; correct: number }>>({});
+  
+  // Load progress from localStorage
+  useEffect(() => {
+    const savedProgress = localStorage.getItem("aptitude-progress");
+    if (savedProgress) {
+      const parsed = JSON.parse(savedProgress);
+      setTopicProgress(parsed["verbal-ability"] || {});
+    }
+  }, []);
+  
+  const getTopicCompletion = (topicId: string, totalQuestions: number) => {
+    const progress = topicProgress[topicId];
+    if (!progress) return 0;
+    return Math.min(100, Math.round((progress.attempted / totalQuestions) * 100));
+  };
+  
+  const getTopicAccuracy = (topicId: string) => {
+    const progress = topicProgress[topicId];
+    if (!progress || progress.attempted === 0) return null;
+    return Math.round((progress.correct / progress.attempted) * 100);
+  };
+
+  const getTotalProgress = () => {
+    const totalQuestions = topics.reduce((sum, t) => sum + t.questionsCount, 0);
+    const totalAttempted = Object.values(topicProgress).reduce((sum, p) => sum + p.attempted, 0);
+    const totalCorrect = Object.values(topicProgress).reduce((sum, p) => sum + p.correct, 0);
+    return {
+      attempted: totalAttempted,
+      correct: totalCorrect,
+      completion: totalQuestions > 0 ? Math.round((totalAttempted / totalQuestions) * 100) : 0,
+      accuracy: totalAttempted > 0 ? Math.round((totalCorrect / totalAttempted) * 100) : 0
+    };
+  };
   
   const topics = [
     {
@@ -114,108 +194,124 @@ export default function VerbalAbilityPage() {
           </div>
         </div>
 
-        {/* Stats Cards */}
+        {/* Stats Cards - Updated with Progress */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <Card>
+          <Card className="border-green-200 bg-green-50/50">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-green-100 rounded-full">
                   <BookOpen className="h-5 w-5 text-green-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Total Topics</p>
+                  <p className="text-sm text-gray-600">Topics</p>
                   <p className="text-xl font-semibold">{topics.length}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="border-blue-200 bg-blue-50/50">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-blue-100 rounded-full">
                   <Target className="h-5 w-5 text-blue-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Questions</p>
-                  <p className="text-xl font-semibold">{topics.length * 10}</p>
+                  <p className="text-sm text-gray-600">Attempted</p>
+                  <p className="text-xl font-semibold">{getTotalProgress().attempted}/{topics.reduce((s,t) => s+t.questionsCount, 0)}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="border-yellow-200 bg-yellow-50/50">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-yellow-100 rounded-full">
-                  <Clock className="h-5 w-5 text-yellow-600" />
+                  <CheckCircle className="h-5 w-5 text-yellow-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Practice Mode</p>
-                  <p className="text-xl font-semibold">Unlimited</p>
+                  <p className="text-sm text-gray-600">Accuracy</p>
+                  <p className="text-xl font-semibold">{getTotalProgress().accuracy}%</p>
                 </div>
               </div>
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="border-purple-200 bg-purple-50/50">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-purple-100 rounded-full">
-                  <MessageCircle className="h-5 w-5 text-purple-600" />
+                  <TrendingUp className="h-5 w-5 text-purple-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Difficulty</p>
-                  <p className="text-xl font-semibold">All Levels</p>
+                  <p className="text-sm text-gray-600">Progress</p>
+                  <p className="text-xl font-semibold">{getTotalProgress().completion}%</p>
                 </div>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Topics Grid */}
+        {/* Topics Grid - Updated with Completion Rings */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {topics.map((topic) => (
-            <Card 
-              key={topic.id} 
-              className={`${getColorClasses(topic.color).bg} ${getColorClasses(topic.color).bgHover} ${getColorClasses(topic.color).border} border-2 hover:shadow-lg transition-all duration-200 cursor-pointer group`}
-            >
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg text-gray-900 group-hover:text-gray-800">
-                  {topic.name}
-                </CardTitle>
-                <div className="flex items-center gap-2">
-                  <span className={`text-xs px-2 py-1 rounded-full font-medium ${getDifficultyColor(topic.difficulty)}`}>
-                    {topic.difficulty}
-                  </span>
-                  <span className="text-xs text-gray-500 flex items-center gap-1">
-                    <Clock className="h-3 w-3" />
-                    {topic.estimatedTime}
-                  </span>
-                </div>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <p className="text-gray-600 text-sm mb-4 leading-relaxed">
-                  {topic.description}
-                </p>
-                
-                <div className="flex items-center justify-between text-xs mb-4">
-                  <span className="text-gray-500">
-                    {topic.questionsCount} Practice Questions
-                  </span>
-                </div>
+          {topics.map((topic) => {
+            const completion = getTopicCompletion(topic.id, topic.questionsCount);
+            const accuracy = getTopicAccuracy(topic.id);
+            
+            return (
+              <Card 
+                key={topic.id} 
+                className={`${getColorClasses(topic.color).bg} ${getColorClasses(topic.color).bgHover} ${getColorClasses(topic.color).border} border-2 hover:shadow-lg transition-all duration-200 cursor-pointer group`}
+              >
+                <CardHeader className="pb-3">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <CardTitle className="text-lg text-gray-900 group-hover:text-gray-800">
+                        {topic.name}
+                      </CardTitle>
+                      <div className="flex items-center gap-2 mt-2">
+                        <span className={`text-xs px-2 py-1 rounded-full font-medium ${getDifficultyColor(topic.difficulty)}`}>
+                          {topic.difficulty}
+                        </span>
+                        <span className="text-xs text-gray-500 flex items-center gap-1">
+                          <Clock className="h-3 w-3" />
+                          {topic.estimatedTime}
+                        </span>
+                      </div>
+                    </div>
+                    {/* Completion Ring */}
+                    <CompletionRing progress={completion} />
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                    {topic.description}
+                  </p>
+                  
+                  <div className="flex items-center justify-between text-xs mb-4">
+                    <span className="text-gray-500">
+                      {topic.questionsCount} Practice Questions
+                    </span>
+                    {accuracy !== null && (
+                      <span className={`font-medium ${accuracy >= 70 ? "text-green-600" : accuracy >= 50 ? "text-yellow-600" : "text-red-600"}`}>
+                        {accuracy}% accuracy
+                      </span>
+                    )}
+                  </div>
 
-                <div className="pt-4 border-t border-gray-200">
-                  <button
-                    className="w-full py-2 px-4 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition-colors"
-                    onClick={() => router.push(`/aptitude/verbal-ability/${topic.id}`)}
-                  >
-                    Start Practice
-                  </button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                  <div className="pt-4 border-t border-gray-200">
+                    <button
+                      className="w-full py-2 px-4 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition-colors"
+                      onClick={() => router.push(`/aptitude/verbal-ability/${topic.id}`)}
+                    >
+                      {completion > 0 ? "Continue Practice" : "Start Practice"}
+                    </button>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
 
         {/* Info Card */}

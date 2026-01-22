@@ -1,13 +1,13 @@
-import { Question } from "@/types/interview";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Question } from "@/types/interview";
+import { Trash2 } from "lucide-react";
 
 interface QuestionCardProps {
   questionNumber: number;
@@ -24,12 +24,12 @@ const questionCard = ({
 }: QuestionCardProps) => {
   return (
     <>
-      <Card className=" shadow-md mb-5 pb-3 ">
-        <CardContent className="p-2 mx-5">
-          <div className="flex flex-row justify-between mt-3 items-baseline ">
-            <CardTitle className="text-lg">Question {questionNumber}</CardTitle>
-            <div className="flex flex-row items-start space-x-1">
-              <h3 className="text-base font-semibold mr-2">Depth Level: </h3>
+      <Card className="shadow-sm border border-gray-200 mb-4 pb-3 hover:shadow-md transition-shadow">
+        <CardContent className="p-4">
+          <div className="flex flex-row justify-between items-center mb-3">
+            <CardTitle className="text-base font-semibold">Question {questionNumber}</CardTitle>
+            <div className="flex flex-row items-center space-x-2">
+              <h3 className="text-sm font-medium text-gray-600 mr-2">Depth Level: </h3>
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>

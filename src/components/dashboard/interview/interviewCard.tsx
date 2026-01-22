@@ -128,9 +128,9 @@ function InterviewCard({ name, interviewerId, id, url, readableSlug }: Props) {
         cursor: isFetching ? "default" : "pointer",
       }}
     >
-      <Card className="relative p-0 inline-block cursor-pointer h-60 w-56 rounded-xl shrink-0 overflow-hidden border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 transition-all duration-300 hover:-translate-y-1 group">
+      <Card className="relative p-0 inline-block cursor-pointer h-60 w-56 rounded-xl shrink-0 overflow-hidden border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm hover:shadow-xl hover:border-gray-300 dark:hover:border-slate-600 transition-all duration-300 hover:-translate-y-1 group">
         <CardContent className={`p-0 ${isFetching ? "opacity-60" : ""}`}>
-          <div className="w-full h-40 overflow-hidden bg-gradient-to-br from-indigo-600 to-indigo-700 flex items-center text-center">
+          <div className="w-full h-40 overflow-hidden bg-gradient-to-br from-indigo-600 to-indigo-700 dark:from-indigo-700 dark:to-indigo-800 flex items-center text-center">
             <CardTitle className="w-full mt-3 mx-2 text-white text-lg font-semibold">
               {name}
               {isFetching && (
@@ -150,24 +150,24 @@ function InterviewCard({ name, interviewerId, id, url, readableSlug }: Props) {
                 className="object-cover object-center rounded-lg"
               />
             </div>
-            <div className="text-gray-800 text-sm font-semibold mt-2 mr-2 whitespace-nowrap">
+            <div className="text-gray-800 dark:text-gray-200 text-sm font-semibold mt-2 mr-2 whitespace-nowrap">
               Responses:{" "}
-              <span className="font-medium text-indigo-600">
+              <span className="font-medium text-indigo-600 dark:text-indigo-400">
                 {responseCount?.toString() || 0}
               </span>
             </div>
           </div>
           <div className="absolute top-2 right-2 flex gap-1.5">
             <Button
-              className="text-xs text-indigo-600 px-1.5 h-7 bg-white/90 hover:bg-white shadow-sm border border-white/50"
+              className="text-xs text-indigo-600 dark:text-indigo-400 px-1.5 h-7 bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-700 shadow-sm border border-white/50 dark:border-slate-600/50"
               variant={"secondary"}
               onClick={handleJumpToInterview}
             >
               <ArrowUpRight size={16} />
             </Button>
             <Button
-              className={`text-xs px-1.5 h-7 bg-white/90 hover:bg-white shadow-sm border border-white/50 ${
-                copied ? "bg-indigo-500 text-white hover:bg-indigo-600" : "text-indigo-600"
+              className={`text-xs px-1.5 h-7 bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-700 shadow-sm border border-white/50 dark:border-slate-600/50 ${
+                copied ? "bg-indigo-500 text-white hover:bg-indigo-600 dark:bg-indigo-600 dark:hover:bg-indigo-500" : "text-indigo-600 dark:text-indigo-400"
               }`}
               variant={"secondary"}
               onClick={(event) => {

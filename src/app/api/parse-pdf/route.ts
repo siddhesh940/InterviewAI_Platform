@@ -1,81 +1,344 @@
 import { convertToLegacyFormat, deterministicParser } from '@/lib/pdf-parser-deterministic';
 import { NextRequest, NextResponse } from 'next/server';
 
+// ============================================================================
+// EXTRACTION CONFIDENCE CALCULATOR
+// ============================================================================
+
+interface ExtractionResult {
+  text: string;
+  extractedChars: number;
+  fileSize: number;
+  isLikelyVectorized: boolean;
+  extractionConfidence: number;
+  extractionMethod: string | null;
+}
+
+function calculateExtractionConfidence(text: string, fileSize: number): number {
+  const charCount = text.trim().length;
+  
+  // HARD FAIL: No text extracted
+  if (charCount === 0) return 0;
+  if (charCount < 50) return 0.05;
+  if (charCount < 100) return 0.15;
+  if (charCount < 200) return 0.25;
+  
+  // Check for gibberish (CID fonts without Unicode mapping)
+  const gibberishRatio = (text.match(/[^\x20-\x7E\n\u00A0-\u024F]/g) || []).length / charCount;
+  if (gibberishRatio > 0.4) return 0.1;
+  if (gibberishRatio > 0.25) return 0.3;
+  
+  // Check for resume keywords
+  const keywordMatches = text.match(/experience|education|skills?|projects?|work|employment|summary|objective|certifications?/gi) || [];
+  const hasKeywords = keywordMatches.length >= 2;
+  
+  if (!hasKeywords && charCount < 500) return 0.35;
+  if (!hasKeywords) return 0.5;
+  
+  // Good extraction
+  if (charCount >= 1000 && hasKeywords) return 0.9;
+  if (charCount >= 500 && hasKeywords) return 0.75;
+  
+  return Math.min(0.85, 0.4 + (charCount / 2000));
+}
+
+// ============================================================================
+// NON-EXTRACTABLE PDF RESPONSE (422)
+// ============================================================================
+
+function createNonExtractableResponse(extractedChars: number, fileSize: number) {
+  const isLikelyVectorized = fileSize > 30000 && extractedChars < 50;
+  
+  return NextResponse.json({
+    success: false,
+    errorCode: 'NON_EXTRACTABLE_PDF',
+    message: isLikelyVectorized
+      ? 'This PDF contains outlined/vectorized text or custom fonts that prevent text extraction.'
+      : 'Unable to extract readable text from this PDF.',
+    extractedChars,
+    fileSize,
+    isLikelyVectorized,
+    confidence: {
+      overall: 0,
+      extraction: 0,
+      skills: 0,
+      experience: 0,
+      projects: 0
+    },
+    solutions: [
+      'Re-export your resume from Word or Google Docs as a standard PDF',
+      'Download your resume from LinkedIn (Profile → More → Save to PDF)',
+      'Use the "Paste Text Instead" option to manually input your resume',
+      'If using Canva/Figma, export with "Embed fonts" option disabled'
+    ],
+    extractedData: null,
+    text: null
+  }, { status: 422 });
+}
+
 // Multi-layer PDF text extraction function
-async function extractTextFromFile(file: File): Promise<string> {
+async function extractTextFromFile(file: File): Promise<ExtractionResult> {
   console.log(`🔄 Extracting text from ${file.type} file...`);
+  const arrayBuffer = await file.arrayBuffer();
+  const fileSize = arrayBuffer.byteLength;
   
   try {
     if (file.type === 'application/pdf') {
-      return await extractFromPDF(file);
+      return await extractFromPDF(file, fileSize);
     } else if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-      return await extractFromDOCX(file);
+      const text = await extractFromDOCX(file);
+      return {
+        text,
+        extractedChars: text.trim().length,
+        fileSize,
+        isLikelyVectorized: false,
+        extractionConfidence: calculateExtractionConfidence(text, fileSize),
+        extractionMethod: 'mammoth-docx'
+      };
     } else {
       // Fallback for text-based files
-      return await file.text();
+      const text = await file.text();
+      return {
+        text,
+        extractedChars: text.trim().length,
+        fileSize,
+        isLikelyVectorized: false,
+        extractionConfidence: calculateExtractionConfidence(text, fileSize),
+        extractionMethod: 'raw-text'
+      };
     }
   } catch (error) {
     console.error('❌ Text extraction failed:', error);
-    throw new Error('Failed to extract text from file');
+    return {
+      text: '',
+      extractedChars: 0,
+      fileSize,
+      isLikelyVectorized: fileSize > 30000,
+      extractionConfidence: 0,
+      extractionMethod: null
+    };
   }
 }
 
-async function extractFromPDF(file: File): Promise<string> {
-  try {
-    // Try pdf-parse first (most reliable for text-based PDFs)
-    console.log('📖 Attempting pdf-parse extraction...');
-    const pdfParse = (await import('pdf-parse')).default;
-    const arrayBuffer = await file.arrayBuffer();
-    const result = await pdfParse(Buffer.from(arrayBuffer));
-    
-    if (result.text && result.text.length > 100) {
-      console.log('✅ pdf-parse successful');
+async function extractFromPDF(file: File, fileSize: number): Promise<ExtractionResult> {
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+  const uint8Array = new Uint8Array(arrayBuffer);
+  
+  let bestText = '';
+  let extractionMethod: string | null = null;
+  const errors: string[] = [];
 
-      return cleanExtractedText(result.text);
+  // Method 1: pdf2json with getRawTextContent (MOST RELIABLE for Node.js)
+  try {
+    console.log('📖 Attempting pdf2json extraction...');
+    const PDFParser = (await import('pdf2json')).default;
+    
+    const text = await new Promise<string>((resolve, reject) => {
+      const pdfParser = new PDFParser();
+      
+      const timeout = setTimeout(() => {
+        reject(new Error('pdf2json timeout'));
+      }, 30000);
+      
+      pdfParser.on('pdfParser_dataReady', () => {
+        clearTimeout(timeout);
+        try {
+          // Use getRawTextContent which is the proper method
+          const rawText = (pdfParser as any).getRawTextContent();
+          console.log(`📖 pdf2json getRawTextContent returned ${rawText?.length || 0} chars`);
+          resolve(rawText || '');
+        } catch (e) {
+          console.log('📖 getRawTextContent failed, trying manual extraction');
+          // Fallback to manual extraction
+          try {
+            const pdfData = (pdfParser as any).data;
+            let extractedText = '';
+            if (pdfData && pdfData.Pages) {
+              for (const page of pdfData.Pages) {
+                if (page.Texts) {
+                  for (const textItem of page.Texts) {
+                    if (textItem.R) {
+                      for (const r of textItem.R) {
+                        if (r.T) {
+                          try {
+                            extractedText += decodeURIComponent(r.T) + ' ';
+                          } catch {
+                            extractedText += r.T + ' ';
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+                extractedText += '\n';
+              }
+            }
+            resolve(extractedText.trim());
+          } catch (fallbackErr) {
+            reject(fallbackErr);
+          }
+        }
+      });
+      
+      pdfParser.on('pdfParser_dataError', (err: any) => {
+        clearTimeout(timeout);
+        reject(err?.parserError || err);
+      });
+      
+      pdfParser.parseBuffer(buffer);
+    });
+    
+    if (text.trim().length > bestText.trim().length) {
+      bestText = text;
+      extractionMethod = 'pdf2json';
+      console.log(`✅ pdf2json extracted ${bestText.length} characters`);
     }
-  } catch (error) {
-    console.warn('⚠️ pdf-parse failed:', error);
+  } catch (error: any) {
+    console.warn('⚠️ pdf2json failed:', error?.message || error);
+    errors.push(`pdf2json: ${error instanceof Error ? error.message : 'Unknown'}`);
   }
 
-  try {
-    // Fallback to pdfjs-dist
-    console.log('📖 Attempting pdfjs-dist extraction...');
-    const pdfjsLib = await import('pdfjs-dist');
-    
-    // Set worker source for Node.js environment
-    if (typeof window === 'undefined') {
-      // Use the correct worker path for pdfjs-dist
-      pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.js`;
-    }
-    
-    const arrayBuffer = await file.arrayBuffer();
-    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-    
-    let fullText = '';
-    const numPages = Math.min(pdf.numPages, 10); // Limit to first 10 pages
-    
-    for (let pageNum = 1; pageNum <= numPages; pageNum++) {
-      const page = await pdf.getPage(pageNum);
-      const textContent = await page.getTextContent();
+  // Method 2: unpdf (uses pdfjs under hood but simpler API)
+  if (bestText.trim().length < 100) {
+    try {
+      console.log('📖 Attempting unpdf extraction...');
+      const { extractText } = await import('unpdf');
+      const result = await extractText(uint8Array, { mergePages: true });
       
-      const pageText = textContent.items
-        .filter((item: any) => 'str' in item)
-        .map((item: any) => item.str)
-        .join(' ');
-      
-      fullText += pageText + '\n';
+      if (result.text && result.text.trim().length > bestText.trim().length) {
+        bestText = result.text;
+        extractionMethod = 'unpdf';
+        console.log(`✅ unpdf extracted ${bestText.length} characters`);
+      }
+    } catch (error: any) {
+      console.warn('⚠️ unpdf failed:', error?.message || error);
+      errors.push(`unpdf: ${error instanceof Error ? error.message : 'Unknown'}`);
     }
-    
-    if (fullText.length > 50) {
-      console.log('✅ pdfjs-dist successful');
-
-      return cleanExtractedText(fullText);
-    }
-  } catch (error) {
-    console.warn('⚠️ pdfjs-dist failed:', error);
   }
 
-  throw new Error('All PDF extraction methods failed');
+  // Method 3: pdf-parse with custom render
+  if (bestText.trim().length < 100) {
+    try {
+      console.log('📖 Attempting pdf-parse extraction...');
+      const pdfParse = (await import('pdf-parse/lib/pdf-parse.js')).default;
+      
+      // Custom render function to better extract text
+      const options = {
+        pagerender: (pageData: any) => {
+          return pageData.getTextContent().then((textContent: any) => {
+            let text = '';
+            for (const item of textContent.items) {
+              text += item.str + ' ';
+            }
+            return text;
+          });
+        }
+      };
+      
+      const result = await pdfParse(buffer, options);
+      
+      if (result.text && result.text.trim().length > bestText.length) {
+        bestText = result.text;
+        extractionMethod = 'pdf-parse';
+        console.log(`✅ pdf-parse extracted ${bestText.length} characters`);
+      }
+    } catch (error: any) {
+      console.warn('⚠️ pdf-parse failed:', error?.message || error);
+      errors.push(`pdf-parse: ${error instanceof Error ? error.message : 'Unknown'}`);
+    }
+  }
+
+  // Method 4: Enhanced raw buffer text extraction
+  if (bestText.trim().length < 50) {
+    try {
+      console.log('📖 Attempting raw buffer text extraction...');
+      
+      const rawText = buffer.toString('latin1'); // Use latin1 for better binary handling
+      
+      // PDF text streams pattern - text between BT and ET markers
+      const btEtPattern = /BT\s*([\s\S]*?)\s*ET/g;
+      let streamText = '';
+      let match;
+      
+      while ((match = btEtPattern.exec(rawText)) !== null) {
+        // Extract text from Tj and TJ operators
+        const tjMatches = match[1].match(/\(([^)]*)\)\s*Tj/g);
+        if (tjMatches) {
+          for (const tj of tjMatches) {
+            const text = tj.match(/\(([^)]*)\)/);
+            if (text) streamText += text[1] + ' ';
+          }
+        }
+        
+        // TJ arrays
+        const tjArrays = match[1].match(/\[(.*?)\]\s*TJ/g);
+        if (tjArrays) {
+          for (const tjArray of tjArrays) {
+            const strings = tjArray.match(/\(([^)]*)\)/g);
+            if (strings) {
+              for (const s of strings) {
+                streamText += s.slice(1, -1) + '';
+              }
+            }
+          }
+        }
+      }
+      
+      // Also extract any readable text patterns
+      const readablePattern = /[A-Za-z][A-Za-z0-9\s@.,\-:;!?'"()]{10,}/g;
+      const readableMatches = rawText.match(readablePattern);
+      let readableText = '';
+      if (readableMatches) {
+        readableText = readableMatches
+          .filter(t => !/^[A-Z][a-z]+$/.test(t)) // Filter out single words
+          .join(' ');
+      }
+      
+      const extractedFromRaw = streamText.length > readableText.length ? streamText : readableText;
+      
+      if (extractedFromRaw.trim().length > bestText.trim().length) {
+        bestText = extractedFromRaw;
+        extractionMethod = 'raw-buffer';
+        console.log(`✅ Raw extraction got ${bestText.length} characters`);
+      }
+    } catch (error) {
+      console.warn('⚠️ Raw extraction failed:', error);
+      errors.push(`raw: ${error instanceof Error ? error.message : 'Unknown'}`);
+    }
+  }
+
+  // Clean up extracted text
+  bestText = bestText
+    .replace(/\r\n/g, '\n')
+    .replace(/\r/g, '\n')
+    .replace(/[ \t]+/g, ' ')
+    .replace(/\n\s*\n\s*\n/g, '\n\n')
+    .trim();
+
+  const extractedChars = bestText.length;
+  const isLikelyVectorized = fileSize > 30000 && extractedChars < 50;
+  const extractionConfidence = calculateExtractionConfidence(bestText, fileSize);
+
+  // Log extraction result
+  if (extractedChars < 50) {
+    console.error('❌ All extraction methods failed or returned minimal text');
+    console.log(`📋 Errors: ${errors.join('; ')}`);
+    console.log(`📊 File size: ${fileSize} bytes, Extracted: ${extractedChars} chars`);
+    console.log(`🔍 Likely vectorized: ${isLikelyVectorized}`);
+  } else {
+    console.log(`✅ Final extracted text: ${extractedChars} characters`);
+    console.log(`📊 Extraction confidence: ${(extractionConfidence * 100).toFixed(1)}%`);
+  }
+
+  return {
+    text: extractedChars >= 50 ? cleanExtractedText(bestText) : bestText,
+    extractedChars,
+    fileSize,
+    isLikelyVectorized,
+    extractionConfidence,
+    extractionMethod
+  };
 }
 
 async function extractFromDOCX(file: File): Promise<string> {
@@ -124,58 +387,107 @@ function cleanExtractedText(text: string): string {
 
 export async function POST(request: NextRequest) {
   try {
-    const formData = await request.formData();
-    const file = formData.get('file') as File;
-
-    if (!file) {
-      return NextResponse.json(
-        { error: 'No file provided' },
-        { status: 400 }
-      );
-    }
-
-    // Validate file type
-    const allowedTypes = [
-      'application/pdf',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-    ];
-
-    if (!allowedTypes.includes(file.type)) {
-      return NextResponse.json(
-        { error: 'Invalid file type. Only PDF and DOCX files are supported.' },
-        { status: 400 }
-      );
-    }
-
-    // Validate file size (10MB limit)
-    const maxSize = 10 * 1024 * 1024; // 10MB
-    if (file.size > maxSize) {
-      return NextResponse.json(
-        { error: 'File size too large. Maximum size is 10MB.' },
-        { status: 400 }
-      );
-    }
-
-    console.log(`🔍 Starting PDF extraction for: ${file.name} (${file.type})`);
+    const contentType = request.headers.get('content-type') || '';
     
-    // Multi-layer extraction pipeline
-    const extractedText = await extractTextFromFile(file);
-    console.log(`📄 Extracted text length: ${extractedText.length} characters`);
+    let extractionResult: ExtractionResult;
+    let fileName = 'unknown';
     
-    if (!extractedText || extractedText.length < 50) {
-      return NextResponse.json({
-        success: false,
-        error: 'Failed to extract text from PDF. Please ensure the file contains readable text.',
-        extractedLength: extractedText.length
-      }, { status: 400 });
+    // Handle JSON body (manual text input)
+    if (contentType.includes('application/json')) {
+      const body = await request.json();
+      
+      if (!body.text || body.text.trim().length < 50) {
+        return NextResponse.json({
+          success: false,
+          errorCode: 'TEXT_TOO_SHORT',
+          message: 'Text is too short. Please provide at least 50 characters.',
+          extractedChars: body.text?.length || 0,
+          extractedData: null
+        }, { status: 400 });
+      }
+      
+      console.log(`🔍 Processing manual text input (${body.text.length} characters)`);
+      const cleanedText = cleanExtractedText(body.text);
+      fileName = 'Manual Text Input';
+      
+      extractionResult = {
+        text: cleanedText,
+        extractedChars: cleanedText.length,
+        fileSize: body.text.length,
+        isLikelyVectorized: false,
+        extractionConfidence: 0.95, // Manual input is trusted
+        extractionMethod: 'manual-input'
+      };
+    } 
+    // Handle FormData (file upload)
+    else {
+      const formData = await request.formData();
+      const file = formData.get('file') as File;
+
+      if (!file) {
+        return NextResponse.json({
+          success: false,
+          errorCode: 'NO_FILE',
+          message: 'No file provided',
+          extractedData: null
+        }, { status: 400 });
+      }
+
+      // Validate file type
+      const allowedTypes = [
+        'application/pdf',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      ];
+
+      if (!allowedTypes.includes(file.type)) {
+        return NextResponse.json({
+          success: false,
+          errorCode: 'INVALID_FILE_TYPE',
+          message: 'Invalid file type. Only PDF and DOCX files are supported.',
+          extractedData: null
+        }, { status: 400 });
+      }
+
+      // Validate file size (10MB limit)
+      const maxSize = 10 * 1024 * 1024; // 10MB
+      if (file.size > maxSize) {
+        return NextResponse.json({
+          success: false,
+          errorCode: 'FILE_TOO_LARGE',
+          message: 'File size too large. Maximum size is 10MB.',
+          extractedData: null
+        }, { status: 400 });
+      }
+
+      console.log(`🔍 Starting PDF extraction for: ${file.name} (${file.type})`);
+      fileName = file.name;
+      
+      // Multi-layer extraction pipeline
+      extractionResult = await extractTextFromFile(file);
     }
+    
+    // =========================================================================
+    // CRITICAL: NON-EXTRACTABLE PDF GATE (422 Response)
+    // =========================================================================
+    if (extractionResult.extractedChars < 50) {
+      console.log(`🚫 NON-EXTRACTABLE PDF detected: ${extractionResult.extractedChars} chars from ${extractionResult.fileSize} bytes`);
+      return createNonExtractableResponse(extractionResult.extractedChars, extractionResult.fileSize);
+    }
+    
+    console.log(`📄 Extracted text: ${extractionResult.extractedChars} characters`);
+    console.log(`📊 Extraction confidence: ${(extractionResult.extractionConfidence * 100).toFixed(1)}%`);
     
     // Parse with DETERMINISTIC parser - same input = same output ALWAYS
-    const rawResult = deterministicParser.parse(extractedText);
+    const rawResult = deterministicParser.parse(extractionResult.text);
     const parsedResume = convertToLegacyFormat(rawResult);
     
-    console.log(`📊 Parsing Results: ${(parsedResume.confidence.overall * 100).toFixed(1)}% confidence, ${parsedResume.warnings.length} warnings`);
-    console.log(`🔑 Parse ID: ${rawResult.parseId} (use this to verify determinism)`);
+    // Calculate combined confidence (extraction + parsing)
+    const parsingConfidence = parsedResume.confidence.overall;
+    const combinedConfidence = Math.min(extractionResult.extractionConfidence, parsingConfidence);
+    
+    console.log(`📊 Parsing Results: ${(parsingConfidence * 100).toFixed(1)}% confidence`);
+    console.log(`📊 Combined Confidence: ${(combinedConfidence * 100).toFixed(1)}%`);
+    console.log(`🔑 Parse ID: ${rawResult.parseId}`);
 
     // Transform extracted data to match expected format
     const experienceStrings = parsedResume.extractedData.experience.map(exp => 
@@ -219,17 +531,26 @@ export async function POST(request: NextRequest) {
       education: educationStrings,
       projects: projectStrings,
       achievements: parsedResume.extractedData.achievements.map(a => a.title),
-      extractionMethod: parsedResume.parseMethod,
+      extractionMethod: extractionResult.extractionMethod || parsedResume.parseMethod,
       contact: parsedResume.extractedData.personalInfo,
       summary: parsedResume.extractedData.summary,
       // Return confidence as OBJECT with overall, skills, experience, projects
       confidence: {
-        overall: parsedResume.confidence.overall,
+        overall: combinedConfidence,
+        extraction: extractionResult.extractionConfidence,
+        parsing: parsingConfidence,
         skills: parsedResume.confidence.sections?.skills || 0,
         experience: parsedResume.confidence.sections?.experience || 0,
         projects: parsedResume.confidence.sections?.projects || 0
       },
       warnings: parsedResume.warnings,
+      // Extraction metadata for debugging
+      extractionDetails: {
+        extractedChars: extractionResult.extractedChars,
+        fileSize: extractionResult.fileSize,
+        method: extractionResult.extractionMethod,
+        isLikelyVectorized: extractionResult.isLikelyVectorized
+      },
       // Enhanced structured data with categorized skills
       structuredData: {
         experience: parsedResume.extractedData.experience,
@@ -255,9 +576,36 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Error in parse-pdf API:', error);
     
-    return NextResponse.json(
-      { error: 'Internal server error while processing file' },
-      { status: 500 }
-    );
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    
+    // Check if it's a PDF extraction failure (legacy handling)
+    if (errorMessage.includes('PDF_EXTRACTION_FAILED') || 
+        errorMessage.includes('scanned') || 
+        errorMessage.includes('image-based') ||
+        errorMessage.includes('vectorized')) {
+      return NextResponse.json({
+        success: false,
+        errorCode: 'NON_EXTRACTABLE_PDF',
+        message: 'This PDF contains text that cannot be extracted programmatically.',
+        extractedChars: 0,
+        fileSize: 0,
+        confidence: { overall: 0 },
+        solutions: [
+          'Re-export your resume from Word or Google Docs as a standard PDF',
+          'Download your resume from LinkedIn (Profile → More → Save to PDF)',
+          'Use the "Paste Text Instead" option to manually input your resume'
+        ],
+        extractedData: null
+      }, { status: 422 });
+    }
+    
+    // Actual server error (not extraction failure)
+    return NextResponse.json({
+      success: false,
+      errorCode: 'SERVER_ERROR',
+      message: 'Internal server error while processing file',
+      userMessage: 'Something went wrong. Please try again or use the paste text option.',
+      extractedData: null
+    }, { status: 500 });
   }
 }

@@ -9,9 +9,9 @@ import { INTERVIEWERS } from "@/lib/constants";
 import { InterviewBase, Question } from "@/types/interview";
 import { Interviewer } from "@/types/interviewer";
 import axios from "axios";
-import { ChevronLeft, ChevronRight, Info } from "lucide-react";
+import { Info } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import FileUpload from "../fileUpload";
 
@@ -26,6 +26,52 @@ interface Props {
   setFileName: (fileName: string) => void;
 }
 
+// Static fallback interviewers - defined outside component to prevent recreation
+const FALLBACK_INTERVIEWERS: Interviewer[] = [
+  {
+    id: BigInt(1),
+    user_id: '',
+    created_at: new Date(),
+    agent_id: 'fallback-lisa',
+    name: INTERVIEWERS.LISA.name,
+    description: INTERVIEWERS.LISA.description,
+    image: INTERVIEWERS.LISA.image,
+    audio: INTERVIEWERS.LISA.audio,
+    empathy: INTERVIEWERS.LISA.empathy,
+    exploration: INTERVIEWERS.LISA.exploration,
+    rapport: INTERVIEWERS.LISA.rapport,
+    speed: INTERVIEWERS.LISA.speed,
+  },
+  {
+    id: BigInt(2),
+    user_id: '',
+    created_at: new Date(),
+    agent_id: 'fallback-bob',
+    name: INTERVIEWERS.BOB.name,
+    description: INTERVIEWERS.BOB.description,
+    image: INTERVIEWERS.BOB.image,
+    audio: INTERVIEWERS.BOB.audio,
+    empathy: INTERVIEWERS.BOB.empathy,
+    exploration: INTERVIEWERS.BOB.exploration,
+    rapport: INTERVIEWERS.BOB.rapport,
+    speed: INTERVIEWERS.BOB.speed,
+  }
+];
+
+// Helper function to deduplicate interviewers by name
+function getUniqueInterviewers(interviewers: Interviewer[]): Interviewer[] {
+  const seen = new Set<string>();
+  
+return interviewers.filter(interviewer => {
+    if (seen.has(interviewer.name)) {
+      return false;
+    }
+    seen.add(interviewer.name);
+    
+return true;
+  });
+}
+
 function DetailsPopup({
   open,
   setLoading,
@@ -38,41 +84,16 @@ function DetailsPopup({
 }: Props) {
   const { interviewers, interviewersLoading } = useInterviewers();
   
-  // Create fallback interviewers from constants if database is empty
-  const fallbackInterviewers: Interviewer[] = [
-    {
-      id: BigInt(1),
-      user_id: '',
-      created_at: new Date(),
-      agent_id: 'temp-lisa',
-      name: INTERVIEWERS.LISA.name,
-      description: INTERVIEWERS.LISA.description,
-      image: INTERVIEWERS.LISA.image,
-      audio: INTERVIEWERS.LISA.audio,
-      empathy: INTERVIEWERS.LISA.empathy,
-      exploration: INTERVIEWERS.LISA.exploration,
-      rapport: INTERVIEWERS.LISA.rapport,
-      speed: INTERVIEWERS.LISA.speed,
-    },
-    {
-      id: BigInt(2),
-      user_id: '',
-      created_at: new Date(),
-      agent_id: 'temp-bob',
-      name: INTERVIEWERS.BOB.name,
-      description: INTERVIEWERS.BOB.description,
-      image: INTERVIEWERS.BOB.image,
-      audio: INTERVIEWERS.BOB.audio,
-      empathy: INTERVIEWERS.BOB.empathy,
-      exploration: INTERVIEWERS.BOB.exploration,
-      rapport: INTERVIEWERS.BOB.rapport,
-      speed: INTERVIEWERS.BOB.speed,
+  // Compute display interviewers with deduplication - stable reference
+  const displayInterviewers = useMemo(() => {
+    if (interviewersLoading) {
+      return [];
     }
-  ];
+    const source = interviewers.length > 0 ? interviewers : FALLBACK_INTERVIEWERS;
+    
+return getUniqueInterviewers(source);
+  }, [interviewers, interviewersLoading]);
   
-  // Use fallback interviewers if none are loaded and not loading
-  const displayInterviewers = interviewers.length > 0 ? interviewers : 
-                              (!interviewersLoading ? fallbackInterviewers : []);
   const [isClicked, setIsClicked] = useState(false);
   const [openInterviewerDetails, setOpenInterviewerDetails] = useState(false);
   const [interviewerDetails, setInterviewerDetails] = useState<Interviewer>();
@@ -92,20 +113,6 @@ function DetailsPopup({
   );
   const [duration, setDuration] = useState(interviewData.time_duration);
   const [uploadedDocumentContext, setUploadedDocumentContext] = useState("");
-
-  const slideLeft = (id: string, value: number) => {
-    var slider = document.getElementById(`${id}`);
-    if (slider) {
-      slider.scrollLeft = slider.scrollLeft - value;
-    }
-  };
-
-  const slideRight = (id: string, value: number) => {
-    var slider = document.getElementById(`${id}`);
-    if (slider) {
-      slider.scrollLeft = slider.scrollLeft + value;
-    }
-  };
 
   const onGenrateQuestions = async () => {
     setLoading(true);
@@ -179,16 +186,11 @@ function DetailsPopup({
 
   // Auto-select first interviewer when interviewers are loaded and none is selected
   useEffect(() => {
-    console.log('🎯 Interviewers in details component:', interviewers);
-    console.log('🎯 Display interviewers:', displayInterviewers);
-    console.log('🎯 Current selected interviewer:', selectedInterviewer);
-    console.log('🎯 Interviewers loading:', interviewersLoading);
-    
     if (displayInterviewers.length > 0 && selectedInterviewer === BigInt(0)) {
-      console.log('🎯 Auto-selecting first interviewer:', displayInterviewers[0]);
       setSelectedInterviewer(displayInterviewers[0].id);
     }
-  }, [interviewers, displayInterviewers, selectedInterviewer, interviewersLoading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displayInterviewers.length, selectedInterviewer]);
 
   return (
     <>
@@ -221,10 +223,10 @@ function DetailsPopup({
                   <div className="text-red-500">No interviewers available</div>
                 </div>
               ) : (
-                displayInterviewers.map((item, key) => (
+                displayInterviewers.map((item) => (
                 <div
                   className=" p-0 inline-block cursor-pointer ml-1 mr-5 rounded-xl shrink-0 overflow-hidden"
-                  key={item.id}
+                  key={`interviewer-${item.agent_id}`}
                 >
                   <button
                     className="absolute ml-9"
@@ -259,22 +261,6 @@ function DetailsPopup({
                 ))
               )}
             </div>
-            {interviewers.length > 4 ? (
-              <div className="flex-row justify-center ml-3 mb-1 items-center space-y-6">
-                <ChevronRight
-                  className="opacity-50 cursor-pointer hover:opacity-100"
-                  size={27}
-                  onClick={() => slideRight("slider-3", 115)}
-                />
-                <ChevronLeft
-                  className="opacity-50 cursor-pointer hover:opacity-100"
-                  size={27}
-                  onClick={() => slideLeft("slider-3", 115)}
-                />
-              </div>
-            ) : (
-              <></>
-            )}
           </div>
           <h3 className="text-sm font-medium">Objective:</h3>
           <Textarea

@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTimeMachineStore } from "@/stores/timeMachineStore";
+import { motion } from "framer-motion";
 import { ArrowRight, Brain, DollarSign, Rocket, Sparkles, TrendingUp, Upload, Zap } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -26,71 +27,128 @@ export default function TimeMachinePage() {
   };
 
   return (
-    <div className="page-container">
+    <motion.div 
+      className="page-container"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="content-container max-w-6xl">
         
         {/* Hero Section */}
-        <div className="text-center mb-14 animate-fade-in-up">
+        <motion.div 
+          className="text-center mb-14"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
           <div className="flex items-center justify-center gap-4 mb-8">
-            <div className="p-4 bg-gradient-to-br from-purple-500 to-blue-600 rounded-2xl shadow-lg shadow-purple-200 section-icon">
+            <motion.div 
+              className="p-4 bg-gradient-to-br from-purple-500 to-blue-600 rounded-2xl shadow-lg shadow-purple-200"
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+              whileHover={{ scale: 1.1 }}
+            >
               <Zap className="h-10 w-10 text-white" />
-            </div>
-            <div className="p-4 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl shadow-lg shadow-blue-200 animate-pulse">
+            </motion.div>
+            <motion.div 
+              className="p-4 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl shadow-lg shadow-blue-200"
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+              whileHover={{ scale: 1.1, rotate: 5 }}
+            >
               <Sparkles className="h-10 w-10 text-white" />
-            </div>
-            <div className="p-4 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl shadow-lg shadow-indigo-200 section-icon">
+            </motion.div>
+            <motion.div 
+              className="p-4 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl shadow-lg shadow-indigo-200"
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
+              whileHover={{ scale: 1.1 }}
+            >
               <TrendingUp className="h-10 w-10 text-white" />
-            </div>
+            </motion.div>
           </div>
           
-          <h1 className="text-5xl font-bold text-gray-900 mb-5">
-            Meet Your Future Self — Powered by AI Time Machine
-          </h1>
+          <motion.h1 
+            className="text-5xl font-bold text-gray-900 mb-5"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
+            Meet Your Future Self — Powered by AI Time Machine ⏳
+          </motion.h1>
           
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed">
+          <motion.p 
+            className="text-xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+          >
             Predict who you will become in 30–90 days using resume + interview performance + AI analysis.
             Get detailed insights into your future skills, salary, projects, and career trajectory.
-          </p>
+          </motion.p>
 
           {/* Primary Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-14">
-            <Button 
-              size="lg" 
-              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 px-8 py-5 text-lg font-semibold shadow-lg shadow-purple-200 hover:shadow-xl hover:shadow-purple-300 transition-all duration-300"
-              onClick={handleStartPrediction}
-            >
-              <Rocket className="h-5 w-5 mr-2" />
-              Start Prediction
-              <ArrowRight className="h-5 w-5 ml-2" />
-            </Button>
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-4 justify-center mb-14"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+          >
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button 
+                size="lg" 
+                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 px-8 py-5 text-lg font-semibold shadow-lg shadow-purple-200 hover:shadow-xl hover:shadow-purple-300 transition-all duration-300"
+                onClick={handleStartPrediction}
+              >
+                <Rocket className="h-5 w-5 mr-2" />
+                Start Prediction
+                <ArrowRight className="h-5 w-5 ml-2" />
+              </Button>
+            </motion.div>
             
-            <Button 
-              size="lg" 
-              variant="outline"
-              className="border-2 border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-5 text-lg font-semibold hover:shadow-lg transition-all duration-300"
-              onClick={handleUploadResume}
-            >
-              <Upload className="h-5 w-5 mr-2" />
-              Upload Resume
-            </Button>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button 
+                size="lg" 
+                variant="outline"
+                className="border-2 border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-5 text-lg font-semibold hover:shadow-lg transition-all duration-300"
+                onClick={handleUploadResume}
+              >
+                <Upload className="h-5 w-5 mr-2" />
+                Upload Resume
+              </Button>
+            </motion.div>
             
-            <Button 
-              size="lg" 
-              variant="outline"
-              className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-5 text-lg font-semibold hover:shadow-lg transition-all duration-300"
-              onClick={handlePredictJobRole}
-            >
-              <Brain className="h-5 w-5 mr-2" />
-              Predict My Future Job Role
-            </Button>
-          </div>
-        </div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button 
+                size="lg" 
+                variant="outline"
+                className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-5 text-lg font-semibold hover:shadow-lg transition-all duration-300"
+                onClick={handlePredictJobRole}
+              >
+                <Brain className="h-5 w-5 mr-2" />
+                Predict My Future Job Role
+              </Button>
+            </motion.div>
+          </motion.div>
+        </motion.div>
 
         {/* Feature Showcase */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16 grid-animate">
-          <Card className="card-bordered group cursor-pointer hover:shadow-xl border-l-4 border-l-purple-500">
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.4 }}
+            whileHover={{ y: -8, scale: 1.02 }}
+          >
+          <Card className="card-bordered group cursor-pointer hover:shadow-xl border-l-4 border-l-purple-500 h-full">
             <CardHeader>
-              <div className="p-4 bg-purple-50 rounded-xl mx-auto mb-4 w-fit group-hover:bg-purple-100 transition-all duration-300 icon-hover-scale">
+              <div className="p-4 bg-purple-50 rounded-xl mx-auto mb-4 w-fit group-hover:bg-purple-100 transition-all duration-300">
                 <TrendingUp className="h-8 w-8 text-purple-600" />
               </div>
               <CardTitle className="text-xl font-semibold text-center group-hover:text-purple-600 transition-colors">Future Skills Prediction</CardTitle>
@@ -107,10 +165,17 @@ export default function TimeMachinePage() {
               </ul>
             </CardContent>
           </Card>
+          </motion.div>
 
-          <Card className="card-bordered group cursor-pointer hover:shadow-xl border-l-4 border-l-blue-500">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.4 }}
+            whileHover={{ y: -8, scale: 1.02 }}
+          >
+          <Card className="card-bordered group cursor-pointer hover:shadow-xl border-l-4 border-l-blue-500 h-full">
             <CardHeader>
-              <div className="p-4 bg-blue-50 rounded-xl mx-auto mb-4 w-fit group-hover:bg-blue-100 transition-all duration-300 icon-hover-scale">
+              <div className="p-4 bg-blue-50 rounded-xl mx-auto mb-4 w-fit group-hover:bg-blue-100 transition-all duration-300">
                 <Rocket className="h-8 w-8 text-blue-600" />
               </div>
               <CardTitle className="text-xl font-semibold text-center group-hover:text-blue-600 transition-colors">Future Projects & Role</CardTitle>
@@ -127,10 +192,17 @@ export default function TimeMachinePage() {
               </ul>
             </CardContent>
           </Card>
+          </motion.div>
 
-          <Card className="card-bordered group cursor-pointer hover:shadow-xl border-l-4 border-l-green-500">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.4 }}
+            whileHover={{ y: -8, scale: 1.02 }}
+          >
+          <Card className="card-bordered group cursor-pointer hover:shadow-xl border-l-4 border-l-green-500 h-full">
             <CardHeader>
-              <div className="p-4 bg-green-50 rounded-xl mx-auto mb-4 w-fit group-hover:bg-green-100 transition-all duration-300 icon-hover-scale">
+              <div className="p-4 bg-green-50 rounded-xl mx-auto mb-4 w-fit group-hover:bg-green-100 transition-all duration-300">
                 <Brain className="h-8 w-8 text-green-600" />
               </div>
               <CardTitle className="text-xl font-semibold text-center group-hover:text-green-600 transition-colors">30/60/90 Day Roadmap</CardTitle>
@@ -147,10 +219,17 @@ export default function TimeMachinePage() {
               </ul>
             </CardContent>
           </Card>
+          </motion.div>
 
-          <Card className="card-bordered group cursor-pointer hover:shadow-xl border-l-4 border-l-amber-500">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9, duration: 0.4 }}
+            whileHover={{ y: -8, scale: 1.02 }}
+          >
+          <Card className="card-bordered group cursor-pointer hover:shadow-xl border-l-4 border-l-amber-500 h-full">
             <CardHeader>
-              <div className="p-4 bg-amber-50 rounded-xl mx-auto mb-4 w-fit group-hover:bg-amber-100 transition-all duration-300 icon-hover-scale">
+              <div className="p-4 bg-amber-50 rounded-xl mx-auto mb-4 w-fit group-hover:bg-amber-100 transition-all duration-300">
                 <DollarSign className="h-8 w-8 text-amber-600" />
               </div>
               <CardTitle className="text-xl font-semibold text-center group-hover:text-amber-600 transition-colors">Salary Prediction</CardTitle>
@@ -167,12 +246,19 @@ export default function TimeMachinePage() {
               </ul>
             </CardContent>
           </Card>
+          </motion.div>
 
           {/* Future Resume Generation card removed - feature disabled */}
 
-          <Card className="card-bordered group cursor-pointer hover:shadow-xl border-l-4 border-l-indigo-500">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.0, duration: 0.4 }}
+            whileHover={{ y: -8, scale: 1.02 }}
+          >
+          <Card className="card-bordered group cursor-pointer hover:shadow-xl border-l-4 border-l-indigo-500 h-full">
             <CardHeader>
-              <div className="p-4 bg-indigo-50 rounded-xl mx-auto mb-4 w-fit group-hover:bg-indigo-100 transition-all duration-300 icon-hover-scale">
+              <div className="p-4 bg-indigo-50 rounded-xl mx-auto mb-4 w-fit group-hover:bg-indigo-100 transition-all duration-300">
                 <Sparkles className="h-8 w-8 text-indigo-600" />
               </div>
               <CardTitle className="text-xl font-semibold text-center group-hover:text-indigo-600 transition-colors">AI-Powered Analysis</CardTitle>
@@ -189,10 +275,17 @@ export default function TimeMachinePage() {
               </ul>
             </CardContent>
           </Card>
+          </motion.div>
 
-          <Card className="card-bordered group cursor-pointer hover:shadow-xl border-l-4 border-l-pink-500">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.1, duration: 0.4 }}
+            whileHover={{ y: -8, scale: 1.02 }}
+          >
+          <Card className="card-bordered group cursor-pointer hover:shadow-xl border-l-4 border-l-pink-500 h-full">
             <CardHeader>
-              <div className="p-4 bg-pink-50 rounded-xl mx-auto mb-4 w-fit group-hover:bg-pink-100 transition-all duration-300 icon-hover-scale">
+              <div className="p-4 bg-pink-50 rounded-xl mx-auto mb-4 w-fit group-hover:bg-pink-100 transition-all duration-300">
                 <TrendingUp className="h-8 w-8 text-pink-600" />
               </div>
               <CardTitle className="text-xl font-semibold text-center group-hover:text-pink-600 transition-colors">Before vs After</CardTitle>
@@ -209,14 +302,20 @@ export default function TimeMachinePage() {
               </ul>
             </CardContent>
           </Card>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* How It Works Section */}
-        <Card className="card-bordered p-10 mb-12 animate-fade-in-up delay-150">
-          <h2 className="text-3xl font-bold text-gray-900 mb-10 text-center">How Time Machine Works</h2>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2, duration: 0.5 }}
+        >
+        <Card className="card-bordered p-10 mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-10 text-center">How Time Machine Works ⚙️</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             <div className="text-center group">
-              <div className="p-5 bg-blue-50 rounded-2xl mx-auto mb-5 w-fit group-hover:bg-blue-100 transition-all duration-300 icon-hover-scale">
+              <div className="p-5 bg-blue-50 rounded-2xl mx-auto mb-5 w-fit group-hover:bg-blue-100 transition-all duration-300">
                 <Upload className="h-8 w-8 text-blue-600" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-3 text-lg">1. Data Collection</h3>
@@ -244,24 +343,33 @@ export default function TimeMachinePage() {
             </div>
           </div>
         </Card>
+        </motion.div>
 
         {/* CTA Section */}
-        <div className="text-center bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 rounded-2xl p-14 text-white shadow-xl shadow-indigo-200 animate-fade-in-up delay-300">
-          <h2 className="text-3xl font-bold mb-5">Ready to Meet Your Future Self?</h2>
+        <motion.div
+          className="text-center bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 rounded-2xl p-14 text-white shadow-xl shadow-indigo-200"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.3, duration: 0.5 }}
+          whileHover={{ scale: 1.01 }}
+        >
+          <h2 className="text-3xl font-bold mb-5">Ready to Meet Your Future Self? 🚀</h2>
           <p className="text-xl mb-10 opacity-90 max-w-xl mx-auto">
             Start your AI-powered career prediction journey today.
           </p>
-          <Button 
-            size="lg" 
-            className="bg-white text-purple-600 hover:bg-gray-50 px-14 py-5 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
-            onClick={handleStartPrediction}
-          >
-            <Zap className="h-5 w-5 mr-2" />
-            Begin Time Machine Analysis
-            <ArrowRight className="h-5 w-5 ml-2" />
-          </Button>
-        </div>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Button 
+              size="lg" 
+              className="bg-white text-purple-600 hover:bg-gray-50 px-14 py-5 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+              onClick={handleStartPrediction}
+            >
+              <Zap className="h-5 w-5 mr-2" />
+              Begin Time Machine Analysis
+              <ArrowRight className="h-5 w-5 ml-2" />
+            </Button>
+          </motion.div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }

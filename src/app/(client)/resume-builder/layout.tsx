@@ -1,6 +1,6 @@
 "use client";
 
-import { ResumeProvider } from '@/contexts/ResumeContext';
+import { ResumeBuilderProvider } from '@/contexts/ResumeBuilderContext';
 
 export default function ResumeBuilderLayout({
   children,
@@ -8,8 +8,8 @@ export default function ResumeBuilderLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ResumeProvider>
+    <ResumeBuilderProvider>
       {children}
-    </ResumeProvider>
+    </ResumeBuilderProvider>
   );
 }

@@ -481,39 +481,45 @@ return (
               <div className="flex flex-row p-2 grow">
                 <div className="border-x-2 border-grey w-[50%] my-auto min-h-[70%]">
                   <div className="flex flex-col justify-evenly">
-                    <div className="text-[22px] w-[80%] md:text-[26px] mt-4 min-h-[250px] mx-auto px-6">
+                    <div className="text-[22px] w-[80%] md:text-[26px] mt-4 min-h-[200px] mx-auto px-6">
                       {lastInterviewerResponse}
                     </div>
                     <div className="flex flex-col mx-auto justify-center items-center align-middle">
-                      <Image
-                        src={interviewerImg}
-                        alt="Image of the interviewer"
-                        width={120}
-                        height={120}
-                        className={`object-cover object-center mx-auto my-auto ${activeTurn === "agent"
-                            ? `border-4 border-[${interview.theme_color}] rounded-full`
-                            : ""}`} />
-                      <div className="font-semibold">Interviewer</div>
+                      {interviewerImg ? (
+                        <Image
+                          src={interviewerImg}
+                          alt="Image of the interviewer"
+                          width={180}
+                          height={180}
+                          className={`object-cover object-center mx-auto my-auto ${activeTurn === "agent"
+                              ? `border-4 border-[${interview.theme_color}] rounded-full`
+                              : ""}`} />
+                      ) : (
+                        <div className="w-[180px] h-[180px] bg-gray-200 rounded-full flex items-center justify-center">
+                          <span className="text-6xl">👤</span>
+                        </div>
+                      )}
+                      <div className="font-semibold mt-2">Interviewer</div>
                     </div>
                   </div>
                 </div>
 
                 {/* ✅ Webcam integrated */}
-                <div className="flex flex-col justify-evenly w-[50%]">
+                <div className="flex flex-col w-[50%]">
                   <div
                     ref={lastUserResponseRef}
-                    className="text-[22px] w-[80%] md:text-[26px] mt-4 mx-auto h-[250px] px-6 overflow-y-auto"
+                    className="text-[22px] w-[80%] md:text-[26px] mt-4 mx-auto h-[120px] px-6 overflow-y-auto"
                   >
                     {lastUserResponse}
                   </div>
-                  <div className="flex flex-col mx-auto justify-center items-center align-middle">
+                  <div className="flex flex-col mx-auto items-center mt-2 flex-grow">
                     <div className="flex flex-col items-center">
-                      {/* Real-time Webcam with green border */}
+                      {/* Real-time Webcam */}
                       <SimpleWebCam 
                         stream={stream}
-                        width={300} 
-                        height={220} 
-                        className="border-2 border-green-400"
+                        width={480} 
+                        height={420} 
+                        className=""
                         isLoading={isLoading}
                         error={error}
                         onCameraClick={startCamera}
