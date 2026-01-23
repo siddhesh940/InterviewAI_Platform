@@ -1,0 +1,124 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#0EA5E9', 'primaryTextColor': '#fff', 'primaryBorderColor': '#0284C7', 'lineColor': '#38BDF8', 'secondaryColor': '#7DD3FC', 'tertiaryColor': '#E0F2FE', 'fontSize': '14px'}}}%%
+
+flowchart TB
+    subgraph USERS["👤 USERS"]
+        U1["Candidates"]
+    end
+
+    subgraph AUTH["🔐 AUTHENTICATION"]
+        A1["Clerk Auth<br/>Sign Up / Sign In / Sessions"]
+    end
+
+    subgraph FRONTEND["🖥️ FRONTEND LAYER - Next.js 14 + React 18 + TypeScript"]
+        direction LR
+        F1["<b>Dashboard</b><br/>Profile | Progress<br/>History"]
+        F2["<b>Resume Builder</b><br/>Upload | Templates<br/>Export PDF"]
+        F3["<b>Interview UI</b><br/>Voice Chat | AI Agent<br/>Recording"]
+        F4["<b>Practice Modules</b><br/>Aptitude | Verbal<br/>Games | Soft Skills"]
+        F5["<b>Feedback View</b><br/>Scores | Reports<br/>Analysis Charts"]
+    end
+
+    subgraph API["⚡ API LAYER"]
+        AP1["REST API / WebSocket<br/>Next.js API Routes"]
+    end
+
+    subgraph BACKEND["⚙️ BACKEND LAYER - Node.js Services"]
+        direction TB
+        
+        subgraph SERVICES["Core Services"]
+            direction LR
+            B1["<b>Resume Service</b><br/>PDF Parse | Skills<br/>Mapping"]
+            B2["<b>Practice Service</b><br/>Games | Quiz<br/>Progress Track"]
+            B3["<b>Feedback Service</b><br/>Score Calc | Report<br/>Generation"]
+            B4["<b>Scheduler</b><br/>Cron Jobs | Scrapers<br/>Notifications"]
+        end
+
+        subgraph AIENGINE["🤖 AI ENGINE"]
+            direction LR
+            AI1["<b>Retell AI</b><br/>Voice STT/TTS<br/>Conversation"]
+            AI2["<b>OpenAI API</b><br/>GPT-4 | NLP<br/>Analysis"]
+            AI3["<b>Fusion Module</b><br/>Multi-metric<br/>Scoring"]
+        end
+    end
+
+    subgraph DATABASE["🗄️ DATA LAYER - Supabase PostgreSQL"]
+        direction LR
+        
+        subgraph CORE_TABLES["Core Tables"]
+            D1["<b>profiles</b><br/>user_id | name<br/>email | skills"]
+            D2["<b>resumes</b><br/>resume_id | parsed<br/>skills_json"]
+            D3["<b>interviews</b><br/>session_id | type<br/>status"]
+        end
+        
+        subgraph RESULT_TABLES["Result Tables"]
+            D4["<b>responses</b><br/>question | answer<br/>analysis"]
+            D5["<b>results</b><br/>scores | feedback<br/>report"]
+        end
+
+        subgraph PRACTICE_TABLES["Practice Data"]
+            D6["<b>Questions DB</b><br/>1000+ Aptitude<br/>500+ Verbal"]
+            D7["<b>Company Data</b><br/>6 Companies<br/>Job Listings"]
+        end
+    end
+
+    subgraph EXTERNAL["☁️ EXTERNAL SERVICES"]
+        direction LR
+        E1["<b>Vercel</b><br/>Hosting | Edge<br/>CDN"]
+        E2["<b>Supabase</b><br/>Database | Auth<br/>Storage"]
+        E3["<b>Retell AI</b><br/>Voice AI<br/>WebSocket"]
+        E4["<b>OpenAI</b><br/>GPT-4 | NLP<br/>Embeddings"]
+    end
+
+    %% Connections
+    U1 --> A1
+    A1 --> FRONTEND
+    F1 & F2 & F3 & F4 & F5 --> AP1
+    AP1 --> SERVICES
+    AP1 --> AIENGINE
+    AI1 --> AI3
+    AI2 --> AI3
+    SERVICES --> DATABASE
+    AIENGINE --> DATABASE
+    BACKEND -.-> EXTERNAL
+
+    %% Styling
+    style USERS fill:#F0FDF4,stroke:#22C55E,stroke-width:2px
+    style AUTH fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style FRONTEND fill:#DBEAFE,stroke:#3B82F6,stroke-width:3px
+    style API fill:#E0E7FF,stroke:#6366F1,stroke-width:2px
+    style BACKEND fill:#F3E8FF,stroke:#A855F7,stroke-width:3px
+    style DATABASE fill:#DCFCE7,stroke:#22C55E,stroke-width:3px
+    style EXTERNAL fill:#FEE2E2,stroke:#EF4444,stroke-width:2px
+    
+    style SERVICES fill:#EDE9FE,stroke:#8B5CF6,stroke-width:2px
+    style AIENGINE fill:#FCE7F3,stroke:#EC4899,stroke-width:2px
+    style CORE_TABLES fill:#D1FAE5,stroke:#10B981,stroke-width:1px
+    style RESULT_TABLES fill:#D1FAE5,stroke:#10B981,stroke-width:1px
+    style PRACTICE_TABLES fill:#D1FAE5,stroke:#10B981,stroke-width:1px
+
+    style U1 fill:#22C55E,stroke:#16A34A,color:#fff
+    style A1 fill:#F59E0B,stroke:#D97706,color:#fff
+    style F1 fill:#3B82F6,stroke:#2563EB,color:#fff
+    style F2 fill:#3B82F6,stroke:#2563EB,color:#fff
+    style F3 fill:#3B82F6,stroke:#2563EB,color:#fff
+    style F4 fill:#3B82F6,stroke:#2563EB,color:#fff
+    style F5 fill:#3B82F6,stroke:#2563EB,color:#fff
+    style AP1 fill:#6366F1,stroke:#4F46E5,color:#fff
+    style B1 fill:#A855F7,stroke:#9333EA,color:#fff
+    style B2 fill:#A855F7,stroke:#9333EA,color:#fff
+    style B3 fill:#A855F7,stroke:#9333EA,color:#fff
+    style B4 fill:#A855F7,stroke:#9333EA,color:#fff
+    style AI1 fill:#EC4899,stroke:#DB2777,color:#fff
+    style AI2 fill:#EC4899,stroke:#DB2777,color:#fff
+    style AI3 fill:#EC4899,stroke:#DB2777,color:#fff
+    style D1 fill:#10B981,stroke:#059669,color:#fff
+    style D2 fill:#10B981,stroke:#059669,color:#fff
+    style D3 fill:#10B981,stroke:#059669,color:#fff
+    style D4 fill:#10B981,stroke:#059669,color:#fff
+    style D5 fill:#10B981,stroke:#059669,color:#fff
+    style D6 fill:#10B981,stroke:#059669,color:#fff
+    style D7 fill:#10B981,stroke:#059669,color:#fff
+    style E1 fill:#EF4444,stroke:#DC2626,color:#fff
+    style E2 fill:#EF4444,stroke:#DC2626,color:#fff
+    style E3 fill:#EF4444,stroke:#DC2626,color:#fff
+    style E4 fill:#EF4444,stroke:#DC2626,color:#fff

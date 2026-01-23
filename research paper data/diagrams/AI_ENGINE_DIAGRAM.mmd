@@ -1,0 +1,101 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#EC4899', 'primaryTextColor': '#fff', 'primaryBorderColor': '#DB2777', 'lineColor': '#F472B6', 'fontSize': '14px'}}}%%
+
+flowchart TB
+    subgraph TITLE["🤖 AI ENGINE ARCHITECTURE"]
+        direction TB
+    end
+
+    subgraph INPUT_LAYER["📥 INPUT LAYER"]
+        direction LR
+        IN1["🎤 Voice Stream<br/>(WebSocket)"]
+        IN2["📝 Text Response<br/>(Transcribed)"]
+        IN3["📄 Resume Data<br/>(Parsed JSON)"]
+    end
+
+    subgraph RETELL["🗣️ RETELL AI MODULE"]
+        direction TB
+        R1["Speech-to-Text<br/>(STT Engine)"]
+        R2["Conversational AI<br/>(Dynamic Questions)"]
+        R3["Text-to-Speech<br/>(TTS Engine)"]
+    end
+
+    subgraph OPENAI["🧠 OPENAI MODULE"]
+        direction TB
+        O1["GPT-4 Analysis<br/>(Response Quality)"]
+        O2["Semantic Understanding<br/>(Context & Relevance)"]
+        O3["Keyword Extraction<br/>(Technical Terms)"]
+    end
+
+    subgraph ANALYSIS["📊 ANALYSIS MODULE"]
+        direction TB
+        A1["Communication Score<br/>• Clarity: 25%<br/>• Structure: 25%<br/>• Vocabulary: 25%<br/>• Confidence: 25%"]
+        A2["Content Score<br/>• Relevance: 35%<br/>• Completeness: 35%<br/>• Accuracy: 30%"]
+        A3["Soft Skills Score<br/>• Problem Solving: 40%<br/>• Critical Thinking: 30%<br/>• Adaptability: 30%"]
+    end
+
+    subgraph FUSION["⚡ FUSION MODULE"]
+        direction TB
+        F1["Weighted Score Aggregation"]
+        F2["<b>FORMULA:</b><br/>Final = (Content × 0.35) +<br/>(Communication × 0.25) +<br/>(Soft Skills × 0.20) +<br/>(Technical × 0.20)"]
+    end
+
+    subgraph OUTPUT_LAYER["📤 OUTPUT LAYER"]
+        direction LR
+        OUT1["📊 Overall Score<br/>(0-100)"]
+        OUT2["📋 Question-wise<br/>Analysis"]
+        OUT3["💡 Improvement<br/>Suggestions"]
+    end
+
+    %% Connections
+    IN1 --> R1
+    R1 --> IN2
+    IN2 --> O1
+    IN2 --> O2
+    IN2 --> O3
+    IN3 --> O3
+    R2 --> R3
+
+    O1 --> A1
+    O2 --> A2
+    O3 --> A3
+
+    A1 --> F1
+    A2 --> F1
+    A3 --> F1
+    F1 --> F2
+
+    F2 --> OUT1
+    F2 --> OUT2
+    F2 --> OUT3
+
+    %% Styling
+    style TITLE fill:#1F2937,stroke:#EC4899,stroke-width:3px,color:#fff
+    style INPUT_LAYER fill:#DBEAFE,stroke:#3B82F6,stroke-width:2px
+    style RETELL fill:#FEE2E2,stroke:#EF4444,stroke-width:2px
+    style OPENAI fill:#F3E8FF,stroke:#A855F7,stroke-width:2px
+    style ANALYSIS fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style FUSION fill:#FCE7F3,stroke:#EC4899,stroke-width:3px
+    style OUTPUT_LAYER fill:#DCFCE7,stroke:#22C55E,stroke-width:2px
+
+    style IN1 fill:#3B82F6,stroke:#2563EB,color:#fff
+    style IN2 fill:#3B82F6,stroke:#2563EB,color:#fff
+    style IN3 fill:#3B82F6,stroke:#2563EB,color:#fff
+
+    style R1 fill:#EF4444,stroke:#DC2626,color:#fff
+    style R2 fill:#EF4444,stroke:#DC2626,color:#fff
+    style R3 fill:#EF4444,stroke:#DC2626,color:#fff
+
+    style O1 fill:#A855F7,stroke:#9333EA,color:#fff
+    style O2 fill:#A855F7,stroke:#9333EA,color:#fff
+    style O3 fill:#A855F7,stroke:#9333EA,color:#fff
+
+    style A1 fill:#F59E0B,stroke:#D97706,color:#fff
+    style A2 fill:#F59E0B,stroke:#D97706,color:#fff
+    style A3 fill:#F59E0B,stroke:#D97706,color:#fff
+
+    style F1 fill:#EC4899,stroke:#DB2777,color:#fff
+    style F2 fill:#BE185D,stroke:#9D174D,color:#fff
+
+    style OUT1 fill:#22C55E,stroke:#16A34A,color:#fff
+    style OUT2 fill:#22C55E,stroke:#16A34A,color:#fff
+    style OUT3 fill:#22C55E,stroke:#16A34A,color:#fff

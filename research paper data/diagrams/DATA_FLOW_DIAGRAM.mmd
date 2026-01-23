@@ -1,0 +1,80 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#10B981', 'primaryTextColor': '#fff', 'primaryBorderColor': '#059669', 'lineColor': '#34D399', 'fontSize': '14px'}}}%%
+
+flowchart LR
+    subgraph INPUT["📥 INPUT"]
+        direction TB
+        I1["📄 Resume PDF"]
+        I2["🎤 Voice Input"]
+        I3["👤 User Profile"]
+        I4["📝 Practice Answers"]
+    end
+
+    subgraph PROCESSING["⚙️ PROCESSING"]
+        direction TB
+        P1["PDF Parser"]
+        P2["Speech-to-Text<br/>(Retell AI)"]
+        P3["Data Mapper"]
+        P4["Score Calculator"]
+    end
+
+    subgraph ANALYSIS["🧠 AI ANALYSIS"]
+        direction TB
+        A1["NLP Engine<br/>(OpenAI GPT-4)"]
+        A2["Communication<br/>Assessment"]
+        A3["Skill Mapping<br/>Engine"]
+        A4["Fusion Module<br/>(Weighted Scoring)"]
+    end
+
+    subgraph OUTPUT["📤 OUTPUT"]
+        direction TB
+        O1["📊 Overall Score"]
+        O2["📋 Detailed Report"]
+        O3["💡 Suggestions"]
+        O4["📈 Progress Track"]
+    end
+
+    %% Connections
+    I1 --> P1
+    I2 --> P2
+    I3 --> P3
+    I4 --> P4
+
+    P1 --> A3
+    P2 --> A1
+    P3 --> A3
+    P4 --> A2
+
+    A1 --> A4
+    A2 --> A4
+    A3 --> A4
+
+    A4 --> O1
+    A4 --> O2
+    A4 --> O3
+    A4 --> O4
+
+    %% Styling
+    style INPUT fill:#DBEAFE,stroke:#3B82F6,stroke-width:3px
+    style PROCESSING fill:#FEF3C7,stroke:#F59E0B,stroke-width:3px
+    style ANALYSIS fill:#F3E8FF,stroke:#A855F7,stroke-width:3px
+    style OUTPUT fill:#DCFCE7,stroke:#22C55E,stroke-width:3px
+
+    style I1 fill:#3B82F6,stroke:#2563EB,color:#fff
+    style I2 fill:#3B82F6,stroke:#2563EB,color:#fff
+    style I3 fill:#3B82F6,stroke:#2563EB,color:#fff
+    style I4 fill:#3B82F6,stroke:#2563EB,color:#fff
+
+    style P1 fill:#F59E0B,stroke:#D97706,color:#fff
+    style P2 fill:#F59E0B,stroke:#D97706,color:#fff
+    style P3 fill:#F59E0B,stroke:#D97706,color:#fff
+    style P4 fill:#F59E0B,stroke:#D97706,color:#fff
+
+    style A1 fill:#A855F7,stroke:#9333EA,color:#fff
+    style A2 fill:#A855F7,stroke:#9333EA,color:#fff
+    style A3 fill:#A855F7,stroke:#9333EA,color:#fff
+    style A4 fill:#EC4899,stroke:#DB2777,color:#fff
+
+    style O1 fill:#22C55E,stroke:#16A34A,color:#fff
+    style O2 fill:#22C55E,stroke:#16A34A,color:#fff
+    style O3 fill:#22C55E,stroke:#16A34A,color:#fff
+    style O4 fill:#22C55E,stroke:#16A34A,color:#fff

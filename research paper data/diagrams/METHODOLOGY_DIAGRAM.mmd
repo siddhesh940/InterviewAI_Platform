@@ -1,0 +1,56 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#4F46E5', 'primaryTextColor': '#fff', 'primaryBorderColor': '#3730A3', 'lineColor': '#6366F1', 'secondaryColor': '#818CF8', 'tertiaryColor': '#C7D2FE', 'fontSize': '16px'}}}%%
+
+flowchart TB
+    subgraph TITLE[" "]
+        direction TB
+        T1["<b>INTERVIEW.AI METHODOLOGY WORKFLOW</b>"]
+    end
+
+    subgraph PHASE1["📋 PREPARATION PHASE"]
+        direction LR
+        S1["<b>1. USER REGISTRATION</b><br/>━━━━━━━━━━━━━━━<br/>• Clerk Authentication<br/>• Profile Creation<br/>• Domain Selection"]
+        S2["<b>2. RESUME UPLOAD</b><br/>━━━━━━━━━━━━━━━<br/>• PDF Upload<br/>• Document Parsing<br/>• Data Extraction"]
+        S3["<b>3. SKILL ANALYSIS</b><br/>━━━━━━━━━━━━━━━<br/>• Skill Mapping<br/>• Gap Analysis<br/>• Category Sorting"]
+    end
+
+    subgraph PHASE2["🎯 PRACTICE PHASE"]
+        direction LR
+        S4["<b>4. MODULE SELECTION</b><br/>━━━━━━━━━━━━━━━<br/>• Aptitude (1000+ Qs)<br/>• Company Prep (6)<br/>• Games (5) & Soft Skills"]
+        S5["<b>5. AI INTERVIEW</b><br/>━━━━━━━━━━━━━━━<br/>• Retell AI Voice Agent<br/>• Real-time Conversation<br/>• Response Capture"]
+    end
+
+    subgraph PHASE3["📊 ANALYSIS PHASE"]
+        direction LR
+        S6["<b>6. REAL-TIME ANALYSIS</b><br/>━━━━━━━━━━━━━━━<br/>• NLP Processing<br/>• Communication Score<br/>• Multi-metric Fusion"]
+        S7["<b>7. FEEDBACK REPORT</b><br/>━━━━━━━━━━━━━━━<br/>• Overall Score<br/>• Strengths/Weaknesses<br/>• Detailed Insights"]
+    end
+
+    subgraph PHASE4["🔄 IMPROVEMENT PHASE"]
+        direction LR
+        S8["<b>8. TIME MACHINE</b><br/>━━━━━━━━━━━━━━━<br/>• Review Past Sessions<br/>• Track Progress<br/>• Compare Performance"]
+        S9["<b>9. CONTINUOUS IMPROVE</b><br/>━━━━━━━━━━━━━━━<br/>• Retry Interviews<br/>• Adaptive Learning<br/>• Skill Development"]
+    end
+
+    %% Connections
+    S1 --> S2 --> S3
+    S3 --> S4 --> S5
+    S5 --> S6 --> S7
+    S7 --> S8 --> S9
+    S9 -.->|"Iterate"| S4
+
+    %% Styling
+    style TITLE fill:#1E1B4B,stroke:#4F46E5,stroke-width:3px,color:#fff
+    style PHASE1 fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style PHASE2 fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style PHASE3 fill:#C7D2FE,stroke:#4F46E5,stroke-width:2px
+    style PHASE4 fill:#A5B4FC,stroke:#4F46E5,stroke-width:2px
+    
+    style S1 fill:#4F46E5,stroke:#3730A3,stroke-width:2px,color:#fff
+    style S2 fill:#4F46E5,stroke:#3730A3,stroke-width:2px,color:#fff
+    style S3 fill:#4F46E5,stroke:#3730A3,stroke-width:2px,color:#fff
+    style S4 fill:#6366F1,stroke:#4338CA,stroke-width:2px,color:#fff
+    style S5 fill:#6366F1,stroke:#4338CA,stroke-width:2px,color:#fff
+    style S6 fill:#818CF8,stroke:#6366F1,stroke-width:2px,color:#fff
+    style S7 fill:#818CF8,stroke:#6366F1,stroke-width:2px,color:#fff
+    style S8 fill:#A5B4FC,stroke:#818CF8,stroke-width:2px,color:#1E1B4B
+    style S9 fill:#A5B4FC,stroke:#818CF8,stroke-width:2px,color:#1E1B4B
