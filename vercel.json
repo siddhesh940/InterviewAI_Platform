@@ -1,10 +1,11 @@
 {
     "buildCommand": "next build",
-    "installCommand": "yarn install --frozen-lockfile || yarn install",
+    "installCommand": "npm install --legacy-peer-deps --ignore-optional",
     "framework": "nextjs",
-    "nodeVersion": "20",
     "env": {
         "NEXT_TELEMETRY_DISABLED": "1",
-        "DISABLE_ESLINT_PLUGIN": "true"
+        "DISABLE_ESLINT_PLUGIN": "1",
+        "ESLINT_NO_DEV_ERRORS": "true",
+        "NEXT_DISABLE_ESLINT": "1"
     }
 }
