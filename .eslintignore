@@ -1,0 +1,11 @@
+# Ignore all files for deployment
+*
+**/*
+src/
+app/
+components/
+lib/
+*.ts
+*.tsx
+*.js
+*.jsx
