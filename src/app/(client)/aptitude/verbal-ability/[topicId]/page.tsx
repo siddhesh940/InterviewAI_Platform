@@ -113,8 +113,8 @@ const topicInsights = {
 
 export default function VerbalAbilityTopicPage() {
   const router = useRouter();
-  const params = useParams();
-  const topicId = params.topicId as string;
+  const params = useParams<{ topicId: string }>();
+  const topicId = params?.topicId ?? "";
 
   const [sessionState, setSessionState] = useState<SessionState>({
     currentQuestion: 0,

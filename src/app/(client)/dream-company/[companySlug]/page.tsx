@@ -99,8 +99,8 @@ const COMPANY_SNAPSHOT: Record<string, {
 
 export default function CompanyResourcePage() {
   const router = useRouter();
-  const params = useParams();
-  const companySlug = params.companySlug as string;
+  const params = useParams<{ companySlug: string }>();
+  const companySlug = params?.companySlug ?? "";
   
   const [companyData, setCompanyData] = useState<CompanyData | null>(null);
   const [loading, setLoading] = useState(true);

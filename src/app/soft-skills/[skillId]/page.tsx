@@ -10,27 +10,27 @@ import { useSoftSkills } from '@/contexts/SoftSkillsContext';
 import { getSkillById, Skill, skillLevelConfig } from '@/data/soft-skills-data';
 import { AnimatePresence, motion, useInView } from 'framer-motion';
 import {
-  ArrowRight,
-  Award,
-  Bookmark,
-  BookmarkCheck,
-  Briefcase,
-  Check,
-  CheckCircle2,
-  ChevronRight,
-  Circle,
-  ClipboardList,
-  Ear,
-  Heart,
-  HelpCircle,
-  Image as ImageIcon,
-  Lightbulb,
-  MessageCircle,
-  Play,
-  PlayCircle,
-  RotateCcw,
-  User,
-  Video
+    ArrowRight,
+    Award,
+    Bookmark,
+    BookmarkCheck,
+    Briefcase,
+    Check,
+    CheckCircle2,
+    ChevronRight,
+    Circle,
+    ClipboardList,
+    Ear,
+    Heart,
+    HelpCircle,
+    Image as ImageIcon,
+    Lightbulb,
+    MessageCircle,
+    Play,
+    PlayCircle,
+    RotateCcw,
+    User,
+    Video
 } from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -1144,8 +1144,8 @@ function QuizSection({ quiz, skillId, skillName }: { quiz: Skill['quiz']; skillI
 
 // Main skill detail page
 export default function SkillDetailPage() {
-  const params = useParams();
-  const skillId = params.skillId as string;
+  const params = useParams<{ skillId: string }>();
+  const skillId = params?.skillId ?? "";
   const skill = getSkillById(skillId);
 
   if (!skill) {

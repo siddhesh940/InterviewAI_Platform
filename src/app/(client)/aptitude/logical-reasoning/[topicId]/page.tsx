@@ -44,8 +44,8 @@ function InsightCard({
 
 export default function LogicalReasoningTopicPage() {
   const router = useRouter();
-  const params = useParams();
-  const topicId = params.topicId as string;
+  const params = useParams<{ topicId: string }>();
+  const topicId = params?.topicId ?? "";
   
   const [mode, setMode] = useState<'intro' | 'practice' | 'result'>('intro');
   const [session, setSession] = useState<PracticeSession>({
