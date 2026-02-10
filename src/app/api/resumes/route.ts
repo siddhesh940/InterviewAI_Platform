@@ -3,10 +3,15 @@ import { auth } from '@clerk/nextjs/server';
 import { createClient } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+// Lazy initialization to avoid build-time errors
+function getSupabaseClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!supabaseUrl || !supabaseServiceKey) {
+    throw new Error('Supabase environment variables are not configured');
+  }
+  return createClient(supabaseUrl, supabaseServiceKey);
+}
 
 // GET - Fetch user's resumes
 export async function GET() {
@@ -17,6 +22,7 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const supabase = getSupabaseClient();
     const { data: resumes, error } = await supabase
       .from('resumes')
       .select('*')
@@ -48,6 +54,7 @@ export async function POST(request: NextRequest) {
 
     const body: CreateResumeRequest = await request.json();
     
+    const supabase = getSupabaseClient();
     const { data: resume, error } = await supabase
       .from('resumes')
       .insert([
@@ -98,6 +105,7 @@ export async function PUT(request: NextRequest) {
     if (body.template) {updateData.template = body.template;}
     if (body.resumeData) {updateData.resume_data = body.resumeData;}
 
+    const supabase = getSupabaseClient();
     const { data: resume, error } = await supabase
       .from('resumes')
       .update(updateData)
