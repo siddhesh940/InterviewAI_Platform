@@ -33,8 +33,9 @@ async function extractWithPdf2Json(buffer: Buffer): Promise<string> {
       }
     });
     
-    pdfParser.on('pdfParser_dataError', (err: Error) => {
-      reject(err);
+    pdfParser.on('pdfParser_dataError', (errMsg: Error | { parserError: Error }) => {
+      const error = errMsg instanceof Error ? errMsg : errMsg.parserError;
+      reject(error);
     });
     
     pdfParser.parseBuffer(buffer);
