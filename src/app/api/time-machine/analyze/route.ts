@@ -475,6 +475,7 @@ function generateWhatYouWillBuild(title: string, techStack: string[]): string[] 
       'Project analytics and reporting'
     ]
   };
+
   return buildItems[title] || [
     `Core ${techStack[0] || 'application'} functionality`,
     'User authentication system',
@@ -486,6 +487,7 @@ function generateWhatYouWillBuild(title: string, techStack: string[]): string[] 
 
 function generateWhyThisMatters(targetRole: string, projectTitle: string, timeGoal: number): string {
   const intensity = timeGoal <= 30 ? 'foundational' : timeGoal <= 60 ? 'solid' : 'comprehensive';
+
   return `This project demonstrates ${intensity} ${targetRole} capabilities that hiring managers actively seek. Building ${projectTitle} shows you can handle real-world challenges, work with production-grade tools, and deliver complete solutions within ${timeGoal} days.`;
 }
 
@@ -512,6 +514,7 @@ function generateResumeImpact(targetRole: string, projectTitle: string, projectN
     `Provides concrete talking points for technical interviews`,
     `Demonstrates ability to complete projects from concept to deployment`
   ];
+
   return impacts[projectNumber - 1] || impacts[0];
 }
 
@@ -901,6 +904,7 @@ function calculateReadinessScore(extractedData: any, targetRole: string, timeGoa
   const timeScore = timeBonus[timeGoal] || 15;
   
   const totalScore = skillScore + experienceScore + projectScore + educationScore + timeScore;
+
   return Math.min(Math.round(totalScore), 100);
 }
 

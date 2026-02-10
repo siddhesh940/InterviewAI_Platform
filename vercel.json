@@ -1,10 +1,10 @@
 {
-  "buildCommand": "next build",
-  "installCommand": "yarn install --frozen-lockfile || yarn install",
-  "framework": "nextjs",
-  "nodeVersion": "20",
-  "env": {
-    "NEXT_TELEMETRY_DISABLED": "1",
-    "DISABLE_ESLINT_PLUGIN": "true"
-  }
+    "buildCommand": "next build",
+    "installCommand": "yarn install --frozen-lockfile || yarn install",
+    "framework": "nextjs",
+    "nodeVersion": "20",
+    "env": {
+        "NEXT_TELEMETRY_DISABLED": "1",
+        "DISABLE_ESLINT_PLUGIN": "true"
+    }
 }

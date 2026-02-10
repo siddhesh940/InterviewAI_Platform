@@ -15,9 +15,9 @@ function Navbar() {
         <div className="flex flex-row gap-3 justify-center items-center">
           {/* Sidebar Toggle Button */}
           <button
-            onClick={toggleSidebar}
             className="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors duration-200"
             aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+            onClick={toggleSidebar}
           >
             {isCollapsed ? (
               <PanelLeft className="w-5 h-5 text-gray-600 dark:text-gray-300" />

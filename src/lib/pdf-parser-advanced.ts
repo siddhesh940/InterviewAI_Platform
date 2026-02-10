@@ -167,7 +167,9 @@ function extractSkillsAdvanced(text: string): string[] {
       
       skillItems.forEach(item => {
         const cleanItem = item.replace(/^\W+|\W+$|[()]/g, '').trim();
-        if (cleanItem.length < 2) return;
+        if (cleanItem.length < 2) {
+          return;
+        }
         
         // Check against skill dictionary
         Object.values(SKILL_DICTIONARY).flat().forEach(skill => {

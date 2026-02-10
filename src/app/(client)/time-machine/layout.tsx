@@ -24,10 +24,10 @@ export const useTimeMachineContext = () => {
     throw new Error('useTimeMachineContext must be used within a TimeMachineProvider');
   }
   
-return context;
+  return context;
 };
 
-export const TimeMachineProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export function TimeMachineProvider({ children }: { children: React.ReactNode }) {
   const [resumeUpload, setResumeUpload] = useState<ResumeUpload | null>(null);
   const [targetRole, setTargetRole] = useState<TargetRole | null>(null);
   const [timeGoal, setTimeGoal] = useState<30 | 60 | 90>(90);
@@ -52,7 +52,7 @@ export const TimeMachineProvider: React.FC<{ children: React.ReactNode }> = ({ c
       {children}
     </TimeMachineContext.Provider>
   );
-};
+}
 
 export default function TimeMachineLayout({
   children,

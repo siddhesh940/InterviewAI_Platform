@@ -23,9 +23,9 @@ const providers = ({ children }: ThemeProviderProps) => {
     <NextThemesProvider 
       attribute="class" 
       defaultTheme="system"
-      enableSystem
       disableTransitionOnChange={false}
       storageKey="interview-ai-theme"
+      enableSystem
     >
       <QueryClientProvider client={queryClient}>
         <Provider>{children}</Provider>

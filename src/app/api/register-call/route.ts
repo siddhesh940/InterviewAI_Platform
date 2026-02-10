@@ -14,6 +14,7 @@ export async function POST(req: Request, res: Response) {
     // Check if RETELL_API_KEY is configured
     if (!process.env.RETELL_API_KEY || process.env.RETELL_API_KEY === "your_retell_api_key_here") {
       logger.error("RETELL_API_KEY is not configured");
+
       return NextResponse.json(
         { error: "Retell API key is not configured. Please set up your environment variables." },
         { status: 500 }
@@ -24,6 +25,7 @@ export async function POST(req: Request, res: Response) {
     const interviewerId = body.interviewer_id;
 
     if (!interviewerId) {
+
       return NextResponse.json(
         { error: "Interviewer ID is required" },
         { status: 400 }
@@ -34,6 +36,7 @@ export async function POST(req: Request, res: Response) {
 
     if (!interviewer || !interviewer.agent_id) {
       logger.error(`Interviewer not found or missing agent_id for ID: ${interviewerId}`);
+
       return NextResponse.json(
         { error: "Interviewer configuration is invalid" },
         { status: 400 }
@@ -55,6 +58,7 @@ export async function POST(req: Request, res: Response) {
     );
   } catch (error) {
     logger.error("Error registering call:", error as Error);
+
     return NextResponse.json(
       { error: "Failed to register call. Please check your configuration and try again." },
       { status: 500 }

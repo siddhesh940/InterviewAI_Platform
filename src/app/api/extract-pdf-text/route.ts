@@ -45,6 +45,7 @@ async function extractWithPdf2Json(buffer: Buffer): Promise<string> {
 async function extractWithPdfParse(buffer: Buffer): Promise<string> {
   const pdfParse = (await import('pdf-parse')).default;
   const data = await pdfParse(buffer);
+
   return data.text || '';
 }
 
@@ -52,6 +53,7 @@ async function extractWithPdfParse(buffer: Buffer): Promise<string> {
 async function extractWithUnpdf(uint8Array: Uint8Array): Promise<string> {
   const { extractText } = await import('unpdf');
   const { text } = await extractText(uint8Array, { mergePages: true });
+
   return text || '';
 }
 

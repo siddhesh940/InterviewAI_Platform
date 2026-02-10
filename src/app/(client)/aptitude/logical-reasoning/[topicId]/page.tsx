@@ -108,7 +108,9 @@ export default function LogicalReasoningTopicPage() {
 
   // Filter questions based on settings
   const getFilteredQuestions = () => {
-    if (!questions || questions.length === 0) {return [];}
+    if (!questions || questions.length === 0) {
+      return [];
+    }
     
     let filtered = [...questions];
     

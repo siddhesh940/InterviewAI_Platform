@@ -111,8 +111,12 @@ export default function CompanyResourcePage() {
   useEffect(() => {
     const storedViewed = localStorage.getItem(`viewed-pdfs-${companySlug}`);
     const storedImportant = localStorage.getItem(`important-pdfs-${companySlug}`);
-    if (storedViewed) setViewedPdfs(new Set(JSON.parse(storedViewed)));
-    if (storedImportant) setImportantPdfs(new Set(JSON.parse(storedImportant)));
+    if (storedViewed) {
+      setViewedPdfs(new Set(JSON.parse(storedViewed)));
+    }
+    if (storedImportant) {
+      setImportantPdfs(new Set(JSON.parse(storedImportant)));
+    }
   }, [companySlug]);
 
   useEffect(() => {
@@ -306,21 +310,21 @@ export default function CompanyResourcePage() {
             </motion.div>
             <span className="text-sm text-gray-600">Total: <span className="font-semibold text-gray-900">{companyData.totalResources}</span></span>
           </motion.div>
-          <div className="h-4 w-px bg-gray-200"></div>
+          <div className="h-4 w-px bg-gray-200" />
           <motion.div className="flex items-center gap-2" whileHover={{ scale: 1.05 }}>
             <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 1.5, repeat: Infinity }}>
               <CheckCircle className="h-4 w-4 text-green-500" />
             </motion.div>
             <span className="text-sm text-gray-600">Viewed: <span className="font-semibold text-green-600">{viewedPdfs.size}</span></span>
           </motion.div>
-          <div className="h-4 w-px bg-gray-200"></div>
+          <div className="h-4 w-px bg-gray-200" />
           <motion.div className="flex items-center gap-2" whileHover={{ scale: 1.05 }}>
             <motion.div animate={{ rotate: [0, 15, -15, 0] }} transition={{ duration: 2, repeat: Infinity }}>
               <Pin className="h-4 w-4 text-amber-500" />
             </motion.div>
             <span className="text-sm text-gray-600">Pinned: <span className="font-semibold text-amber-600">{importantPdfs.size}</span></span>
           </motion.div>
-          <div className="h-4 w-px bg-gray-200"></div>
+          <div className="h-4 w-px bg-gray-200" />
           <motion.div className="flex items-center gap-2" whileHover={{ scale: 1.05 }}>
             <motion.div animate={floatingAnimation}>
               <TrendingUp className="h-4 w-4 text-blue-500" />

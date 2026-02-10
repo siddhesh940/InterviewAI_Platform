@@ -378,7 +378,6 @@ export default function InterviewResourcesPage() {
                 return (
                   <button
                     key={cat.id}
-                    onClick={() => setActiveCategory(cat.id)}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
                       activeCategory === cat.id
                         ? 'text-white'
@@ -387,6 +386,7 @@ export default function InterviewResourcesPage() {
                     style={{
                       backgroundColor: activeCategory === cat.id ? cat.color : undefined,
                     }}
+                    onClick={() => setActiveCategory(cat.id)}
                   >
                     <IconComp className="h-4 w-4" />
                     <span className="hidden sm:inline">{cat.name}</span>

@@ -216,6 +216,7 @@ export function validateAndNormalizeSalary(input: string | number): {
     const match = cleanInput.match(pattern);
     if (match) {
       const amount = parseFloat(match[1].replace(/,/g, ''));
+
       return {
         isValid: amount > 0,
         normalizedAmount: cleanInput.includes('k') ? amount * 1000 : amount,
@@ -230,6 +231,7 @@ export function validateAndNormalizeSalary(input: string | number): {
     const match = cleanInput.match(pattern);
     if (match) {
       const amount = parseFloat(match[1].replace(/,/g, ''));
+
       return {
         isValid: amount > 0,
         normalizedAmount: amount,
@@ -244,6 +246,7 @@ export function validateAndNormalizeSalary(input: string | number): {
     const match = cleanInput.match(pattern);
     if (match) {
       const amount = parseFloat(match[1].replace(/,/g, ''));
+
       return {
         isValid: amount > 0,
         normalizedAmount: amount / 100000, // Convert to LPA
@@ -257,6 +260,7 @@ export function validateAndNormalizeSalary(input: string | number): {
   const numberMatch = cleanInput.match(/([0-9.,]+)/);
   if (numberMatch) {
     const amount = parseFloat(numberMatch[1].replace(/,/g, ''));
+
     return {
       isValid: amount > 0,
       normalizedAmount: amount,

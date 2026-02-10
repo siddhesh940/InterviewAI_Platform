@@ -13,9 +13,16 @@ function CompletionRing({ progress, size = 48 }: { progress: number; size?: numb
   const strokeDashoffset = circumference - (progress / 100) * circumference;
   
   const getColor = () => {
-    if (progress >= 80) return "#22c55e"; // green
-    if (progress >= 50) return "#eab308"; // yellow
-    if (progress > 0) return "#8b5cf6";   // purple
+    if (progress >= 80) {
+      return "#22c55e"; // green
+    }
+    if (progress >= 50) {
+      return "#eab308"; // yellow
+    }
+    if (progress > 0) {
+      return "#8b5cf6"; // purple
+    }
+
     return "#e5e7eb"; // gray
   };
 
@@ -65,13 +72,19 @@ export default function LogicalReasoningPage() {
   
   const getTopicCompletion = (topicId: string, totalQuestions: number) => {
     const progress = topicProgress[topicId];
-    if (!progress) return 0;
+    if (!progress) {
+      return 0;
+    }
+
     return Math.min(100, Math.round((progress.attempted / totalQuestions) * 100));
   };
   
   const getTopicAccuracy = (topicId: string) => {
     const progress = topicProgress[topicId];
-    if (!progress || progress.attempted === 0) return null;
+    if (!progress || progress.attempted === 0) {
+      return null;
+    }
+
     return Math.round((progress.correct / progress.attempted) * 100);
   };
 
