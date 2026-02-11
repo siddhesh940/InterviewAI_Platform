@@ -1,0 +1,12 @@
+# Exclude large PDF folders from Vercel deployment (272MB total)
+# These exceed the 250MB serverless function limit
+# Host these files on external storage (Supabase Storage, S3, etc.)
+
+public/InterviewPrep/
+public/WIPRO/
+public/TCS/
+public/CAPGEMINI/
+public/COGNIZANT/
+public/INFOSYS/
+public/ACCENTURE/
+public/pdfs/
